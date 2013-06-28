@@ -1,0 +1,192 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>handler Module &mdash; IrcBot 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="IrcBot 1.0 documentation" href="index.html" />
+    <link rel="up" title="IrcBot" href="modules.html" />
+    <link rel="prev" title="config Module" href="config.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="config.html" title="config Module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">IrcBot 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">IrcBot</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-handler">
+<span id="handler-module"></span><h1>handler Module<a class="headerlink" href="#module-handler" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="handler.MyHandler">
+<em class="property">class </em><tt class="descclassname">handler.</tt><tt class="descname">MyHandler</tt><a class="reference internal" href="_modules/handler.html#MyHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="handler.MyHandler.abusecheck">
+<tt class="descname">abusecheck</tt><big>(</big><em>send</em>, <em>nick</em>, <em>limit</em>, <em>msgtype</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.abusecheck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.abusecheck" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.action">
+<tt class="descname">action</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.action" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.do_join">
+<tt class="descname">do_join</tt><big>(</big><em>cmdargs</em>, <em>nick</em>, <em>msgtype</em>, <em>send</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_join" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.do_log">
+<tt class="descname">do_log</tt><big>(</big><em>target</em>, <em>nick</em>, <em>msg</em>, <em>msgtype</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.do_part">
+<tt class="descname">do_part</tt><big>(</big><em>cmdargs</em>, <em>nick</em>, <em>target</em>, <em>msgtype</em>, <em>send</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_part"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_part" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.do_scores">
+<tt class="descname">do_scores</tt><big>(</big><em>matches</em>, <em>send</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_scores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.do_urls">
+<tt class="descname">do_urls</tt><big>(</big><em>match</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_urls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.handle_args">
+<tt class="descname">handle_args</tt><big>(</big><em>modargs</em>, <em>send</em>, <em>nick</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.handle_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.handle_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.handle_msg">
+<tt class="descname">handle_msg</tt><big>(</big><em>msgtype</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.handle_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.handle_msg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.ignore">
+<tt class="descname">ignore</tt><big>(</big><em>send</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.ignore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.ignore" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.loadmodules">
+<tt class="descname">loadmodules</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.loadmodules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.loadmodules" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.privmsg">
+<tt class="descname">privmsg</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.privmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.privmsg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.pubmsg">
+<tt class="descname">pubmsg</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.pubmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.pubmsg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.MyHandler.send">
+<tt class="descname">send</tt><big>(</big><em>target</em>, <em>nick</em>, <em>msg</em>, <em>msgtype</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.send" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="handler.random">
+<tt class="descclassname">handler.</tt><tt class="descname">random</tt><big>(</big><big>)</big> &rarr; x in the interval [0, 1).<a class="headerlink" href="#handler.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="config.html"
+                        title="previous chapter">config Module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/handler.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="config.html" title="config Module"
+             >previous</a> |</li>
+        <li><a href="index.html">IrcBot 1.0 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >IrcBot</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Peter Foley.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
