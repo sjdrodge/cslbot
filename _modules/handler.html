@@ -83,16 +83,6 @@
 
 <div class="viewcode-block" id="MyHandler"><a class="viewcode-back" href="../handler.html#handler.MyHandler">[docs]</a><span class="k">class</span> <span class="nc">MyHandler</span><span class="p">():</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set everything up.</span>
-
-<span class="sd">        | ignored is a array of the nicks who are currently ignored for bot abuse.</span>
-<span class="sd">        | logs is a dict containing a in-memory log for the primary channel as well as one for private messages.</span>
-<span class="sd">        | channels is a dict containing the objects for each channel the bot is connected to.</span>
-<span class="sd">        | abuselist is a dict keeping track of how many times nicks have used rate-limited commands.</span>
-<span class="sd">        | modules is a dict containing the commands the bot supports.</span>
-<span class="sd">        | scorefile is the fullpath to the file which records the scores.</span>
-<span class="sd">        | logfiles is a dict containing the file objects to which the logs are written.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="p">{</span><span class="n">CHANNEL</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;private&#39;</span><span class="p">:</span> <span class="p">[]}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="p">{}</span>
