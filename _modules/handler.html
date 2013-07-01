@@ -125,7 +125,7 @@
         <span class="sd">&quot;&quot;&quot; Rate-limits commands</span>
 
 <span class="sd">        | if a nick uses commands with the limit attr set, record the time at which they were used</span>
-<span class="sd">        | if the command is used more than :limit: times in a minute, ignore the nick</span>
+<span class="sd">        | if the command is used more than *limit* times in a minute, ignore the nick</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()]</span>
@@ -245,8 +245,8 @@
 <div class="viewcode-block" id="MyHandler.do_scores"><a class="viewcode-back" href="../handler.html#handler.MyHandler.do_scores">[docs]</a>    <span class="k">def</span> <span class="nf">do_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Handles scores</span>
 
-<span class="sd">        If it&#39;s a ++ add one point unless the user is trying to promote themselves.</span>
-<span class="sd">        Else substract one point</span>
+<span class="sd">        | If it&#39;s a ++ add one point unless the user is trying to promote themselves.</span>
+<span class="sd">        | Else substract one point</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
