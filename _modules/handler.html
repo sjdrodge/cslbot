@@ -70,7 +70,6 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
 <span class="kn">from</span> <span class="nn">lxml.html</span> <span class="kn">import</span> <span class="n">parse</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
 <span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">URLError</span>
@@ -83,6 +82,16 @@
 
 <div class="viewcode-block" id="MyHandler"><a class="viewcode-back" href="../handler.html#handler.MyHandler">[docs]</a><span class="k">class</span> <span class="nc">MyHandler</span><span class="p">():</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set everything up.</span>
+
+<span class="sd">        | ignored is a array of the nicks who are currently ignored for bot abuse.</span>
+<span class="sd">        | logs is a dict containing a in-memory log for the primary channel as well as one for private messages.</span>
+<span class="sd">        | channels is a dict containing the objects for each channel the bot is connected to.</span>
+<span class="sd">        | abuselist is a dict keeping track of how many times nicks have used rate-limited commands.</span>
+<span class="sd">        | modules is a dict containing the commands the bot supports.</span>
+<span class="sd">        | scorefile is the fullpath to the file which records the scores.</span>
+<span class="sd">        | logfiles is a dict containing the file objects to which the logs are written.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="p">{</span><span class="n">CHANNEL</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;private&#39;</span><span class="p">:</span> <span class="p">[]}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="p">{}</span>
@@ -93,6 +102,12 @@
                          <span class="s">&#39;private&#39;</span><span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">/private.log&quot;</span> <span class="o">%</span> <span class="n">LOGDIR</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">)}</span>
 
 <div class="viewcode-block" id="MyHandler.loadmodules"><a class="viewcode-back" href="../handler.html#handler.MyHandler.loadmodules">[docs]</a>    <span class="k">def</span> <span class="nf">loadmodules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Load all the commands</span>
+
+<span class="sd">        | globs over all the .py files in the commands dir.</span>
+<span class="sd">        | skips file without the executable bit set</span>
+<span class="sd">        | imports the modules into a dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">modulemap</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;/commands/*.py&#39;</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">):</span>
@@ -101,11 +116,17 @@
         <span class="k">return</span> <span class="n">modulemap</span>
 </div>
 <div class="viewcode-block" id="MyHandler.ignore"><a class="viewcode-back" href="../handler.html#handler.MyHandler.ignore">[docs]</a>    <span class="k">def</span> <span class="nf">ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Ignores a nick &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Now igoring </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="MyHandler.abusecheck"><a class="viewcode-back" href="../handler.html#handler.MyHandler.abusecheck">[docs]</a>    <span class="k">def</span> <span class="nf">abusecheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Rate-limits commands</span>
+
+<span class="sd">        | if a nick uses commands with the limit attr set, record the time at which they were used</span>
+<span class="sd">        | if the command is used more than :limit: times in a minute, ignore the nick</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -121,6 +142,10 @@
             <span class="k">return</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="MyHandler.privmsg"><a class="viewcode-back" href="../handler.html#handler.MyHandler.privmsg">[docs]</a>    <span class="k">def</span> <span class="nf">privmsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Handle private messages.</span>
+
+<span class="sd">        Prevents users from changing scores in private.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nick</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">nick</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&quot;([a-zA-Z0-9]+)(\+\+|--)&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
@@ -129,16 +154,28 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;priv&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="MyHandler.pubmsg"><a class="viewcode-back" href="../handler.html#handler.MyHandler.pubmsg">[docs]</a>    <span class="k">def</span> <span class="nf">pubmsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Handle public messages. &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;pub&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="MyHandler.action"><a class="viewcode-back" href="../handler.html#handler.MyHandler.action">[docs]</a>    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Handle actions. &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;action&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="MyHandler.send"><a class="viewcode-back" href="../handler.html#handler.MyHandler.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Send a message</span>
+
+<span class="sd">        Records the message in the log</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">do_log</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="MyHandler.do_log"><a class="viewcode-back" href="../handler.html#handler.MyHandler.do_log">[docs]</a>    <span class="k">def</span> <span class="nf">do_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Handles logging</span>
+
+<span class="sd">        | logs nick and time</span>
+<span class="sd">        | logs &quot;New Day&quot; when day turns over</span>
+<span class="sd">        | logs both to a file and a in-memory array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;IRC doesn&#39;t like it when you send it a &quot;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;#&quot;</span><span class="p">:</span>
@@ -167,6 +204,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="MyHandler.do_part"><a class="viewcode-back" href="../handler.html#handler.MyHandler.do_part">[docs]</a>    <span class="k">def</span> <span class="nf">do_part</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Leaves a channel</span>
+
+<span class="sd">        | prevents user from leaving the primary channel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cmdargs</span><span class="p">:</span>
             <span class="c"># don&#39;t leave the primary channel</span>
             <span class="k">if</span> <span class="n">target</span> <span class="o">==</span> <span class="n">CHANNEL</span><span class="p">:</span>
@@ -184,6 +225,11 @@
         <span class="n">c</span><span class="o">.</span><span class="n">part</span><span class="p">(</span><span class="n">cmdargs</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="MyHandler.do_join"><a class="viewcode-back" href="../handler.html#handler.MyHandler.do_join">[docs]</a>    <span class="k">def</span> <span class="nf">do_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Join a channel</span>
+
+<span class="sd">        | checks if bot is already joined to channel</span>
+<span class="sd">        | opens logs for channel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cmdargs</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="n">cmdargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
@@ -197,27 +243,32 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">cmdargs</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&quot;Joined at the request of &quot;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="MyHandler.do_scores"><a class="viewcode-back" href="../handler.html#handler.MyHandler.do_scores">[docs]</a>    <span class="k">def</span> <span class="nf">do_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-                <span class="n">name</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">match</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;++&quot;</span><span class="p">:</span>
-                    <span class="n">score</span> <span class="o">=</span> <span class="mi">1</span>
-                    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">nick</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-                        <span class="n">send</span><span class="p">(</span><span class="n">nick</span> <span class="o">+</span> <span class="s">&quot;: No self promotion! You lose 10 points.&quot;</span><span class="p">)</span>
-                        <span class="n">score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scorefile</span><span class="p">):</span>
-                    <span class="n">scores</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scorefile</span><span class="p">))</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">scores</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">:</span>
-                    <span class="n">scores</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">score</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">scores</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scorefile</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
-                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-                <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot; Handles scores</span>
+
+<span class="sd">        If it&#39;s a ++ add one point unless the user is trying to promote themselves.</span>
+<span class="sd">        Else substract one point</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;++&quot;</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">nick</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                    <span class="n">send</span><span class="p">(</span><span class="n">nick</span> <span class="o">+</span> <span class="s">&quot;: No self promotion! You lose 10 points.&quot;</span><span class="p">)</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scorefile</span><span class="p">):</span>
+                <span class="n">scores</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scorefile</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">scores</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">:</span>
+                <span class="n">scores</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">score</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">scores</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scorefile</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="MyHandler.do_urls"><a class="viewcode-back" href="../handler.html#handler.MyHandler.do_urls">[docs]</a>    <span class="k">def</span> <span class="nf">do_urls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
