@@ -185,6 +185,14 @@ commands Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`gitpull` Module
+---------------------
+
+.. automodule:: commands.gitpull
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`google` Module
 --------------------
 
