@@ -87,7 +87,7 @@
     <span class="k">while</span> <span class="ow">not</span> <span class="n">slogan</span><span class="p">:</span>
         <span class="n">slogan</span> <span class="o">=</span> <span class="n">gen_slogan</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">HTMLParser</span><span class="p">()</span>
-    <span class="n">send</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">unescape</span><span class="p">(</span><span class="n">slogan</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">send</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">unescape</span><span class="p">(</span><span class="n">slogan</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
