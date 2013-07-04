@@ -62,9 +62,9 @@
 <dt id="bot.MyBot">
 <em class="property">class </em><tt class="descclassname">bot.</tt><tt class="descname">MyBot</tt><big>(</big><em>channel</em>, <em>nick</em>, <em>nickpass</em>, <em>host</em>, <em>port=6667</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">irc.bot.SingleServerIRCBot</span></tt></p>
-<dl class="function">
+<dl class="method">
 <dt id="bot.MyBot.do_reload">
-<tt class="descname">do_reload</tt><big>(</big><em>self</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.do_reload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.do_reload" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">do_reload</tt><big>(</big><em>c</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.do_reload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.do_reload" title="Permalink to this definition">¶</a></dt>
 <dd><p>The reloading magic</p>
 <div class="line-block">
 <div class="line">First, reload handler.py.</div>
@@ -73,15 +73,15 @@
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="bot.MyBot.get_version">
-<tt class="descname">get_version</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.get_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.get_version" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_version</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.get_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.get_version" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the version.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="bot.MyBot.handle_msg">
-<tt class="descname">handle_msg</tt><big>(</big><em>self</em>, <em>msgtype</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.handle_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.handle_msg" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">handle_msg</tt><big>(</big><em>msgtype</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.handle_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.handle_msg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles all messages.</p>
 <div class="line-block">
 <div class="line">If a exception is thrown, catch it and display a nice traceback instead of crashing.</div>
@@ -90,45 +90,45 @@
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="bot.MyBot.on_action">
-<tt class="descname">on_action</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_action" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_action</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_action" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pass actions to the handler.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="bot.MyBot.on_join">
-<tt class="descname">on_join</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_join" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_join</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_join" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add the joined channel to the channel list.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="bot.MyBot.on_kick">
-<tt class="descname">on_kick</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_kick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_kick" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_kick</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_kick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_kick" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rejoin on kick</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="bot.MyBot.on_part">
-<tt class="descname">on_part</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_part"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_part" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_part</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_part"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_part" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cleanup when leaving a channel.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="bot.MyBot.on_privmsg">
-<tt class="descname">on_privmsg</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_privmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_privmsg" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_privmsg</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_privmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_privmsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pass private messages to the handler.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="bot.MyBot.on_pubmsg">
-<tt class="descname">on_pubmsg</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_pubmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_pubmsg" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_pubmsg</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_pubmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_pubmsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pass public messages to the handler.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="bot.MyBot.on_welcome">
-<tt class="descname">on_welcome</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_welcome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_welcome" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_welcome</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#MyBot.on_welcome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.MyBot.on_welcome" title="Permalink to this definition">¶</a></dt>
 <dd><p>Do setup when connected to server.</p>
 <div class="line-block">
 <div class="line">Pass the connection to handler.</div>
