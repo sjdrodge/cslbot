@@ -119,7 +119,7 @@
         <span class="sd">&quot;&quot;&quot; Ignores a nick &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Now igoring </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Now ignoring </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="MyHandler.abusecheck"><a class="viewcode-back" href="../handler.html#handler.MyHandler.abusecheck">[docs]</a>    <span class="k">def</span> <span class="nf">abusecheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Rate-limits commands</span>
