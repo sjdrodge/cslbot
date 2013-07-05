@@ -293,6 +293,20 @@
         <span class="c"># page does not contain a title</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="MyHandler.do_caps"><a class="viewcode-back" href="../handler.html#handler.MyHandler.do_caps">[docs]</a>    <span class="k">def</span> <span class="nf">do_caps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+        <span class="c"># SHUT CAPS LOCK OFF, MORON</span>
+        <span class="n">upper_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">lower_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mf">0.65</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">:</span>
+                <span class="n">lower_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">upper_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">upper_ratio</span> <span class="o">=</span> <span class="n">upper_count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">upper_ratio</span> <span class="o">&gt;</span> <span class="n">THRESHOLD</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">kick</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&quot;SHUT CAPS LOCK OFF, MORON&quot;</span><span class="p">)</span>
 
     <span class="c">#FIXME: do some kind of mapping instead of a elif tree</span></div>
 <div class="viewcode-block" id="MyHandler.handle_args"><a class="viewcode-back" href="../handler.html#handler.MyHandler.handle_args">[docs]</a>    <span class="k">def</span> <span class="nf">handle_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modargs</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
@@ -332,6 +346,9 @@
         <span class="n">send</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ADMINS</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">:</span>
             <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">do_caps</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">nick</span><span class="p">)</span>
+
         <span class="c"># is this a command?</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
         <span class="c"># handle !s/a/b/</span>
@@ -345,7 +362,6 @@
                     <span class="k">return</span>
                 <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_args</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="s">&#39;args&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
                 <span class="n">mod</span><span class="o">.</span><span class="n">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
-
         <span class="c">#special commands</span>
         <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;!&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="s">&#39;reload&#39;</span><span class="p">:</span>
@@ -378,21 +394,7 @@
         <span class="c"># crazy regex to match urls</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&quot;(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()&lt;&gt;]+|\(([^\s()&lt;&gt;]+|(\([^\s()&lt;&gt;]+\)))*\))+(?:\(([^\s()&lt;&gt;]+|(\([^\s()&lt;&gt;]+\)))*\)|[^\s`!()\[\]{};:&#39;</span><span class="se">\&quot;</span><span class="s">.,&lt;&gt;?«»....]))&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">do_urls</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
-
-        <span class="c"># SHUT CAPS LOCK OFF, MORON</span>
-        <span class="n">upper_count</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">lower_count</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mf">0.65</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">:</span>
-                <span class="n">upper_count</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">lower_count</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">upper_ratio</span> <span class="o">=</span> <span class="n">upper_count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">upper_ratio</span> <span class="o">&gt;</span> <span class="n">THRESHOLD</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
-            <span class="n">c</span><span class="o">.</span><span class="n">kick</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&quot;SHUT CAPS LOCK OFF, MORON&quot;</span><span class="p">)</span>
-            <span class="k">pass</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">do_urls</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
