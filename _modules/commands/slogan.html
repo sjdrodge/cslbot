@@ -78,18 +78,18 @@
         <span class="n">slogan</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;&gt;(.*)&lt;&#39;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\\</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="n">slogan</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">slogan</span> <span class="k">if</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">31</span> <span class="ow">and</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">127</span><span class="p">)</span>
         <span class="n">parser</span> <span class="o">=</span> <span class="n">HTMLParser</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">unescape</span><span class="p">(</span><span class="n">slogan</span><span class="p">)</span>
+        <span class="n">slogan</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">unescape</span><span class="p">(</span><span class="n">slogan</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">slogan</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gen_slogan</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">slogan</span>
 
 </div>
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.slogan.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">word</span><span class="p">:</span> <span class="n">word</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;modules&#39;</span><span class="p">][</span><span class="s">&#39;word&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cmd</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;modules&#39;</span><span class="p">][</span><span class="s">&#39;word&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_word</span><span class="p">()</span>
 
     <span class="n">slogan</span> <span class="o">=</span> <span class="n">gen_slogan</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-    <span class="k">while</span> <span class="ow">not</span> <span class="n">slogan</span><span class="p">:</span>
-        <span class="n">slogan</span> <span class="o">=</span> <span class="n">gen_slogan</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">send</span><span class="p">(</span><span class="n">slogan</span><span class="p">)</span></div>
+    <span class="n">send</span><span class="p">(</span><span class="n">slogan</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
