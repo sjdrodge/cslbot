@@ -378,7 +378,21 @@
         <span class="c"># crazy regex to match urls</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&quot;(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()&lt;&gt;]+|\(([^\s()&lt;&gt;]+|(\([^\s()&lt;&gt;]+\)))*\))+(?:\(([^\s()&lt;&gt;]+|(\([^\s()&lt;&gt;]+\)))*\)|[^\s`!()\[\]{};:&#39;</span><span class="se">\&quot;</span><span class="s">.,&lt;&gt;?«»....]))&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">do_urls</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">do_urls</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
+
+        <span class="c"># SHUT CAPS LOCK OFF, MORON</span>
+        <span class="n">upper_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">lower_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mf">0.65</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">:</span>
+                <span class="n">upper_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lower_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">upper_ratio</span> <span class="o">=</span> <span class="n">upper_count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">upper_ratio</span> <span class="o">&gt;</span> <span class="n">THRESHOLD</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">kick</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&quot;SHUT CAPS LOCK OFF, MORON&quot;</span><span class="p">)</span>
+            <span class="k">pass</span></div></div>
 </pre></div>
 
           </div>
