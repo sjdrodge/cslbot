@@ -89,7 +89,9 @@
             <span class="n">definition</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;list&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;definition&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span>
         <span class="n">send</span><span class="p">(</span><span class="n">definition</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;shit&#39;</span><span class="p">,</span> <span class="s">&#39;$#!+&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;fuck&#39;</span><span class="p">,</span> <span class="s">&#39;fsck&#39;</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;UrbanDictionary doesn&#39;t have a answer for you.&quot;</span><span class="p">)</span></div>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;UrbanDictionary doesn&#39;t have a answer for you.&quot;</span><span class="p">)</span>
+
+</div>
 <div class="viewcode-block" id="toStr"><a class="viewcode-back" href="../../commands.html#commands.urban.toStr">[docs]</a><span class="k">def</span> <span class="nf">toStr</span><span class="p">(</span><span class="n">arrToSplit</span><span class="p">):</span>
     <span class="n">endStr</span> <span class="o">=</span> <span class="n">arrToSplit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">arrToSplit</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
