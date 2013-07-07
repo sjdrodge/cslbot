@@ -142,8 +142,6 @@
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Now ignoring </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="MyHandler.is_admin"><a class="viewcode-back" href="../handler.html#handler.MyHandler.is_admin">[docs]</a>    <span class="k">def</span> <span class="nf">is_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ADMINS</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
         <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="s">&#39;NickServ&#39;</span><span class="p">,</span> <span class="s">&#39;ACC &#39;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">[</span><span class="n">nick</span><span class="p">]:</span>
             <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">CHANNEL</span><span class="p">,</span> <span class="s">&quot;Unverified admin: &quot;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">)</span>
@@ -154,6 +152,8 @@
 <div class="viewcode-block" id="MyHandler.set_admin"><a class="viewcode-back" href="../handler.html#handler.MyHandler.set_admin">[docs]</a>    <span class="k">def</span> <span class="nf">set_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;(.*) ACC ([0-3])&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ADMINS</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">True</span>
