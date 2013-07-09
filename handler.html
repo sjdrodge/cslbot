@@ -27,6 +27,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="IrcBot 1.0 documentation" href="index.html" />
     <link rel="up" title="IrcBot" href="modules.html" />
+    <link rel="next" title="server Module" href="server.html" />
     <link rel="prev" title="config Module" href="config.html" /> 
   </head>
   <body>
@@ -39,6 +40,9 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="server Module"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="config.html" title="config Module"
              accesskey="P">previous</a> |</li>
@@ -58,9 +62,9 @@
 <dt id="handler.MyHandler">
 <em class="property">class </em><tt class="descclassname">handler.</tt><tt class="descname">MyHandler</tt><a class="reference internal" href="_modules/handler.html#MyHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.abusecheck">
-<tt class="descname">abusecheck</tt><big>(</big><em>self</em>, <em>send</em>, <em>nick</em>, <em>limit</em>, <em>msgtype</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.abusecheck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.abusecheck" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">abusecheck</tt><big>(</big><em>send</em>, <em>nick</em>, <em>limit</em>, <em>msgtype</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.abusecheck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.abusecheck" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rate-limits commands</p>
 <div class="line-block">
 <div class="line">if a nick uses commands with the limit attr set, record the time at which they were used</div>
@@ -68,20 +72,20 @@
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.action">
-<tt class="descname">action</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.action" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">action</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.action" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handle actions.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.do_caps">
-<tt class="descname">do_caps</tt><big>(</big><em>self</em>, <em>msg</em>, <em>c</em>, <em>e</em>, <em>nick</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_caps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_caps" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">do_caps</tt><big>(</big><em>msg</em>, <em>c</em>, <em>e</em>, <em>nick</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_caps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_caps" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.do_join">
-<tt class="descname">do_join</tt><big>(</big><em>self</em>, <em>cmdargs</em>, <em>nick</em>, <em>msgtype</em>, <em>send</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_join" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">do_join</tt><big>(</big><em>cmdargs</em>, <em>nick</em>, <em>msgtype</em>, <em>send</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_join" title="Permalink to this definition">¶</a></dt>
 <dd><p>Join a channel</p>
 <div class="line-block">
 <div class="line">checks if bot is already joined to channel</div>
@@ -89,14 +93,14 @@
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.do_kick">
-<tt class="descname">do_kick</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em>, <em>send</em>, <em>nick</em>, <em>msg</em>, <em>msgtype</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_kick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_kick" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">do_kick</tt><big>(</big><em>c</em>, <em>e</em>, <em>send</em>, <em>nick</em>, <em>msg</em>, <em>msgtype</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_kick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_kick" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.do_log">
-<tt class="descname">do_log</tt><big>(</big><em>self</em>, <em>target</em>, <em>nick</em>, <em>msg</em>, <em>msgtype</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_log" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">do_log</tt><big>(</big><em>target</em>, <em>nick</em>, <em>msg</em>, <em>msgtype</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles logging</p>
 <div class="line-block">
 <div class="line">logs nick and time</div>
@@ -105,18 +109,18 @@
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.do_part">
-<tt class="descname">do_part</tt><big>(</big><em>self</em>, <em>cmdargs</em>, <em>nick</em>, <em>target</em>, <em>msgtype</em>, <em>send</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_part"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_part" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">do_part</tt><big>(</big><em>cmdargs</em>, <em>nick</em>, <em>target</em>, <em>msgtype</em>, <em>send</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_part"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_part" title="Permalink to this definition">¶</a></dt>
 <dd><p>Leaves a channel</p>
 <div class="line-block">
 <div class="line">prevents user from leaving the primary channel</div>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.do_scores">
-<tt class="descname">do_scores</tt><big>(</big><em>self</em>, <em>matches</em>, <em>send</em>, <em>msgtype</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_scores" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">do_scores</tt><big>(</big><em>matches</em>, <em>send</em>, <em>msgtype</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_scores" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles scores</p>
 <div class="line-block">
 <div class="line">If it&#8217;s a ++ add one point unless the user is trying to promote themselves.</div>
@@ -124,45 +128,50 @@
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.do_urls">
-<tt class="descname">do_urls</tt><big>(</big><em>self</em>, <em>match</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_urls" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">do_urls</tt><big>(</big><em>match</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.do_urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.do_urls" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.get_admins">
-<tt class="descname">get_admins</tt><big>(</big><em>self</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.get_admins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.get_admins" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_admins</tt><big>(</big><em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.get_admins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.get_admins" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.get_data">
-<tt class="descname">get_data</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.get_data" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_data</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.get_data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.handle_args">
-<tt class="descname">handle_args</tt><big>(</big><em>self</em>, <em>modargs</em>, <em>send</em>, <em>nick</em>, <em>target</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.handle_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.handle_args" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">handle_args</tt><big>(</big><em>modargs</em>, <em>send</em>, <em>nick</em>, <em>target</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.handle_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.handle_args" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
+<dt id="handler.MyHandler.handle_ctrlchan">
+<tt class="descname">handle_ctrlchan</tt><big>(</big><em>nick</em>, <em>msg</em>, <em>send</em>, <em>send_raw</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.handle_ctrlchan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.handle_ctrlchan" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="handler.MyHandler.handle_msg">
-<tt class="descname">handle_msg</tt><big>(</big><em>self</em>, <em>msgtype</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.handle_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.handle_msg" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">handle_msg</tt><big>(</big><em>msgtype</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.handle_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.handle_msg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.ignore">
-<tt class="descname">ignore</tt><big>(</big><em>self</em>, <em>send</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.ignore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.ignore" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">ignore</tt><big>(</big><em>send</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.ignore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.ignore" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ignores a nick</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.is_admin">
-<tt class="descname">is_admin</tt><big>(</big><em>self</em>, <em>c</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.is_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.is_admin" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">is_admin</tt><big>(</big><em>c</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.is_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.is_admin" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.loadmodules">
-<tt class="descname">loadmodules</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.loadmodules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.loadmodules" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">loadmodules</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.loadmodules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.loadmodules" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load all the commands</p>
 <div class="line-block">
 <div class="line">globs over all the .py files in the commands dir.</div>
@@ -171,40 +180,40 @@
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.privmsg">
-<tt class="descname">privmsg</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.privmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.privmsg" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">privmsg</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.privmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.privmsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handle private messages.</p>
 <p>Prevents users from changing scores in private.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.privnotice">
-<tt class="descname">privnotice</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.privnotice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.privnotice" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">privnotice</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.privnotice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.privnotice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handle private notices.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.pubmsg">
-<tt class="descname">pubmsg</tt><big>(</big><em>self</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.pubmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.pubmsg" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">pubmsg</tt><big>(</big><em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.pubmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.pubmsg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handle public messages.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.send">
-<tt class="descname">send</tt><big>(</big><em>self</em>, <em>target</em>, <em>nick</em>, <em>msg</em>, <em>msgtype</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.send" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">send</tt><big>(</big><em>target</em>, <em>nick</em>, <em>msg</em>, <em>msgtype</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.send" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send a message</p>
 <p>Records the message in the log</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.set_admin">
-<tt class="descname">set_admin</tt><big>(</big><em>self</em>, <em>e</em>, <em>c</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.set_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.set_admin" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_admin</tt><big>(</big><em>e</em>, <em>c</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.set_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.set_admin" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="method">
 <dt id="handler.MyHandler.set_data">
-<tt class="descname">set_data</tt><big>(</big><em>self</em>, <em>data</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.set_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.set_data" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_data</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/handler.html#MyHandler.set_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.MyHandler.set_data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -220,6 +229,9 @@
   <h4>Previous topic</h4>
   <p class="topless"><a href="config.html"
                         title="previous chapter">config Module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="server.html"
+                        title="next chapter">server Module</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/handler.txt"
@@ -251,6 +263,9 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="server Module"
+             >next</a> |</li>
         <li class="right" >
           <a href="config.html" title="config Module"
              >previous</a> |</li>
