@@ -69,7 +69,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">irc.client</span> <span class="kn">import</span> <span class="n">SimpleIRCClient</span>
-<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">CTRLCHAN</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">NICKPASS</span><span class="p">,</span> <span class="n">HOST</span><span class="p">,</span> <span class="n">CTRLKEY</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">CTRLCHAN</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">CTRLPASS</span><span class="p">,</span> <span class="n">HOST</span><span class="p">,</span> <span class="n">CTRLKEY</span>
 
 
 <div class="viewcode-block" id="IrcClient"><a class="viewcode-back" href="../reload.html#reload.IrcClient">[docs]</a><span class="k">class</span> <span class="nc">IrcClient</span><span class="p">(</span><span class="n">SimpleIRCClient</span><span class="p">):</span>
@@ -94,7 +94,7 @@
     <span class="n">client</span> <span class="o">=</span> <span class="n">IrcClient</span><span class="p">()</span>
     <span class="n">PORT</span> <span class="o">=</span> <span class="mi">6667</span>
     <span class="n">NICK</span> <span class="o">=</span> <span class="s">&quot;bot-controller&quot;</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">NICKPASS</span><span class="p">)</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">CTRLPASS</span><span class="p">)</span>
     <span class="n">client</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
