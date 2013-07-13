@@ -69,31 +69,40 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">irc.client</span> <span class="kn">import</span> <span class="n">SimpleIRCClient</span>
-<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">CHANNEL</span><span class="p">,</span> <span class="n">CTRLPASS</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">HOST</span><span class="p">,</span> <span class="n">CTRLKEY</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">CTRLCHAN</span><span class="p">,</span> <span class="n">CTRLPASS</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">HOST</span><span class="p">,</span> <span class="n">CTRLKEY</span>
 
 
 <div class="viewcode-block" id="IrcClient"><a class="viewcode-back" href="../reload.html#reload.IrcClient">[docs]</a><span class="k">class</span> <span class="nc">IrcClient</span><span class="p">(</span><span class="n">SimpleIRCClient</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nick</span> <span class="o">=</span> <span class="n">nick</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reloading</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">SimpleIRCClient</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 <div class="viewcode-block" id="IrcClient.on_welcome"><a class="viewcode-back" href="../reload.html#reload.IrcClient.on_welcome">[docs]</a>    <span class="k">def</span> <span class="nf">on_welcome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CHANNEL</span><span class="p">,</span> <span class="n">CTRLKEY</span><span class="p">)</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CTRLCHAN</span><span class="p">,</span> <span class="n">CTRLKEY</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="IrcClient.on_mode"><a class="viewcode-back" href="../reload.html#reload.IrcClient.on_mode">[docs]</a>    <span class="k">def</span> <span class="nf">on_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reloading</span><span class="p">:</span>
+            <span class="k">return</span>
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;+o&quot;</span> <span class="ow">and</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nick</span><span class="p">:</span>
-            <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">CHANNEL</span><span class="p">,</span> <span class="s">&#39;!reload&#39;</span><span class="p">)</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">CTRLCHAN</span><span class="p">,</span> <span class="s">&#39;!reload&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reloading</span> <span class="o">=</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="IrcClient.on_join"><a class="viewcode-back" href="../reload.html#reload.IrcClient.on_join">[docs]</a>    <span class="k">def</span> <span class="nf">on_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">CHANNEL</span><span class="p">,</span> <span class="s">&#39;!reload&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reloading</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">CTRLCHAN</span><span class="p">,</span> <span class="s">&#39;!reload&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reloading</span> <span class="o">=</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="IrcClient.on_pubmsg"><a class="viewcode-back" href="../reload.html#reload.IrcClient.on_pubmsg">[docs]</a>    <span class="k">def</span> <span class="nf">on_pubmsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">NICK</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;Aye Aye Capt&#39;n&quot;</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s">&quot;Reload successful.&quot;</span><span class="p">)</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s">&quot;Reload failed.&quot;</span><span class="p">)</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
 </div></div>
