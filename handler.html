@@ -80,6 +80,17 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="handler.BotHandler.do_admin">
+<tt class="descname">do_admin</tt><big>(</big><em>c</em>, <em>cmd</em>, <em>cmdargs</em>, <em>send</em>, <em>nick</em>, <em>msgtype</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/handler.html#BotHandler.do_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.BotHandler.do_admin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="handler.BotHandler.do_args">
+<tt class="descname">do_args</tt><big>(</big><em>modargs</em>, <em>send</em>, <em>nick</em>, <em>target</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#BotHandler.do_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.BotHandler.do_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle the various args that modules need.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="handler.BotHandler.do_caps">
 <tt class="descname">do_caps</tt><big>(</big><em>msg</em>, <em>c</em>, <em>e</em>, <em>nick</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/handler.html#BotHandler.do_caps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.BotHandler.do_caps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check for capslock abuse.</p>
@@ -162,20 +173,16 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="handler.BotHandler.handle_args">
-<tt class="descname">handle_args</tt><big>(</big><em>modargs</em>, <em>send</em>, <em>nick</em>, <em>target</em>, <em>c</em><big>)</big><a class="reference internal" href="_modules/handler.html#BotHandler.handle_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.BotHandler.handle_args" title="Permalink to this definition">¶</a></dt>
-<dd><p>Handle the various args that modules need.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="handler.BotHandler.handle_ctrlchan">
-<tt class="descname">handle_ctrlchan</tt><big>(</big><em>msg</em>, <em>send</em>, <em>send_raw</em><big>)</big><a class="reference internal" href="_modules/handler.html#BotHandler.handle_ctrlchan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.BotHandler.handle_ctrlchan" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descname">handle_ctrlchan</tt><big>(</big><em>msg</em>, <em>c</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/handler.html#BotHandler.handle_ctrlchan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.BotHandler.handle_ctrlchan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle the control channel.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="handler.BotHandler.handle_msg">
 <tt class="descname">handle_msg</tt><big>(</big><em>msgtype</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/handler.html#BotHandler.handle_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#handler.BotHandler.handle_msg" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The Heart and Soul of IrcBot.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="handler.BotHandler.ignore">
