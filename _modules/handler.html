@@ -66,12 +66,6 @@
 <span class="c"># along with this program; if not, write to the Free Software</span>
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
-<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">ADMINS</span><span class="p">,</span> <span class="n">CHANNEL</span><span class="p">,</span> <span class="n">CTRLCHAN</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">LOGDIR</span>
-<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
-<span class="kn">from</span> <span class="nn">lxml.html</span> <span class="kn">import</span> <span class="n">parse</span>
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
-<span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">URLError</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -80,20 +74,32 @@
 <span class="kn">import</span> <span class="nn">imp</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">ADMINS</span><span class="p">,</span> <span class="n">CHANNEL</span><span class="p">,</span> <span class="n">CTRLCHAN</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">LOGDIR</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span> <span class="nn">lxml.html</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
+<span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">URLError</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 
 
 <div class="viewcode-block" id="BotHandler"><a class="viewcode-back" href="../handler.html#handler.BotHandler">[docs]</a><span class="k">class</span> <span class="nc">BotHandler</span><span class="p">():</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Set everything up.</span>
 
+<span class="sd">        | kick_enabled controls whether the bot will kick people or not..</span>
+<span class="sd">        | caps is a array of the nicks who have abused capslock.</span>
 <span class="sd">        | ignored is a array of the nicks who are currently ignored for bot abuse.</span>
-<span class="sd">        | logs is a dict containing a in-memory log for the primary channel as well as one for private messages.</span>
+<span class="sd">        | disabled_mods is a array of the currently disabled modules.</span>
+<span class="sd">        | logs is a dict containing a in-memory log for the primary channel, control channel, and private messages.</span>
 <span class="sd">        | channels is a dict containing the objects for each channel the bot is connected to.</span>
 <span class="sd">        | abuselist is a dict keeping track of how many times nicks have used rate-limited commands.</span>
 <span class="sd">        | modules is a dict containing the commands the bot supports.</span>
 <span class="sd">        | scorefile is the fullpath to the file which records the scores.</span>
 <span class="sd">        | logfiles is a dict containing the file objects to which the logs are written.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kick_enabled</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">caps</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span> <span class="o">=</span> <span class="p">[]</span>
@@ -106,9 +112,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span> <span class="o">=</span> <span class="p">{</span><span class="n">CHANNEL</span><span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">.log&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">LOGDIR</span><span class="p">,</span> <span class="n">CHANNEL</span><span class="p">),</span> <span class="s">&quot;a&quot;</span><span class="p">),</span>
                          <span class="n">CTRLCHAN</span><span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">.log&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">LOGDIR</span><span class="p">,</span> <span class="n">CTRLCHAN</span><span class="p">),</span> <span class="s">&quot;a&quot;</span><span class="p">),</span>
                          <span class="s">&#39;private&#39;</span><span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">/private.log&quot;</span> <span class="o">%</span> <span class="n">LOGDIR</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">)}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">kick_enabled</span> <span class="o">=</span> <span class="bp">True</span>
 
 <div class="viewcode-block" id="BotHandler.get_data"><a class="viewcode-back" href="../handler.html#handler.BotHandler.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves the handler&#39;s data for :func:`bot.do_reload`&quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;caps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">caps</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;ignored&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">)</span>
@@ -121,6 +127,7 @@
         <span class="k">return</span> <span class="n">data</span>
 </div>
 <div class="viewcode-block" id="BotHandler.set_data"><a class="viewcode-back" href="../handler.html#handler.BotHandler.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Called from :func:`bot.do_reload` to restore the handler&#39;s data.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">caps</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;caps&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;ignored&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;disabled_mods&#39;</span><span class="p">]</span>
@@ -131,26 +138,31 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">admins</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;admins&#39;</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="BotHandler.loadmodules"><a class="viewcode-back" href="../handler.html#handler.BotHandler.loadmodules">[docs]</a>    <span class="k">def</span> <span class="nf">loadmodules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Load all the commands</span>
+        <span class="sd">&quot;&quot;&quot;Load all the commands.</span>
 
-<span class="sd">        | globs over all the .py files in the commands dir.</span>
-<span class="sd">        | skips file without the executable bit set</span>
-<span class="sd">        | imports the modules into a dict</span>
+<span class="sd">        | Globs over all the .py files in the commands dir.</span>
+<span class="sd">        | Skips file without the executable bit set</span>
+<span class="sd">        | Imports the modules into a dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">modulemap</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;/commands/*.py&#39;</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">):</span>
-                <span class="n">cmd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">cmd</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">modulemap</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s">&quot;commands.&quot;</span><span class="o">+</span><span class="n">cmd</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">modulemap</span>
 </div>
 <div class="viewcode-block" id="BotHandler.ignore"><a class="viewcode-back" href="../handler.html#handler.BotHandler.ignore">[docs]</a>    <span class="k">def</span> <span class="nf">ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Ignores a nick &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Ignores a nick.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Now ignoring </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.is_admin"><a class="viewcode-back" href="../handler.html#handler.BotHandler.is_admin">[docs]</a>    <span class="k">def</span> <span class="nf">is_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">complain</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks if a nick is a admin.</span>
+
+<span class="sd">        | If the nick is not in :const:`ADMINS` then it&#39;s not a admin.</span>
+<span class="sd">        | If NickServ hasn&#39;t responded yet, then the admin is unverified, so assume they aren&#39;t a admin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ADMINS</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="s">&#39;NickServ&#39;</span><span class="p">,</span> <span class="s">&#39;ACC &#39;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">)</span>
@@ -162,6 +174,11 @@
             <span class="k">return</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="BotHandler.set_admin"><a class="viewcode-back" href="../handler.html#handler.BotHandler.set_admin">[docs]</a>    <span class="k">def</span> <span class="nf">set_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle admin verification responses from NickServ.</span>
+
+<span class="sd">        | If someone other than NickServ is trying to become a admin, kick them.</span>
+<span class="sd">        | If NickServ tells us that the nick is authed, mark it as verified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;(.*) ACC ([0-3])&quot;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
             <span class="k">return</span>
@@ -175,28 +192,29 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="BotHandler.get_admins"><a class="viewcode-back" href="../handler.html#handler.BotHandler.get_admins">[docs]</a>    <span class="k">def</span> <span class="nf">get_admins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check verification for all admins.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">admin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">:</span>
             <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="s">&#39;NickServ&#39;</span><span class="p">,</span> <span class="s">&#39;ACC &#39;</span> <span class="o">+</span> <span class="n">admin</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="BotHandler.abusecheck"><a class="viewcode-back" href="../handler.html#handler.BotHandler.abusecheck">[docs]</a>    <span class="k">def</span> <span class="nf">abusecheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Rate-limits commands</span>
+<div class="viewcode-block" id="BotHandler.abusecheck"><a class="viewcode-back" href="../handler.html#handler.BotHandler.abusecheck">[docs]</a>    <span class="k">def</span> <span class="nf">abusecheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Rate-limits commands.</span>
 
-<span class="sd">        | if a nick uses commands with the limit attr set, record the time at which they were used</span>
-<span class="sd">        | if the command is used more than *limit* times in a minute, ignore the nick</span>
+<span class="sd">        | If a nick uses commands with the limit attr set, record the time at which they were used.</span>
+<span class="sd">        | If the command is used more than :data:`limit` times in a minute, ignore the nick.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">]:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="n">cmd</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">][</span><span class="n">cmd</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">][</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">][</span><span class="n">cmd</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
         <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">][</span><span class="n">name</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">[</span><span class="n">nick</span><span class="p">][</span><span class="n">cmd</span><span class="p">]:</span>
             <span class="c"># 60 seconds - arbitrary cuttoff</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">:</span>
                 <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">limit</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;scores&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;scores&#39;</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;creffett&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_creffett</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: don&#39;t abuse scores&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;creffett&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_creffett</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: stop abusing the bot&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
@@ -207,7 +225,8 @@
 <div class="viewcode-block" id="BotHandler.privmsg"><a class="viewcode-back" href="../handler.html#handler.BotHandler.privmsg">[docs]</a>    <span class="k">def</span> <span class="nf">privmsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Handle private messages.</span>
 
-<span class="sd">        Prevents users from changing scores in private.</span>
+<span class="sd">        | Prevent users from changing scores in private.</span>
+<span class="sd">        | Forward messages to :func:`handle_msg`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nick</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">nick</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -217,31 +236,40 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;priv&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.pubmsg"><a class="viewcode-back" href="../handler.html#handler.BotHandler.pubmsg">[docs]</a>    <span class="k">def</span> <span class="nf">pubmsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Handle public messages. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Handle public messages.</span>
+
+<span class="sd">        Forward messages to :func:`handle_msg`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;pub&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.privnotice"><a class="viewcode-back" href="../handler.html#handler.BotHandler.privnotice">[docs]</a>    <span class="k">def</span> <span class="nf">privnotice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Handle private notices. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Handle private notices.</span>
+
+<span class="sd">        Forward notices to :func:`handle_msg`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;privnotice&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.action"><a class="viewcode-back" href="../handler.html#handler.BotHandler.action">[docs]</a>    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Handle actions. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Handle actions.</span>
+
+<span class="sd">        Forward notices to :func:`handle_msg`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;action&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.send"><a class="viewcode-back" href="../handler.html#handler.BotHandler.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Send a message</span>
+        <span class="sd">&quot;&quot;&quot; Send a message.</span>
 
-<span class="sd">        Records the message in the log</span>
+<span class="sd">        Records the message in the log.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">do_log</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_log"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_log">[docs]</a>    <span class="k">def</span> <span class="nf">do_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Handles logging</span>
+        <span class="sd">&quot;&quot;&quot; Handles logging.</span>
 
-<span class="sd">        | logs nick and time</span>
-<span class="sd">        | logs &quot;New Day&quot; when day turns over</span>
-<span class="sd">        | logs both to a file and a in-memory array</span>
+<span class="sd">        | Logs nick and time.</span>
+<span class="sd">        | Logs &quot;New Day&quot; when day turns over.</span>
+<span class="sd">        | Logs both to a file and a in-memory array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;IRC doesn&#39;t like it when you send it a &quot;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
@@ -282,9 +310,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_part"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_part">[docs]</a>    <span class="k">def</span> <span class="nf">do_part</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Leaves a channel</span>
+        <span class="sd">&quot;&quot;&quot; Leaves a channel.</span>
 
-<span class="sd">        | prevents user from leaving the primary channel</span>
+<span class="sd">        Prevent user from leaving the primary channel.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cmdargs</span><span class="p">:</span>
             <span class="c"># don&#39;t leave the primary channel</span>
@@ -303,10 +331,10 @@
         <span class="n">c</span><span class="o">.</span><span class="n">part</span><span class="p">(</span><span class="n">cmdargs</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_join"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_join">[docs]</a>    <span class="k">def</span> <span class="nf">do_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Join a channel</span>
+        <span class="sd">&quot;&quot;&quot; Join a channel.</span>
 
-<span class="sd">        | checks if bot is already joined to channel</span>
-<span class="sd">        | opens logs for channel</span>
+<span class="sd">        | Checks if bot is already joined to channel.</span>
+<span class="sd">        | Opens logs for channel.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmdargs</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cmdargs</span><span class="p">:</span>
@@ -325,7 +353,7 @@
         <span class="sd">&quot;&quot;&quot; Handles scores</span>
 
 <span class="sd">        | If it&#39;s a ++ add one point unless the user is trying to promote themselves.</span>
-<span class="sd">        | Else substract one point</span>
+<span class="sd">        | Otherwise substract one point.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -353,6 +381,11 @@
             <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_urls"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_urls">[docs]</a>    <span class="k">def</span> <span class="nf">do_urls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get titles for urls.</span>
+
+<span class="sd">        | Generate a short url.</span>
+<span class="sd">        | Get the page title.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">url</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;http&#39;</span><span class="p">):</span>
@@ -376,61 +409,63 @@
             <span class="k">pass</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_kick"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_kick">[docs]</a>    <span class="k">def</span> <span class="nf">do_kick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Kick users.</span>
+
+<span class="sd">        | If kick is disabled, don&#39;t do anything.</span>
+<span class="sd">        | If the bot is not a op, rage at a op.</span>
+<span class="sd">        | Kick the user.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">kick_enabled</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: you&#39;re lucky. kick is disabled.&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
             <span class="k">return</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span> <span class="k">if</span> <span class="n">msgtype</span> <span class="o">!=</span> <span class="s">&#39;private&#39;</span> <span class="k">else</span> <span class="n">CHANNEL</span>
         <span class="n">ops</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">opers</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">caps</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">NICK</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
-                <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">CHANNEL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;creffett&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_creffett</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: /op the bot&quot;</span> <span class="o">%</span> <span class="n">choice</span><span class="p">(</span><span class="n">ops</span><span class="p">)))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">c</span><span class="o">.</span><span class="n">kick</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;slogan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_slogan</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">caps</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">NICK</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">CHANNEL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;creffett&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_creffett</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: /op the bot&quot;</span> <span class="o">%</span> <span class="n">choice</span><span class="p">(</span><span class="n">ops</span><span class="p">)))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: warning, </span><span class="si">%s</span><span class="s"> would be a *really* good idea :)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">caps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">kick</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;slogan&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_slogan</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_caps"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_caps">[docs]</a>    <span class="k">def</span> <span class="nf">do_caps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Check for capslock abuse.</span>
+
+<span class="sd">        | Check if a line is more than :const:`THRESHOLD` percent uppercase.</span>
+<span class="sd">        | If this is the first line, warn the user.</span>
+<span class="sd">        | If this is the second line in a row, kick the user.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># SHUT CAPS LOCK OFF, MORON</span>
-        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mf">0.65</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">:</span>
-                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">upper_ratio</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s">&quot;shutting caps lock off&quot;</span>
+        <span class="n">upper</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">msg</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="p">]</span>
+        <span class="n">upper_ratio</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">upper</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">upper_ratio</span> <span class="o">&gt;</span> <span class="n">THRESHOLD</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">do_kick</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&quot;shutting caps lock off&quot;</span><span class="p">,</span> <span class="s">&#39;pubmsg&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">caps</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">do_kick</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="s">&#39;pubmsg&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">caps</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: warning, </span><span class="si">%s</span><span class="s"> would be a *really* good idea :)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">caps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">caps</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">caps</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
-
-    <span class="c">#FIXME: do some kind of mapping instead of a elif tree</span></div>
+</div>
 <div class="viewcode-block" id="BotHandler.handle_args"><a class="viewcode-back" href="../handler.html#handler.BotHandler.handle_args">[docs]</a>    <span class="k">def</span> <span class="nf">handle_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modargs</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">modargs</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">arg</span> <span class="o">==</span> <span class="s">&#39;channels&#39;</span><span class="p">:</span>
-                    <span class="n">args</span><span class="p">[</span><span class="s">&#39;channels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span>
-                <span class="k">elif</span> <span class="n">arg</span> <span class="o">==</span> <span class="s">&#39;connection&#39;</span><span class="p">:</span>
-                    <span class="n">args</span><span class="p">[</span><span class="s">&#39;connection&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span>
-                <span class="k">elif</span> <span class="n">arg</span> <span class="o">==</span> <span class="s">&#39;nick&#39;</span><span class="p">:</span>
-                    <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nick</span>
-                <span class="k">elif</span> <span class="n">arg</span> <span class="o">==</span> <span class="s">&#39;modules&#39;</span><span class="p">:</span>
-                    <span class="n">args</span><span class="p">[</span><span class="s">&#39;modules&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span>
-                <span class="k">elif</span> <span class="n">arg</span> <span class="o">==</span> <span class="s">&#39;scorefile&#39;</span><span class="p">:</span>
-                    <span class="n">args</span><span class="p">[</span><span class="s">&#39;scorefile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scorefile</span>
-                <span class="k">elif</span> <span class="n">arg</span> <span class="o">==</span> <span class="s">&#39;logs&#39;</span><span class="p">:</span>
-                    <span class="n">args</span><span class="p">[</span><span class="s">&#39;logs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span>
-                <span class="k">elif</span> <span class="n">arg</span> <span class="o">==</span> <span class="s">&#39;admins&#39;</span><span class="p">:</span>
-                    <span class="n">args</span><span class="p">[</span><span class="s">&#39;admins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">admins</span>
-                <span class="k">elif</span> <span class="n">arg</span> <span class="o">==</span> <span class="s">&#39;is_admin&#39;</span><span class="p">:</span>
-                    <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">nick</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">arg</span> <span class="o">==</span> <span class="s">&#39;target&#39;</span><span class="p">:</span>
-                    <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span> <span class="k">if</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;#&quot;</span> <span class="k">else</span> <span class="s">&quot;private&quot;</span>
-                <span class="k">elif</span> <span class="n">arg</span> <span class="o">==</span> <span class="s">&#39;ignore&#39;</span><span class="p">:</span>
-                    <span class="n">args</span><span class="p">[</span><span class="s">&#39;ignore&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">nick</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Invalid Argument: &quot;</span> <span class="o">+</span> <span class="n">arg</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">args</span>
+        <span class="sd">&quot;&quot;&quot; Handle the various args that modules need.&quot;&quot;&quot;</span>
+        <span class="n">realargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;nick&#39;</span><span class="p">:</span> <span class="n">nick</span><span class="p">,</span>
+                <span class="s">&#39;channels&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span>
+                <span class="s">&#39;connection&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">,</span>
+                <span class="s">&#39;modules&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">,</span>
+                <span class="s">&#39;scorefile&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">scorefile</span><span class="p">,</span>
+                <span class="s">&#39;logs&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">,</span>
+                <span class="s">&#39;admins&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">,</span>
+                <span class="s">&#39;target&#39;</span><span class="p">:</span> <span class="n">target</span> <span class="k">if</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;#&quot;</span> <span class="k">else</span> <span class="s">&quot;private&quot;</span><span class="p">,</span>
+                <span class="s">&#39;is_admin&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">nick</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">),</span>
+                <span class="s">&#39;ignore&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">nick</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">)}</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">modargs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+                <span class="n">realargs</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Invalid Argument: &quot;</span> <span class="o">+</span> <span class="n">arg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">realargs</span>
 </div>
 <div class="viewcode-block" id="BotHandler.handle_ctrlchan"><a class="viewcode-back" href="../handler.html#handler.BotHandler.handle_ctrlchan">[docs]</a>    <span class="k">def</span> <span class="nf">handle_ctrlchan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">send_raw</span><span class="p">):</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
