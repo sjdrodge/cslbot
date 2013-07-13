@@ -67,15 +67,16 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">ADMINS</span><span class="p">,</span> <span class="n">CHANNEL</span><span class="p">,</span> <span class="n">CTRLCHAN</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">LOGDIR</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 <span class="kn">from</span> <span class="nn">lxml.html</span> <span class="kn">import</span> <span class="n">parse</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
 <span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">URLError</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">imp</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">socket</span>
@@ -149,12 +150,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Now ignoring </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="MyHandler.is_admin"><a class="viewcode-back" href="../handler.html#handler.MyHandler.is_admin">[docs]</a>    <span class="k">def</span> <span class="nf">is_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+<div class="viewcode-block" id="MyHandler.is_admin"><a class="viewcode-back" href="../handler.html#handler.MyHandler.is_admin">[docs]</a>    <span class="k">def</span> <span class="nf">is_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">complain</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ADMINS</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="s">&#39;NickServ&#39;</span><span class="p">,</span> <span class="s">&#39;ACC &#39;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">[</span><span class="n">nick</span><span class="p">]:</span>
-            <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">CHANNEL</span><span class="p">,</span> <span class="s">&quot;Unverified admin: &quot;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">complain</span><span class="p">:</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">CHANNEL</span><span class="p">,</span> <span class="s">&quot;Unverified admin: &quot;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">True</span>
@@ -438,26 +440,30 @@
             <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;kick&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">kick_enabled</span> <span class="o">=</span> <span class="bp">False</span>
                 <span class="n">send</span><span class="p">(</span><span class="s">&quot;Kick disabled.&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;module&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;module&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
                 <span class="n">send</span><span class="p">(</span><span class="s">&quot;Module disabled.&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;logging&quot;</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;enable&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;kick&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">kick_enabled</span> <span class="o">=</span> <span class="bp">True</span>
                 <span class="n">send</span><span class="p">(</span><span class="s">&quot;Kick enabled.&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;module&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;module&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
                 <span class="n">send</span><span class="p">(</span><span class="s">&quot;Module enabled.&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;all&quot;</span> <span class="ow">and</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;modules&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;all&quot;</span> <span class="ow">and</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;modules&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="n">send</span><span class="p">(</span><span class="s">&quot;Enabled all modules.&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;logging&quot;</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;get&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;disabled&quot;</span> <span class="ow">and</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;modules&quot;</span><span class="p">:</span>
                 <span class="n">mods</span> <span class="o">=</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span><span class="p">))</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">mods</span><span class="p">:</span>
                     <span class="n">send</span><span class="p">(</span><span class="s">&quot;No disabled modules.&quot;</span><span class="p">)</span>
                 <span class="n">send</span><span class="p">(</span><span class="n">mods</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;enabled&quot;</span> <span class="ow">and</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;modules&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;enabled&quot;</span> <span class="ow">and</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;modules&quot;</span><span class="p">:</span>
                 <span class="n">mods</span> <span class="o">=</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span><span class="p">]))</span>
                 <span class="n">send</span><span class="p">(</span><span class="n">mods</span><span class="p">)</span>
 </div>
@@ -482,7 +488,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">do_log</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">do_caps</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
@@ -496,6 +502,7 @@
         <span class="k">if</span> <span class="n">cmd</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;!s&#39;</span><span class="p">:</span>
             <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">cmdargs</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;!&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
                 <span class="n">mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
@@ -503,17 +510,19 @@
                     <span class="k">return</span>
                 <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_args</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="s">&#39;args&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
                 <span class="n">mod</span><span class="o">.</span><span class="n">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+                <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="c">#special commands</span>
         <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;!&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="s">&#39;reload&#39;</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">ADMINS</span><span class="p">:</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;Aye Aye Capt&#39;n&quot;</span><span class="p">)</span>
+                <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                    <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
             <span class="c"># everything below this point requires admin</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="s">&#39;cignore&#39;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span> <span class="o">=</span> <span class="p">[]</span>
                     <span class="n">send</span><span class="p">(</span><span class="s">&quot;Ignore list cleared.&quot;</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="s">&#39;reload&#39;</span><span class="p">:</span>
-                    <span class="n">send</span><span class="p">(</span><span class="s">&quot;Aye Aye Capt&#39;n&quot;</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-                        <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="s">&#39;cabuse&#39;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span> <span class="o">=</span> <span class="p">{}</span>
                     <span class="n">send</span><span class="p">(</span><span class="s">&quot;Abuse list cleared.&quot;</span><span class="p">)</span>
