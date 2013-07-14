@@ -102,10 +102,12 @@
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">NICK</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;Aye Aye Capt&#39;n&quot;</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s">&quot;Reload successful.&quot;</span><span class="p">)</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">part</span><span class="p">(</span><span class="n">CTRLCHAN</span><span class="p">)</span>
                 <span class="n">c</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s">&quot;Reload failed.&quot;</span><span class="p">)</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">part</span><span class="p">(</span><span class="n">CTRLCHAN</span><span class="p">)</span>
                 <span class="n">c</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
