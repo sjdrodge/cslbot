@@ -55,17 +55,23 @@
   <div class="section" id="module-server">
 <span id="server-module"></span><h1>server Module<a class="headerlink" href="#module-server" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="server.BotnetServer">
-<em class="property">class </em><tt class="descclassname">server.</tt><tt class="descname">BotnetServer</tt><big>(</big><em>bot_instance</em><big>)</big><a class="reference internal" href="_modules/server.html#BotnetServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.BotnetServer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="method">
-<dt id="server.BotnetServer.accept_loop">
-<tt class="descname">accept_loop</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/server.html#BotnetServer.accept_loop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.BotnetServer.accept_loop" title="Permalink to this definition">¶</a></dt>
+<dt id="server.BotNetHandler">
+<em class="property">class </em><tt class="descclassname">server.</tt><tt class="descname">BotNetHandler</tt><big>(</big><em>request</em>, <em>client_address</em>, <em>server</em><big>)</big><a class="reference internal" href="_modules/server.html#BotNetHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.BotNetHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">socketserver.BaseRequestHandler</span></tt></p>
+<dl class="function">
+<dt id="server.BotNetHandler.handle">
+<tt class="descname">handle</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/server.html#BotNetHandler.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.BotNetHandler.handle" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="server.BotnetServer.handle_client">
-<tt class="descname">handle_client</tt><big>(</big><em>conn</em><big>)</big><a class="reference internal" href="_modules/server.html#BotnetServer.handle_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.BotnetServer.handle_client" title="Permalink to this definition">¶</a></dt>
+</dd></dl>
+
+<dl class="class">
+<dt id="server.BotNetServer">
+<em class="property">class </em><tt class="descclassname">server.</tt><tt class="descname">BotNetServer</tt><big>(</big><em>server_address</em>, <em>RequestHandlerClass</em>, <em>bind_and_activate=True</em><big>)</big><a class="reference internal" href="_modules/server.html#BotNetServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.BotNetServer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">socketserver.ThreadingMixIn</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">socketserver.TCPServer</span></tt></p>
+<dl class="attribute">
+<dt id="server.BotNetServer.allow_reuse_address">
+<tt class="descname">allow_reuse_address</tt><em class="property"> = True</em><a class="headerlink" href="#server.BotNetServer.allow_reuse_address" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
