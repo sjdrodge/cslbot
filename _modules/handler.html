@@ -576,6 +576,11 @@
             <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;enabled&quot;</span> <span class="ow">and</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;modules&quot;</span><span class="p">:</span>
                 <span class="n">mods</span> <span class="o">=</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span><span class="p">]))</span>
                 <span class="n">send</span><span class="p">(</span><span class="n">mods</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;help&quot;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;quote &lt;raw command&gt;&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;cs|chanserv &lt;chanserv command&gt;&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;disable|enable &lt;kick|module &lt;module&gt;|logging|chanlog&gt;&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;get &lt;disabled|enabled&gt; modules&quot;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.handle_msg"><a class="viewcode-back" href="../handler.html#handler.BotHandler.handle_msg">[docs]</a>    <span class="k">def</span> <span class="nf">handle_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The Heart and Soul of IrcBot.&quot;&quot;&quot;</span>
@@ -589,13 +594,15 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">nick</span>
         <span class="n">send</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">NICK</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="n">CTRLCHAN</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">handle_ctrlchan</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;privnotice&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_admin</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
             <span class="k">return</span>
-
+        <span class="c"># must come after set_admin to prevent spam</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">do_log</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="n">CTRLCHAN</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">handle_ctrlchan</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">:</span>
             <span class="k">return</span>
