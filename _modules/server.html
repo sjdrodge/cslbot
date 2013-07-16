@@ -90,6 +90,7 @@
     <span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">)</span>
     <span class="n">thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">server</span>
 
 </div>
 <div class="viewcode-block" id="BotNetServer"><a class="viewcode-back" href="../server.html#server.BotNetServer">[docs]</a><span class="k">class</span> <span class="nc">BotNetServer</span><span class="p">(</span><span class="n">socketserver</span><span class="o">.</span><span class="n">ThreadingMixIn</span><span class="p">,</span> <span class="n">socketserver</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">):</span>
