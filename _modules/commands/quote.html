@@ -80,7 +80,7 @@
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.quote.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="n">getquote</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
-    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nobody has taste in this channel.&quot;</span><span class="p">)</span></div>
 </pre></div>
 
