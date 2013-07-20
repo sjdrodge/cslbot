@@ -63,8 +63,7 @@
 <span class="c">#</span>
 <span class="c"># You should have received a copy of the GNU General Public License</span>
 <span class="c"># along with this program; if not, write to the Free Software</span>
-<span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA</span>
-<span class="c"># 02110-1301, USA.</span>
+<span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
@@ -72,10 +71,9 @@
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.choose.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="n">choices</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; or &#39;</span><span class="p">)</span>
-    <span class="n">action</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s">&#39;draws a slip of paper from a hat and gets...&#39;</span><span class="p">,</span> <span class="s">&#39;says enie, menie, miney, moe and chooses...&#39;</span><span class="p">,</span>
-        <span class="s">&#39;picks a random number and gets...&#39;</span><span class="p">,</span> <span class="s">&#39;rolls dice and gets...&#39;</span><span class="p">,</span> <span class="s">&#39;asks a random person and gets...&#39;</span><span class="p">,</span>
-        <span class="s">&#39;plays rock paper scissors lizard spock and gets...&#39;</span><span class="p">]</span>
+    <span class="n">action</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;draws a slip of paper from a hat and gets...&#39;</span><span class="p">,</span> <span class="s">&#39;says enie, menie, miney, moe and chooses...&#39;</span><span class="p">,</span>
+              <span class="s">&#39;picks a random number and gets...&#39;</span><span class="p">,</span> <span class="s">&#39;rolls dice and gets...&#39;</span><span class="p">,</span> <span class="s">&#39;asks a random person and gets...&#39;</span><span class="p">,</span>
+              <span class="s">&#39;plays rock paper scissors lizard spock and gets...&#39;</span><span class="p">]</span>
     <span class="n">send</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">choice</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">choice</span><span class="p">(</span><span class="n">choices</span><span class="p">))</span></div>
 </pre></div>
 

@@ -63,15 +63,13 @@
 <span class="c">#</span>
 <span class="c"># You should have received a copy of the GNU General Public License</span>
 <span class="c"># along with this program; if not, write to the Free Software</span>
-<span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA</span>
-<span class="c"># 02110-1301, USA.</span>
+<span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
 
 
 <div class="viewcode-block" id="gen_word"><a class="viewcode-back" href="../../commands.html#commands.word.gen_word">[docs]</a><span class="k">def</span> <span class="nf">gen_word</span><span class="p">():</span>
-        <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span>
-            <span class="s">&#39;http://randomword.setgetgo.com/get.php&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://randomword.setgetgo.com/get.php&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="c"># strip BOM</span>
         <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">decode</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
 

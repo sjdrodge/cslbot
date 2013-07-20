@@ -63,8 +63,7 @@
 <span class="c">#</span>
 <span class="c"># You should have received a copy of the GNU General Public License</span>
 <span class="c"># along with this program; if not, write to the Free Software</span>
-<span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA</span>
-<span class="c"># 02110-1301, USA.</span>
+<span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote</span>
@@ -88,8 +87,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid or Ambiguous Location&quot;</span><span class="p">)</span>
             <span class="k">return</span>
-        <span class="n">forecastdata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
-            <span class="n">forecasthtml</span><span class="p">)[</span><span class="s">&#39;forecast&#39;</span><span class="p">][</span><span class="s">&#39;simpleforecast&#39;</span><span class="p">][</span><span class="s">&#39;forecastday&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">forecastdata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">forecasthtml</span><span class="p">)[</span><span class="s">&#39;forecast&#39;</span><span class="p">][</span><span class="s">&#39;simpleforecast&#39;</span><span class="p">][</span><span class="s">&#39;forecastday&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Current weather for </span><span class="si">%s</span><span class="s">:&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;display_location&#39;</span><span class="p">][</span><span class="s">&#39;full&#39;</span><span class="p">])</span>
         <span class="n">current</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">, Temp: </span><span class="si">%s</span><span class="s">, Humidity: </span><span class="si">%s</span><span class="s">, Pressure: </span><span class="si">%s</span><span class="s">&quot;, Wind: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">data</span><span class="p">[</span><span class="s">&#39;weather&#39;</span><span class="p">],</span>
