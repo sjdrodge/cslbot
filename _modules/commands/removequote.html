@@ -67,11 +67,11 @@
 
 <span class="kn">import</span> <span class="nn">json</span>
 
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">]</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;datadir&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="deletequote"><a class="viewcode-back" href="../../commands.html#commands.removequote.deletequote">[docs]</a><span class="k">def</span> <span class="nf">deletequote</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">srcdir</span><span class="p">):</span>
-    <span class="n">quotefile</span> <span class="o">=</span> <span class="n">srcdir</span> <span class="o">+</span> <span class="s">&quot;/quotes&quot;</span>
+<div class="viewcode-block" id="deletequote"><a class="viewcode-back" href="../../commands.html#commands.removequote.deletequote">[docs]</a><span class="k">def</span> <span class="nf">deletequote</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">datadir</span><span class="p">):</span>
+    <span class="n">quotefile</span> <span class="o">=</span> <span class="n">datadir</span> <span class="o">+</span> <span class="s">&quot;quotes&quot;</span>
     <span class="n">quotes</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">quotefile</span><span class="p">))</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">quotes</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">False</span>
@@ -90,7 +90,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">deletequote</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">deletequote</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;datadir&#39;</span><span class="p">]):</span>
                     <span class="n">send</span><span class="p">(</span><span class="s">&quot;Deleted quote successfully&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nobody has taste in this channel&quot;</span><span class="p">)</span>
