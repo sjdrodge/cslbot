@@ -72,6 +72,7 @@
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.yoda.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;A message, Yoda did not receive, hmmmmmm.&quot;</span><span class="p">)</span>
             <span class="k">return</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;YodaMe&#39;</span><span class="p">:</span> <span class="n">msg</span><span class="p">})</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;UTF-8&#39;</span><span class="p">)</span>
         <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://www.yodaspeak.co.uk/index.php&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
