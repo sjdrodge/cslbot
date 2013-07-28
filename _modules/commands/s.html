@@ -88,8 +88,10 @@
     <span class="c"># search last 50 lines</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">log</span><span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">:]):</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&quot;&lt;@?(.*)&gt; (.*)&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
             <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&quot; \* (.*?)\b (.*)&quot;</span><span class="p">,</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">user</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
@@ -102,7 +104,10 @@
             <span class="k">continue</span>
         <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">modifiers</span> <span class="o">==</span> <span class="s">&quot;g&quot;</span> <span class="ow">or</span> <span class="n">user</span> <span class="o">==</span> <span class="n">modifiers</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">modifiers</span><span class="p">):</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> actually meant: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">output</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">action</span><span class="p">:</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;correction: * </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span><span class="n">output</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> actually meant: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">output</span><span class="p">))</span>
             <span class="k">return</span></div>
 </pre></div>
 
