@@ -67,12 +67,12 @@
 
 <span class="kn">import</span> <span class="nn">pickle</span>
 
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;datadir&#39;</span><span class="p">]</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.ssearch.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">picklefile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;datadir&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;steamids.pickle&#39;</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
+            <span class="n">picklefile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/static/steamids.pickle&#39;</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
             <span class="n">idfile</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">picklefile</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&#39;Error opening id file!&#39;</span><span class="p">)</span>
