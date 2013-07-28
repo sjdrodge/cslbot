@@ -68,12 +68,10 @@
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
 
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]</span>
 
-
-<div class="viewcode-block" id="get_list"><a class="viewcode-back" href="../../commands.html#commands.acronym.get_list">[docs]</a><span class="k">def</span> <span class="nf">get_list</span><span class="p">(</span><span class="n">srcdir</span><span class="p">):</span>
+<div class="viewcode-block" id="get_list"><a class="viewcode-back" href="../../commands.html#commands.acronym.get_list">[docs]</a><span class="k">def</span> <span class="nf">get_list</span><span class="p">():</span>
     <span class="c"># wordlist (massaged COMMON.TXT) from http://www.gutenberg.org/ebooks/3201</span>
-    <span class="n">listfile</span> <span class="o">=</span> <span class="n">srcdir</span> <span class="o">+</span> <span class="s">&#39;/static/words&#39;</span>
+    <span class="n">listfile</span> <span class="o">=</span> <span class="s">&#39;/usr/share/dict/words&#39;</span>
     <span class="n">rawlist</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">listfile</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="n">rawlist</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">rawlist</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
     <span class="n">words</span> <span class="o">=</span> <span class="p">{}</span>
@@ -84,7 +82,7 @@
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.acronym.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="k">return</span>
-    <span class="n">words</span> <span class="o">=</span> <span class="n">get_list</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">])</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">get_list</span><span class="p">()</span>
     <span class="n">output</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">choice</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">])</span>
     <span class="n">send</span><span class="p">(</span><span class="n">msg</span> <span class="o">+</span> <span class="s">&#39;: &#39;</span><span class="o">+</span> <span class="n">output</span><span class="o">.</span><span class="n">title</span><span class="p">())</span></div>
 </pre></div>
