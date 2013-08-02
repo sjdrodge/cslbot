@@ -102,6 +102,12 @@
 <div class="viewcode-block" id="get_weather"><a class="viewcode-back" href="../../commands.html#commands.weather.get_weather">[docs]</a><span class="k">def</span> <span class="nf">get_weather</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="n">quote</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;-&quot;</span><span class="p">:</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://api.wunderground.com/api/</span><span class="si">%s</span><span class="s">/conditions/q/</span><span class="si">%s</span><span class="s">.json&#39;</span>
+                   <span class="o">%</span> <span class="p">(</span><span class="n">WEATHERAPIKEY</span><span class="p">,</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&#39;current_observation&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid or Ambiguous Location&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;display_location&#39;</span><span class="p">:{</span>
                 <span class="s">&#39;full&#39;</span><span class="p">:</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>              
