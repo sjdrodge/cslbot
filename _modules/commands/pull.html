@@ -66,19 +66,20 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span>
+
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="do_pull"><a class="viewcode-back" href="../../commands.html#commands.pull.do_pull">[docs]</a><span class="k">def</span> <span class="nf">do_pull</span><span class="p">(</span><span class="n">branch</span><span class="o">=</span><span class="s">&quot;master&quot;</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">gitdir</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;/..&#39;</span>
-        <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s">&#39;git&#39;</span><span class="p">,</span> <span class="s">&#39;pull&#39;</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="n">gitdir</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&quot;Something went wrong!&quot;</span>
+<div class="viewcode-block" id="do_pull"><a class="viewcode-back" href="../../commands.html#commands.pull.do_pull">[docs]</a><span class="k">def</span> <span class="nf">do_pull</span><span class="p">(</span><span class="n">srcdir</span><span class="p">,</span> <span class="n">branch</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s">&#39;git&#39;</span><span class="p">,</span> <span class="s">&#39;pull&#39;</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="n">srcdir</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 </div>
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.pull.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">do_pull</span><span class="p">(</span><span class="n">msg</span> <span class="ow">or</span> <span class="s">&quot;master&quot;</span><span class="p">))</span></div>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">do_pull</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">],</span> <span class="n">msg</span> <span class="ow">or</span> <span class="s">&quot;master&quot;</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
