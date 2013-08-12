@@ -71,15 +71,19 @@
 
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.wiki.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://en.wikipedia.org/w/api.php?format=json&amp;action=query&amp;list=search&amp;srlimit=1&amp;srsearch=&#39;</span> <span class="o">+</span> <span class="n">quote</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">][</span><span class="s">&#39;search&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;title&#39;</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> isn&#39;t important enough to have a wikipedia article.&quot;</span> <span class="o">%</span> <span class="n">msg</span><span class="p">)</span>
-            <span class="k">return</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&#39;http://en.wikipedia.org/wiki/&#39;</span> <span class="o">+</span> <span class="n">url</span><span class="p">)</span></div>
+    <span class="sd">&quot;&quot;&quot;Returns the first wikipedia result for the argument.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Need a article.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://en.wikipedia.org/w/api.php?format=json&amp;action=query&amp;list=search&amp;srlimit=1&amp;srsearch=&#39;</span> <span class="o">+</span> <span class="n">quote</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">][</span><span class="s">&#39;search&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;title&#39;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> isn&#39;t important enough to have a wikipedia article.&quot;</span> <span class="o">%</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
+    <span class="n">send</span><span class="p">(</span><span class="s">&#39;http://en.wikipedia.org/wiki/&#39;</span> <span class="o">+</span> <span class="n">url</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
