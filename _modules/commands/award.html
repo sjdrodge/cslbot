@@ -69,10 +69,14 @@
 
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.award.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
-            <span class="k">return</span>
-        <span class="n">atype</span> <span class="o">=</span> <span class="n">choice</span><span class="p">([</span><span class="s">&#39;gold&#39;</span><span class="p">,</span> <span class="s">&#39;silver&#39;</span><span class="p">,</span> <span class="s">&#39;bronze&#39;</span><span class="p">,</span> <span class="s">&#39;platinum&#39;</span><span class="p">])</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">msg</span> <span class="o">+</span> <span class="s">&#39;: I hereby award you this &#39;</span> <span class="o">+</span> <span class="n">atype</span> <span class="o">+</span> <span class="s">&#39; medal.&#39;</span><span class="p">)</span></div>
+    <span class="sd">&quot;&quot;&quot;Award a medal.</span>
+<span class="sd">    Syntax: !award &lt;recipient&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Award who?&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">atype</span> <span class="o">=</span> <span class="n">choice</span><span class="p">([</span><span class="s">&#39;gold&#39;</span><span class="p">,</span> <span class="s">&#39;silver&#39;</span><span class="p">,</span> <span class="s">&#39;bronze&#39;</span><span class="p">,</span> <span class="s">&#39;platinum&#39;</span><span class="p">,</span> <span class="s">&#39;plutonium&#39;</span><span class="p">])</span>
+    <span class="n">send</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">: I hereby award you this </span><span class="si">%s</span><span class="s"> medal.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">atype</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
