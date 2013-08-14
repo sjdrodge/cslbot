@@ -67,7 +67,11 @@
 
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.fwilson.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-    <span class="n">send</span><span class="p">((</span><span class="s">&quot;wheeeee &quot;</span> <span class="o">+</span> <span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span></div>
+    <span class="sd">&quot;&quot;&quot;Imitates fwilson.</span>
+<span class="sd">    Syntax: !fwilson &lt;message&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;wheeeee </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">msg</span>
+    <span class="n">send</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span></div>
 </pre></div>
 
           </div>

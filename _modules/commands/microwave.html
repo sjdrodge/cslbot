@@ -97,57 +97,60 @@
 
 </div>
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.microwave.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="n">nick</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
-        <span class="n">channel</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;private&#39;</span> <span class="k">else</span> <span class="n">CHANNEL</span>
-        <span class="n">levels</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s">&#39;Whirr...&#39;</span><span class="p">,</span>
-                  <span class="mi">2</span><span class="p">:</span> <span class="s">&#39;Vrrm...&#39;</span><span class="p">,</span>
-                  <span class="mi">3</span><span class="p">:</span> <span class="s">&#39;Zzzzhhhh...&#39;</span><span class="p">,</span>
-                  <span class="mi">4</span><span class="p">:</span> <span class="s">&#39;SHFRRRRM...&#39;</span><span class="p">,</span>
-                  <span class="mi">5</span><span class="p">:</span> <span class="s">&#39;GEEEEZZSH...&#39;</span><span class="p">,</span>
-                  <span class="mi">6</span><span class="p">:</span> <span class="s">&#39;PLAAAAIIID...&#39;</span><span class="p">,</span>
-                  <span class="mi">7</span><span class="p">:</span> <span class="s">&#39;KKKRRRAAKKKAAKRAKKGGARGHGIZZZZ...&#39;</span><span class="p">,</span>
-                  <span class="mi">8</span><span class="p">:</span> <span class="s">&#39;Nuke&#39;</span><span class="p">,</span>
-                  <span class="mi">9</span><span class="p">:</span> <span class="s">&#39;nneeeaaaooowwwwww..... BOOOOOSH BLAM KABOOM&#39;</span><span class="p">,</span>
-                  <span class="mi">10</span><span class="p">:</span> <span class="s">&#39;ssh root@remote.tjhsst.edu rm -rf ~&#39;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">}</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&#39;What to microwave?&#39;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;Microwaves something.</span>
+<span class="sd">    Syntax: !microvave &lt;level&gt; &lt;target&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nick</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;private&#39;</span> <span class="k">else</span> <span class="n">CHANNEL</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s">&#39;Whirr...&#39;</span><span class="p">,</span>
+              <span class="mi">2</span><span class="p">:</span> <span class="s">&#39;Vrrm...&#39;</span><span class="p">,</span>
+              <span class="mi">3</span><span class="p">:</span> <span class="s">&#39;Zzzzhhhh...&#39;</span><span class="p">,</span>
+              <span class="mi">4</span><span class="p">:</span> <span class="s">&#39;SHFRRRRM...&#39;</span><span class="p">,</span>
+              <span class="mi">5</span><span class="p">:</span> <span class="s">&#39;GEEEEZZSH...&#39;</span><span class="p">,</span>
+              <span class="mi">6</span><span class="p">:</span> <span class="s">&#39;PLAAAAIIID...&#39;</span><span class="p">,</span>
+              <span class="mi">7</span><span class="p">:</span> <span class="s">&#39;KKKRRRAAKKKAAKRAKKGGARGHGIZZZZ...&#39;</span><span class="p">,</span>
+              <span class="mi">8</span><span class="p">:</span> <span class="s">&#39;Nuke&#39;</span><span class="p">,</span>
+              <span class="mi">9</span><span class="p">:</span> <span class="s">&#39;nneeeaaaooowwwwww..... BOOOOOSH BLAM KABOOM&#39;</span><span class="p">,</span>
+              <span class="mi">10</span><span class="p">:</span> <span class="s">&#39;ssh root@remote.tjhsst.edu rm -rf ~&#39;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&#39;What to microwave?&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;(-?[0-9]*) (.*)&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&#39;Power level?&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&#39;Aborting to prevent extinction of human race.&#39;</span><span class="p">)</span>
             <span class="k">return</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;(-?[0-9]*) (.*)&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&#39;Power level?&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">level</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-            <span class="n">target</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
-                <span class="n">send</span><span class="p">(</span><span class="s">&#39;Aborting to prevent extinction of human race.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&#39;Anti-matter not yet implemented.&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">nick</span><span class="p">):</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;I&#39;m sorry. Nukes are a admin-only feature&quot;</span><span class="p">)</span>
                 <span class="k">return</span>
-            <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">send</span><span class="p">(</span><span class="s">&#39;Anti-matter not yet implemented.&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">target</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;channels&#39;</span><span class="p">][</span><span class="n">channel</span><span class="p">]</span><span class="o">.</span><span class="n">users</span><span class="p">():</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;I&#39;m sorry. Anonymous Nuking is not allowed&quot;</span><span class="p">)</span>
                 <span class="k">return</span>
-            <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">nick</span><span class="p">):</span>
-                    <span class="n">send</span><span class="p">(</span><span class="s">&quot;I&#39;m sorry. Nukes are a admin-only feature&quot;</span><span class="p">)</span>
-                    <span class="k">return</span>
-                <span class="k">elif</span> <span class="n">target</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;channels&#39;</span><span class="p">][</span><span class="n">channel</span><span class="p">]</span><span class="o">.</span><span class="n">users</span><span class="p">():</span>
-                    <span class="n">send</span><span class="p">(</span><span class="s">&quot;I&#39;m sorry. Anonymous Nuking is not allowed&quot;</span><span class="p">)</span>
-                    <span class="k">return</span>
 
-            <span class="n">msg</span> <span class="o">=</span> <span class="n">levels</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">:</span>
-                    <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">:</span>
-                <span class="n">do_nuke</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="mi">9</span><span class="p">:</span>
-                <span class="n">send</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
-                <span class="n">send</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&#39;Ding, your </span><span class="si">%s</span><span class="s"> is ready.&#39;</span> <span class="o">%</span> <span class="n">target</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
-                <span class="n">args</span><span class="p">[</span><span class="s">&#39;connection&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quit</span><span class="p">(</span><span class="s">&quot;Caught in backwash.&quot;</span><span class="p">)</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">levels</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">:</span>
+            <span class="n">do_nuke</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&#39;Ding, your </span><span class="si">%s</span><span class="s"> is ready.&#39;</span> <span class="o">%</span> <span class="n">target</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;connection&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quit</span><span class="p">(</span><span class="s">&quot;Caught in backwash.&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

@@ -69,9 +69,12 @@
 
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.coin.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Flips a coin a number of times.</span>
+<span class="sd">    Syntax: !coin &lt;number&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">coin</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;heads&#39;</span><span class="p">,</span> <span class="s">&#39;tails&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&#39;The coin lands on... &#39;</span> <span class="o">+</span> <span class="n">choice</span><span class="p">(</span><span class="n">coin</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&#39;The coin lands on... </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">choice</span><span class="p">(</span><span class="n">coin</span><span class="p">))</span>
     <span class="k">elif</span> <span class="ow">not</span> <span class="n">msg</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Not A Number.&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>

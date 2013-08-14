@@ -708,7 +708,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">nick</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">nick</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;pub&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;action&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;pub&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;action&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;mode&#39;</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">nick</span>
