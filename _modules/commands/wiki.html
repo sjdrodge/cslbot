@@ -71,7 +71,9 @@
 
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.wiki.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns the first wikipedia result for the argument.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Returns the first wikipedia result for the argument.</span>
+<span class="sd">    Syntax: !wiki &lt;term&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Need a article.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
