@@ -88,7 +88,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="s">&#39;bofh&#39;</span> <span class="ow">in</span> <span class="n">basename</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span> <span class="ow">or</span> <span class="s">&#39;excuse&#39;</span> <span class="ow">in</span> <span class="n">basename</span><span class="p">(</span><span class="n">__file__</span><span class="p">):</span>
                 <span class="n">mod</span> <span class="o">=</span> <span class="s">&#39;bofh-excuses&#39;</span>
-            <span class="k">elif</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">fortunes</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">fortunes</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
                 <span class="n">mod</span> <span class="o">=</span> <span class="n">msg</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> is not a valid fortune module&quot;</span> <span class="o">%</span> <span class="n">msg</span><span class="p">)</span>
