@@ -73,8 +73,9 @@
 <span class="sd">    Syntax: !time</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">bold</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x02</span><span class="s">&#39;</span>
-    <span class="n">timeformat</span> <span class="o">=</span> <span class="n">bold</span> <span class="o">+</span> <span class="s">&quot;Date: &quot;</span> <span class="o">+</span> <span class="n">bold</span> <span class="o">+</span> <span class="s">&quot;%m/</span><span class="si">%d</span><span class="s">/%Y&quot;</span> <span class="o">+</span> <span class="n">bold</span> <span class="o">+</span> <span class="s">&quot;   Time: &quot;</span> <span class="o">+</span> <span class="n">bold</span> <span class="o">+</span> <span class="s">&quot;%H:%M:%S&quot;</span>
-    <span class="n">send</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">timeformat</span><span class="p">))</span></div>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">bold</span> <span class="o">+</span> <span class="s">&quot;Date: &quot;</span> <span class="o">+</span> <span class="n">bold</span> <span class="o">+</span> <span class="s">&quot;%A, %m/</span><span class="si">%d</span><span class="s">/%Y&quot;</span> <span class="o">+</span> <span class="n">bold</span> <span class="o">+</span> <span class="s">&quot;   Time: &quot;</span> <span class="o">+</span> <span class="n">bold</span> <span class="o">+</span> <span class="s">&quot;%H:%M:%S&quot;</span>
+    <span class="n">send</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
