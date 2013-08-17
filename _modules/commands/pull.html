@@ -70,7 +70,7 @@
 <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="do_pull"><a class="viewcode-back" href="../../commands.html#commands.pull.do_pull">[docs]</a><span class="k">def</span> <span class="nf">do_pull</span><span class="p">(</span><span class="n">srcdir</span><span class="p">,</span> <span class="n">branch</span><span class="p">):</span>
+<div class="viewcode-block" id="do_pull"><a class="viewcode-back" href="../../commands.html#commands.pull.do_pull">[docs]</a><span class="k">def</span> <span class="nf">do_pull</span><span class="p">(</span><span class="n">srcdir</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s">&#39;git&#39;</span><span class="p">,</span> <span class="s">&#39;pull&#39;</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="n">srcdir</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 </div>
@@ -79,7 +79,7 @@
 <span class="sd">    Syntax: !pull &lt;branch&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">do_pull</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">],</span> <span class="n">msg</span> <span class="ow">or</span> <span class="s">&quot;master&quot;</span><span class="p">))</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">do_pull</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]))</span>
     <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
             <span class="n">send</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
