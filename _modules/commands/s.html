@@ -72,7 +72,7 @@
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.s.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Corrects a previous message.</span>
-<span class="sd">    Syntax: !s/&lt;msg&gt;/&lt;replacement&gt;/ig</span>
+<span class="sd">    Syntax: !s/&lt;msg&gt;/&lt;replacement&gt;/&lt;ig|nick&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
     <span class="c"># not a valid sed statement.</span>
@@ -101,7 +101,7 @@
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="c"># ignore stuff said by other people unless /g was passed</span>
-        <span class="k">if</span> <span class="n">user</span> <span class="o">!=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s">&quot;g&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">modifiers</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="o">!=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s">&quot;g&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">modifiers</span> <span class="ow">and</span> <span class="n">user</span> <span class="o">!=</span> <span class="n">modifiers</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="c"># ignore previous !s commands</span>
         <span class="k">if</span> <span class="n">text</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;!s&quot;</span><span class="p">:</span>
