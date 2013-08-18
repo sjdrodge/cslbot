@@ -81,6 +81,33 @@
     <span class="k">return</span> <span class="s">&quot;Poll created.&quot;</span>
 
 </div>
+<div class="viewcode-block" id="delete_poll"><a class="viewcode-back" href="../../commands.html#commands.vote.delete_poll">[docs]</a><span class="k">def</span> <span class="nf">delete_poll</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">poll</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;Syntax: !vote delete &lt;pollnum&gt;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s">&quot;Not A Number.&quot;</span>
+    <span class="n">poll</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">polls</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">poll</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;Invalid poll index.&quot;</span>
+    <span class="n">polls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
+    <span class="n">save_polls</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&quot;Poll deleted.&quot;</span>
+
+</div>
+<div class="viewcode-block" id="edit_poll"><a class="viewcode-back" href="../../commands.html#commands.vote.edit_poll">[docs]</a><span class="k">def</span> <span class="nf">edit_poll</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">poll</span><span class="p">):</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">poll</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;Syntax: !vote edit &lt;pollnum&gt; &lt;question&gt;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s">&quot;Not A Number.&quot;</span>
+    <span class="n">poll</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">polls</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">poll</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;Invalid poll index.&quot;</span>
+    <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;question&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">save_polls</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&quot;Poll updated.&quot;</span>
+
+</div>
 <div class="viewcode-block" id="end_poll"><a class="viewcode-back" href="../../commands.html#commands.vote.end_poll">[docs]</a><span class="k">def</span> <span class="nf">end_poll</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">poll</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Syntax: !vote end &lt;pollnum&gt;&quot;</span>
@@ -161,7 +188,7 @@
 </div>
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.vote.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Handles voting.</span>
-<span class="sd">    Syntax: !vote &lt;start|end|list|tally|vote&gt;</span>
+<span class="sd">    Syntax: !vote &lt;start|end|list|tally|edit|delete|vote&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pollfile</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;/data/polls&quot;</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">pollfile</span><span class="p">):</span>
@@ -177,6 +204,16 @@
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;end&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]):</span>
             <span class="n">send</span><span class="p">(</span><span class="n">end_poll</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;delete&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]):</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">delete_poll</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;edit&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]):</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">edit_poll</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;tally&#39;</span><span class="p">:</span>
