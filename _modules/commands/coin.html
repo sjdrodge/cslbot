@@ -84,10 +84,7 @@
             <span class="k">return</span>
         <span class="n">headFlips</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
         <span class="n">tailFlips</span> <span class="o">=</span> <span class="n">msg</span> <span class="o">-</span> <span class="n">headFlips</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">headFlips</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
-            <span class="n">headFlips</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%e</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">float</span><span class="p">(</span><span class="n">headFlips</span><span class="p">)</span>
-            <span class="n">tailFlips</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%e</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">float</span><span class="p">(</span><span class="n">tailFlips</span><span class="p">)</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&#39;The coins land on heads </span><span class="si">%s</span><span class="s"> times and on tails </span><span class="si">%s</span><span class="s"> times.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">headFlips</span><span class="p">,</span> <span class="n">tailFlips</span><span class="p">))</span></div>
+        <span class="n">send</span><span class="p">(</span><span class="s">&#39;The coins land on heads </span><span class="si">%g</span><span class="s"> times and on tails </span><span class="si">%g</span><span class="s"> times.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">headFlips</span><span class="p">,</span> <span class="n">tailFlips</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
