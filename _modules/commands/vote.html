@@ -67,6 +67,7 @@
 
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
 
 <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;srcdir&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">]</span>
 
@@ -74,7 +75,7 @@
 <div class="viewcode-block" id="start_poll"><a class="viewcode-back" href="../../commands.html#commands.vote.start_poll">[docs]</a><span class="k">def</span> <span class="nf">start_poll</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">poll</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Polls need a question.&quot;</span>
-    <span class="n">poll</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;question&#39;</span><span class="p">:</span> <span class="n">poll</span><span class="p">,</span> <span class="s">&#39;active&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;for&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;against&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="n">poll</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;question&#39;</span><span class="p">:</span> <span class="n">poll</span><span class="p">,</span> <span class="s">&#39;active&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;votes&#39;</span><span class="p">:</span> <span class="p">{}}</span>
     <span class="n">polls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
     <span class="n">save_polls</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">)</span>
     <span class="k">return</span> <span class="s">&quot;Poll created.&quot;</span>
@@ -106,22 +107,18 @@
         <span class="k">return</span>
     <span class="n">question</span> <span class="o">=</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;question&#39;</span><span class="p">]</span>
     <span class="n">status</span> <span class="o">=</span> <span class="s">&quot;Active&quot;</span> <span class="k">if</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;active&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="s">&quot;Ended&quot;</span>
-    <span class="n">yes</span> <span class="o">=</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;for&#39;</span><span class="p">]</span>
-    <span class="n">no</span> <span class="o">=</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;against&#39;</span><span class="p">]</span>
-    <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> poll: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">question</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">yes</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;For: </span><span class="si">%d</span><span class="s"> -- </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yes</span><span class="p">),</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">yes</span><span class="p">)))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;For: 0&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">no</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Against: </span><span class="si">%d</span><span class="s"> -- </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">no</span><span class="p">),</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">no</span><span class="p">)))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Against: 0&quot;</span><span class="p">)</span>
+    <span class="n">votes</span> <span class="o">=</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;votes&#39;</span><span class="p">]</span>
+    <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> poll: </span><span class="si">%s</span><span class="s">, </span><span class="si">%d</span><span class="s"> votes&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">votes</span><span class="p">)))</span>
+    <span class="n">votemap</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groupby</span><span class="p">(</span><span class="n">votes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">votes</span><span class="p">[</span><span class="n">x</span><span class="p">]):</span>
+        <span class="n">votemap</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">votemap</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%d</span><span class="s"> -- </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">votemap</span><span class="p">[</span><span class="n">x</span><span class="p">]),</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">votemap</span><span class="p">[</span><span class="n">x</span><span class="p">])))</span>
 
 </div>
-<div class="viewcode-block" id="vote"><a class="viewcode-back" href="../../commands.html#commands.vote.vote">[docs]</a><span class="k">def</span> <span class="nf">vote</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">vote</span><span class="p">,</span> <span class="n">poll</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&quot;Syntax: !vote &lt;yes|no&gt; &lt;pollnum&gt;&quot;</span>
+<div class="viewcode-block" id="vote"><a class="viewcode-back" href="../../commands.html#commands.vote.vote">[docs]</a><span class="k">def</span> <span class="nf">vote</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">poll</span><span class="p">,</span> <span class="n">vote</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">vote</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;Syntax: !vote &lt;pollnum&gt; &lt;vote&gt;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not A Number.&quot;</span>
     <span class="n">poll</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
@@ -130,25 +127,19 @@
     <span class="n">poll</span> <span class="o">=</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="p">[</span><span class="s">&#39;active&#39;</span><span class="p">]:</span>
         <span class="k">return</span> <span class="s">&quot;Poll ended.&quot;</span>
+    <span class="n">positive</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;yes&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;aye&#39;</span><span class="p">]</span>
+    <span class="n">negative</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;no&#39;</span><span class="p">,</span> <span class="s">&#39;n&#39;</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">,</span> <span class="s">&#39;nay&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">vote</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">positive</span><span class="p">:</span>
+        <span class="n">vote</span> <span class="o">=</span> <span class="s">&#39;yes&#39;</span>
+    <span class="k">if</span> <span class="n">vote</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">negative</span><span class="p">:</span>
+        <span class="n">vote</span> <span class="o">=</span> <span class="s">&#39;no&#39;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> voted </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">vote</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">vote</span> <span class="o">==</span> <span class="s">&#39;yes&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">poll</span><span class="p">[</span><span class="s">&#39;for&#39;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="s">&quot;You&#39;ve already voted yes.&quot;</span>
-        <span class="k">elif</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">poll</span><span class="p">[</span><span class="s">&#39;against&#39;</span><span class="p">]:</span>
-            <span class="n">poll</span><span class="p">[</span><span class="s">&#39;against&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
-            <span class="n">poll</span><span class="p">[</span><span class="s">&#39;for&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> changed his/her vote from no to yes.&quot;</span> <span class="o">%</span> <span class="n">nick</span>
+    <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">poll</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">vote</span> <span class="o">==</span> <span class="n">poll</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">][</span><span class="n">nick</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="s">&quot;You&#39;ve already voted </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">vote</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">poll</span><span class="p">[</span><span class="s">&#39;for&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">poll</span><span class="p">[</span><span class="s">&#39;against&#39;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="s">&quot;You&#39;ve already voted no.&quot;</span>
-        <span class="k">elif</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">poll</span><span class="p">[</span><span class="s">&#39;for&#39;</span><span class="p">]:</span>
-            <span class="n">poll</span><span class="p">[</span><span class="s">&#39;for&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
-            <span class="n">poll</span><span class="p">[</span><span class="s">&#39;against&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> changed his/her vote from yes to no.&quot;</span> <span class="o">%</span> <span class="n">nick</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">poll</span><span class="p">[</span><span class="s">&#39;against&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> changed his/her vote from </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">poll</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">][</span><span class="n">nick</span><span class="p">],</span> <span class="n">vote</span><span class="p">)</span>
+    <span class="n">poll</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">][</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="n">vote</span>
     <span class="n">save_polls</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output</span>
 
@@ -177,12 +168,10 @@
         <span class="n">polls</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">pollfile</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">polls</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">positive</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;yes&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;aye&#39;</span><span class="p">]</span>
-    <span class="n">negative</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;no&#39;</span><span class="p">,</span> <span class="s">&#39;n&#39;</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">,</span> <span class="s">&#39;nay&#39;</span><span class="p">]</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Missing argument.&quot;</span><span class="p">)</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Which poll?&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;start&#39;</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="n">start_poll</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;end&#39;</span><span class="p">:</span>
@@ -192,14 +181,10 @@
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;tally&#39;</span><span class="p">:</span>
         <span class="n">tally_poll</span><span class="p">(</span><span class="n">polls</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">positive</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">vote</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="s">&#39;yes&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">negative</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">vote</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="s">&#39;no&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;list&#39;</span><span class="p">:</span>
         <span class="n">list_polls</span><span class="p">(</span><span class="n">polls</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid argument.&quot;</span><span class="p">)</span></div>
+        <span class="n">send</span><span class="p">(</span><span class="n">vote</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msg</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
