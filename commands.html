@@ -628,6 +628,11 @@ Syntax: !quote &lt;number&gt;, !quote add &lt;quote&gt;, !quote list, !quote rem
 <tt class="descclassname">commands.quote.</tt><tt class="descname">removequote</tt><big>(</big><em>msg</em>, <em>quotes</em>, <em>quotefile</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#removequote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.removequote" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="function">
+<dt id="commands.quote.save_quotes">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">save_quotes</tt><big>(</big><em>quotefile</em>, <em>quotes</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#save_quotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.save_quotes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-commands.rage">
 <span id="rage-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">rage</span></tt> Module<a class="headerlink" href="#module-commands.rage" title="Permalink to this headline">¶</a></h2>
@@ -834,6 +839,46 @@ Syntax: !version &lt;check|master&gt;</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-commands.vote">
+<span id="vote-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">vote</span></tt> Module<a class="headerlink" href="#module-commands.vote" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.vote.cmd">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">cmd</tt><big>(</big><em>send</em>, <em>msg</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.cmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles voting.
+Syntax: !vote &lt;start|end|list|tally|yes|no&gt;</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.end_poll">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">end_poll</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#end_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.end_poll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.list_polls">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">list_polls</tt><big>(</big><em>polls</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#list_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.list_polls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.save_polls">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">save_polls</tt><big>(</big><em>pollfile</em>, <em>polls</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#save_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.save_polls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.start_poll">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">start_poll</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#start_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.start_poll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.tally_poll">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">tally_poll</tt><big>(</big><em>polls</em>, <em>poll</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.tally_poll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.vote">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">vote</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>nick</em>, <em>vote</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#vote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.vote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
 <div class="section" id="module-commands.weather">
 <span id="weather-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">weather</span></tt> Module<a class="headerlink" href="#module-commands.weather" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -1025,6 +1070,7 @@ Syntax: !yoda &lt;msg&gt;</p>
 <li><a class="reference internal" href="#module-commands.time"><tt class="docutils literal"><span class="pre">time</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.urban"><tt class="docutils literal"><span class="pre">urban</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.version"><tt class="docutils literal"><span class="pre">version</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-commands.vote"><tt class="docutils literal"><span class="pre">vote</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.weather"><tt class="docutils literal"><span class="pre">weather</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.wiki"><tt class="docutils literal"><span class="pre">wiki</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.wikipath"><tt class="docutils literal"><span class="pre">wikipath</span></tt> Module</a></li>

@@ -89,10 +89,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;No quote given.&quot;</span>
     <span class="n">quotes</span> <span class="o">+=</span> <span class="p">[</span><span class="n">quote</span><span class="p">]</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">quotes</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">save_quotes</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="n">quotes</span><span class="p">)</span>
     <span class="k">return</span> <span class="s">&quot;Quote added successfully.&quot;</span>
 
 </div>
@@ -113,10 +110,7 @@
     <span class="k">if</span> <span class="n">key</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">quotes</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;Not a valid quote id.&quot;</span>
     <span class="n">quotes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">quotes</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">quotes</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">save_quotes</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="n">quotes</span><span class="p">)</span>
     <span class="k">return</span> <span class="s">&quot;Deleted quote successfully.&quot;</span>
 
 </div>
@@ -130,11 +124,15 @@
     <span class="k">if</span> <span class="n">key</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">quotes</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;Not a valid quote id.&quot;</span>
     <span class="n">quotes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">save_quotes</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="n">quotes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&quot;Edited quote successfully.&quot;</span>
+
+</div>
+<div class="viewcode-block" id="save_quotes"><a class="viewcode-back" href="../../commands.html#commands.quote.save_quotes">[docs]</a><span class="k">def</span> <span class="nf">save_quotes</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="n">quotes</span><span class="p">):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
     <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">quotes</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="k">return</span> <span class="s">&quot;Edited quote successfully.&quot;</span>
 
 </div>
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.quote.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
