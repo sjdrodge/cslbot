@@ -70,7 +70,8 @@
 
 <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;connection&#39;</span><span class="p">,</span> <span class="s">&#39;do_log&#39;</span><span class="p">,</span> <span class="s">&#39;target&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">]</span>
 
-<span class="n">limit</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="c"># prevent people from !8balling repeatedly to get the answer they want.</span>
+<span class="n">limit</span> <span class="o">=</span> <span class="mi">1</span>
 
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.8ball.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
