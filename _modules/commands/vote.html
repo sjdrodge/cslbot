@@ -67,7 +67,6 @@
 
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
 
 <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;srcdir&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">]</span>
 
@@ -135,11 +134,13 @@
     <span class="n">question</span> <span class="o">=</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;question&#39;</span><span class="p">]</span>
     <span class="n">status</span> <span class="o">=</span> <span class="s">&quot;Active&quot;</span> <span class="k">if</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;active&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="s">&quot;Ended&quot;</span>
     <span class="n">votes</span> <span class="o">=</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;votes&#39;</span><span class="p">]</span>
-    <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> poll: </span><span class="si">%s</span><span class="s">, </span><span class="si">%d</span><span class="s"> votes&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">votes</span><span class="p">)))</span>
+    <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> poll: </span><span class="si">%s</span><span class="s">, </span><span class="si">%d</span><span class="s"> total votes&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">votes</span><span class="p">)))</span>
     <span class="n">votemap</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groupby</span><span class="p">(</span><span class="n">votes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">votes</span><span class="p">[</span><span class="n">x</span><span class="p">]):</span>
-        <span class="n">votemap</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">votemap</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">nick</span><span class="p">,</span> <span class="n">vote</span> <span class="ow">in</span> <span class="n">votes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">vote</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">votemap</span><span class="p">:</span>
+            <span class="n">votemap</span><span class="p">[</span><span class="n">vote</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">votemap</span><span class="p">[</span><span class="n">vote</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">votemap</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%d</span><span class="s"> -- </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">votemap</span><span class="p">[</span><span class="n">x</span><span class="p">]),</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">votemap</span><span class="p">[</span><span class="n">x</span><span class="p">])))</span>
 
 </div>
