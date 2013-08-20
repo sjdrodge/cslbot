@@ -68,10 +68,9 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">CHANNEL</span>
 
 <span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;channels&#39;</span><span class="p">,</span> <span class="s">&#39;connection&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;target&#39;</span><span class="p">]</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;channels&#39;</span><span class="p">,</span> <span class="s">&#39;connection&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;target&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="do_nuke"><a class="viewcode-back" href="../../commands.html#commands.microwave.do_nuke">[docs]</a><span class="k">def</span> <span class="nf">do_nuke</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">channel</span><span class="p">):</span>
@@ -101,7 +100,7 @@
 <span class="sd">    Syntax: !microvave &lt;level&gt; &lt;target&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nick</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
-    <span class="n">channel</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;private&#39;</span> <span class="k">else</span> <span class="n">CHANNEL</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;private&#39;</span> <span class="k">else</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;core&#39;</span><span class="p">,</span> <span class="s">&#39;channel&#39;</span><span class="p">)</span>
     <span class="n">levels</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s">&#39;Whirr...&#39;</span><span class="p">,</span>
               <span class="mi">2</span><span class="p">:</span> <span class="s">&#39;Vrrm...&#39;</span><span class="p">,</span>
               <span class="mi">3</span><span class="p">:</span> <span class="s">&#39;Zzzzhhhh...&#39;</span><span class="p">,</span>
