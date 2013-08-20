@@ -68,6 +68,7 @@
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">configparser</span> <span class="kn">import</span> <span class="n">ConfigParser</span>
 <span class="kn">from</span> <span class="nn">irc.client</span> <span class="kn">import</span> <span class="n">SimpleIRCClient</span>
 
 
@@ -86,7 +87,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loading</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;+o&quot;</span> <span class="ow">and</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nick</span><span class="p">:</span>
-            <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">CTRLCHAN</span><span class="p">,</span> <span class="s">&#39;!reload&#39;</span><span class="p">)</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;core&#39;</span><span class="p">,</span> <span class="s">&#39;ctrlchan&#39;</span><span class="p">),</span> <span class="s">&#39;!reload&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">loading</span> <span class="o">=</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="IrcClient.on_join"><a class="viewcode-back" href="../client.html#client.IrcClient.on_join">[docs]</a>    <span class="k">def</span> <span class="nf">on_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
