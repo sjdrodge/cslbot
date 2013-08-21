@@ -68,7 +68,7 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;channels&#39;</span><span class="p">,</span> <span class="s">&#39;target&#39;</span><span class="p">,</span> <span class="s">&#39;connection&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;do_log&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;channels&#39;</span><span class="p">,</span> <span class="s">&#39;target&#39;</span> <span class="s">&#39;nick&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.throw.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -76,21 +76,19 @@
 <span class="sd">    Syntax: !throw &lt;object&gt; at &lt;target&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">users</span> <span class="o">=</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;channels&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">users</span><span class="p">())</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;private&#39;</span> <span class="k">else</span> <span class="p">[</span><span class="s">&#39;you&#39;</span><span class="p">])</span>
-    <span class="n">target</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;private&#39;</span> <span class="k">else</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="s">&quot;at&quot;</span> <span class="ow">in</span> <span class="n">msg</span> <span class="ow">and</span> <span class="n">msg</span> <span class="o">!=</span> <span class="s">&quot;at&quot;</span><span class="p">:</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;(.*) at (.*)&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;throws </span><span class="si">%s</span><span class="s"> at </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-            <span class="n">args</span><span class="p">[</span><span class="s">&#39;connection&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">action</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="s">&#39;action&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span>
     <span class="k">elif</span> <span class="n">msg</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;throws </span><span class="si">%s</span><span class="s"> at </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">choice</span><span class="p">(</span><span class="n">users</span><span class="p">))</span>
-        <span class="n">args</span><span class="p">[</span><span class="s">&#39;connection&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">action</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="s">&#39;action&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Throw what?&quot;</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="n">args</span><span class="p">[</span><span class="s">&#39;do_log&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;core&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">),</span> <span class="n">msg</span><span class="p">,</span> <span class="s">&#39;action&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span></div>
 </pre></div>
 
           </div>
