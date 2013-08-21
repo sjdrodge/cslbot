@@ -139,7 +139,8 @@ Syntax: !bc &lt;expression&gt;</p>
 <dl class="function">
 <dt id="commands.bike.cmd">
 <tt class="descclassname">commands.bike.</tt><tt class="descname">cmd</tt><big>(</big><em>send</em>, <em>msg</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/commands/bike.html#cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.bike.cmd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Displays a bike.
+<dd><p>I&#8217;ve got a bike, you can ride it if you like. It&#8217;s got a basket, a bell that rings and things to make it look good.
+I&#8217;d give it to you if I could but I borrowed it.
 Syntax: !bike</p>
 </dd></dl>
 
@@ -699,13 +700,13 @@ Syntax: !rage &lt;text&gt;</p>
 <dl class="function">
 <dt id="commands.random.cmd">
 <tt class="descclassname">commands.random.</tt><tt class="descname">cmd</tt><big>(</big><em>send</em>, <em>msg</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/commands/random.html#cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.random.cmd" title="Permalink to this definition">¶</a></dt>
-<dd><p>For when you don&#8217;t have enough randomness in your life.
-Syntax: !random</p>
+<dd><p>Gets a random integer.
+Syntax: !random &lt;maximum length&gt;</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="commands.random.getrandbits">
-<tt class="descclassname">commands.random.</tt><tt class="descname">getrandbits</tt><big>(</big><em>k</em><big>)</big> &rarr; x.  Generates a long int with k random bits.<a class="headerlink" href="#commands.random.getrandbits" title="Permalink to this definition">¶</a></dt>
+<dt id="commands.random.gen_random">
+<tt class="descclassname">commands.random.</tt><tt class="descname">gen_random</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/random.html#gen_random"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.random.gen_random" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -767,6 +768,21 @@ Syntax: !reverse &#8211;&lt;nick&gt;</p>
 <dd><p>SHA512 hashes something.
 Syntax: !sha512 &lt;msg&gt;</p>
 </dd></dl>
+
+</div>
+<div class="section" id="module-commands.shibe">
+<span id="shibe-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">shibe</span></tt> Module<a class="headerlink" href="#module-commands.shibe" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.shibe.cmd">
+<tt class="descclassname">commands.shibe.</tt><tt class="descname">cmd</tt><big>(</big><em>send</em>, <em>msg</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/commands/shibe.html#cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.shibe.cmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a shibe reaction.
+Syntax: !shibe &lt;topic&gt; or !shibe &lt;topic1&gt; &lt;topic2&gt;</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.shibe.random">
+<tt class="descclassname">commands.shibe.</tt><tt class="descname">random</tt><big>(</big><big>)</big> &rarr; x in the interval [0, 1).<a class="headerlink" href="#commands.shibe.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-commands.short">
@@ -1117,6 +1133,7 @@ Syntax: !yoda &lt;msg&gt;</p>
 <li><a class="reference internal" href="#module-commands.score"><tt class="docutils literal"><span class="pre">score</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.sdamashek"><tt class="docutils literal"><span class="pre">sdamashek</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.sha512"><tt class="docutils literal"><span class="pre">sha512</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-commands.shibe"><tt class="docutils literal"><span class="pre">shibe</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.short"><tt class="docutils literal"><span class="pre">short</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.slap"><tt class="docutils literal"><span class="pre">slap</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.slogan"><tt class="docutils literal"><span class="pre">slogan</span></tt> Module</a></li>
