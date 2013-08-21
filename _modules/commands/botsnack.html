@@ -74,7 +74,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;This tastes yummy!&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">msg</span> <span class="o">==</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;core&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="n">msg</span> <span class="o">==</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">]:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;wyang says Cannibalism is generally frowned upon.&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot; tastes yummy!&quot;</span><span class="p">)</span></div>
