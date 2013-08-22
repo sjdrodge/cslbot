@@ -66,6 +66,7 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">choice</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
 
 <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
 
@@ -75,22 +76,29 @@
 <span class="sd">    Syntax: !shibe &lt;topic&gt; or !shibe &lt;topic1&gt; &lt;topic2&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">topics</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">topics</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">topics</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">topics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">])</span>
 
     <span class="n">send</span><span class="p">(</span><span class="s">&#39;wow&#39;</span><span class="p">)</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">topics</span><span class="o">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">topics</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t\t</span><span class="s">so&#39;</span> <span class="o">+</span> <span class="n">topics</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t\t</span><span class="s">such&#39;</span> <span class="o">+</span> <span class="n">topics</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&#39;so &#39;</span> <span class="o">+</span> <span class="n">topics</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&#39;such &#39;</span> <span class="o">+</span> <span class="n">topics</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t\t</span><span class="s">such&#39;</span> <span class="o">+</span> <span class="n">topics</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t\t</span><span class="s">so&#39;</span> <span class="o">+</span> <span class="n">topics</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&#39;such &#39;</span> <span class="o">+</span> <span class="n">topics</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&#39;so &#39;</span> <span class="o">+</span> <span class="n">topics</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
 
     <span class="n">quotes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;omg&#39;</span><span class="p">,</span> <span class="s">&#39;amaze&#39;</span><span class="p">,</span> <span class="s">&#39;nice&#39;</span><span class="p">,</span> <span class="s">&#39;clap&#39;</span><span class="p">,</span> <span class="s">&#39;cool&#39;</span><span class="p">,</span> <span class="s">&#39;doge&#39;</span><span class="p">,</span> <span class="s">&#39;shibe&#39;</span><span class="p">]</span>
     <span class="n">send</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">quotes</span><span class="p">))</span>
-    <span class="n">send</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t\t</span><span class="s">wow&#39;</span><span class="p">)</span></div>
+    <span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">send</span><span class="p">(</span><span class="s">&#39;wow&#39;</span><span class="p">)</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
