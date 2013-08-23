@@ -178,6 +178,24 @@
     <span class="k">return</span> <span class="n">output</span>
 
 </div>
+<div class="viewcode-block" id="retract"><a class="viewcode-back" href="../../commands.html#commands.vote.retract">[docs]</a><span class="k">def</span> <span class="nf">retract</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">poll</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;Syntax: !vote retract &lt;pollnum&gt;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s">&quot;Not A Number.&quot;</span>
+    <span class="n">poll</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">polls</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">poll</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;Invalid poll index.&quot;</span>
+    <span class="n">votes</span> <span class="o">=</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;votes&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">votes</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Vote Retracted.&quot;</span>
+        <span class="k">del</span> <span class="n">votes</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;You haven&#39;t voted yet.&quot;</span>
+    <span class="n">save_polls</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">msg</span>
+
+</div>
 <div class="viewcode-block" id="list_polls"><a class="viewcode-back" href="../../commands.html#commands.vote.list_polls">[docs]</a><span class="k">def</span> <span class="nf">list_polls</span><span class="p">(</span><span class="n">polls</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">polls</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;No polls.&quot;</span><span class="p">)</span>
@@ -195,7 +213,7 @@
 </div>
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.vote.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Handles voting.</span>
-<span class="sd">    Syntax: !vote &lt;start|end|list|tally|edit|delete|vote&gt;</span>
+<span class="sd">    Syntax: !vote &lt;start|end|list|tally|edit|delete|vote|retract&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pollfile</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;/data/polls&quot;</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">pollfile</span><span class="p">):</span>
@@ -227,6 +245,8 @@
         <span class="n">tally_poll</span><span class="p">(</span><span class="n">polls</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;list&#39;</span><span class="p">:</span>
         <span class="n">list_polls</span><span class="p">(</span><span class="n">polls</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;retract&#39;</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">retract</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]))</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="n">send</span><span class="p">(</span><span class="n">vote</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msg</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
