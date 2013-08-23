@@ -593,6 +593,8 @@
                 <span class="n">send</span><span class="p">(</span><span class="s">&quot;Ignore list cleared.&quot;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">cmdargs</span> <span class="o">==</span> <span class="s">&#39;show&#39;</span><span class="p">:</span>
                 <span class="n">send</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">cmdargs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">:</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> is already ignored.&quot;</span> <span class="o">%</span> <span class="n">cmdargs</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;join&#39;</span><span class="p">:</span>
