@@ -108,7 +108,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Which quote?&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
-        <span class="k">return</span> <span class="s">&quot;Not A Number.&quot;</span>
+        <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer.&quot;</span>
     <span class="n">key</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">key</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">quotes</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;Not a valid quote id.&quot;</span>
@@ -122,7 +122,7 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Missing arguments.&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
-        <span class="k">return</span> <span class="s">&quot;Not A Number.&quot;</span>
+        <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer.&quot;</span>
     <span class="n">key</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">key</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">quotes</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;Not a valid quote id.&quot;</span>
