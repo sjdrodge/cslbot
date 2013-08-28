@@ -74,7 +74,7 @@
     <span class="sd">&quot;&quot;&quot;Generates a shibe reaction.</span>
 <span class="sd">    Syntax: !shibe (topic1)...(topicn)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">topics</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span> <span class="n">msg</span> <span class="k">else</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;modules&#39;</span><span class="p">][</span><span class="s">&#39;word&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_word</span><span class="p">()</span>
+    <span class="n">topics</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span> <span class="n">msg</span> <span class="k">else</span> <span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;modules&#39;</span><span class="p">][</span><span class="s">&#39;word&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_word</span><span class="p">()]</span>
 
     <span class="n">reaction</span> <span class="o">=</span> <span class="s">&#39;wow&#39;</span>
     <span class="n">adverbs</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;so&#39;</span><span class="p">,</span> <span class="s">&#39;such&#39;</span><span class="p">]</span>
