@@ -264,6 +264,7 @@
     <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;join&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;quote join is not suported, use !join.&quot;</span>
     <span class="n">handler</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">send_raw</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+    <span class="k">return</span> <span class="s">&quot;&quot;</span>
 
 </div>
 <div class="viewcode-block" id="handle_ctrlchan"><a class="viewcode-back" href="../control.html#control.handle_ctrlchan">[docs]</a><span class="k">def</span> <span class="nf">handle_ctrlchan</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
