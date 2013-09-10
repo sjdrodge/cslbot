@@ -135,6 +135,8 @@
         <span class="k">if</span> <span class="s">&#39;current_observation&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;current_observation&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">logging</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid or Ambiguous Location&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="n">forecastdata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">forecasthtml</span><span class="p">)[</span><span class="s">&#39;forecast&#39;</span><span class="p">][</span><span class="s">&#39;simpleforecast&#39;</span><span class="p">][</span><span class="s">&#39;forecastday&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
