@@ -616,7 +616,7 @@ Syntax: !vote &lt;start|end|list|tally|edit|delete|vote|retract&gt;</p>
 
 <dl class="function">
 <dt id="commands.poll.tally_poll">
-<tt class="descclassname">commands.poll.</tt><tt class="descname">tally_poll</tt><big>(</big><em>polls</em>, <em>poll</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.tally_poll" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.poll.</tt><tt class="descname">tally_poll</tt><big>(</big><em>polls</em>, <em>poll</em>, <em>send</em>, <em>c</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.tally_poll" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -850,6 +850,16 @@ Syntax: !slogan &lt;text&gt;</p>
 <dd></dd></dl>
 
 </div>
+<div class="section" id="module-commands.smack">
+<span id="smack-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">smack</span></tt> Module<a class="headerlink" href="#module-commands.smack" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.smack.cmd">
+<tt class="descclassname">commands.smack.</tt><tt class="descname">cmd</tt><big>(</big><em>send</em>, <em>msg</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/commands/smack.html#cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.smack.cmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slap somebody.
+Syntax: !slap &lt;nick&gt; for &lt;reason&gt;</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-commands.ssearch">
 <span id="ssearch-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">ssearch</span></tt> Module<a class="headerlink" href="#module-commands.ssearch" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -971,7 +981,7 @@ Syntax: !vote &lt;start|end|list|tally|edit|delete|vote|retract&gt;</p>
 
 <dl class="function">
 <dt id="commands.vote.tally_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">tally_poll</tt><big>(</big><em>polls</em>, <em>poll</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.tally_poll" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">tally_poll</tt><big>(</big><em>polls</em>, <em>poll</em>, <em>send</em>, <em>c</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.tally_poll" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -1169,6 +1179,7 @@ Syntax: !yoda &lt;msg&gt;</p>
 <li><a class="reference internal" href="#module-commands.short"><tt class="docutils literal"><span class="pre">short</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.slap"><tt class="docutils literal"><span class="pre">slap</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.slogan"><tt class="docutils literal"><span class="pre">slogan</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-commands.smack"><tt class="docutils literal"><span class="pre">smack</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.ssearch"><tt class="docutils literal"><span class="pre">ssearch</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.steam"><tt class="docutils literal"><span class="pre">steam</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.throw"><tt class="docutils literal"><span class="pre">throw</span></tt> Module</a></li>
