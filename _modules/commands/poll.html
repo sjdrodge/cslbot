@@ -88,6 +88,8 @@
     <span class="n">poll</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">polls</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">poll</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Invalid poll index.&quot;</span>
+    <span class="k">if</span> <span class="n">polls</span><span class="p">[</span><span class="n">poll</span><span class="p">][</span><span class="s">&#39;active&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="s">&quot;Cannot delete open poll.&quot;</span>
     <span class="n">polls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
     <span class="n">save_polls</span><span class="p">(</span><span class="n">pollfile</span><span class="p">,</span> <span class="n">polls</span><span class="p">)</span>
     <span class="k">return</span> <span class="s">&quot;Poll deleted.&quot;</span>

@@ -78,6 +78,7 @@
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">errno</span>
 <span class="kn">import</span> <span class="nn">control</span>
+<span class="kn">import</span> <span class="nn">sql</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">dirname</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 <span class="kn">from</span> <span class="nn">lxml.html</span> <span class="kn">import</span> <span class="n">parse</span>
@@ -91,22 +92,19 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Set everything up.</span>
 
-<span class="sd">        | kick_enabled controls whether the bot will kick people or not..</span>
+<span class="sd">        | kick_enabled controls whether the bot will kick people or not.</span>
 <span class="sd">        | caps is a array of the nicks who have abused capslock.</span>
 <span class="sd">        | ignored is a array of the nicks who are currently ignored for</span>
 <span class="sd">        |   bot abuse.</span>
 <span class="sd">        | disabled_mods is a array of the currently disabled modules.</span>
 <span class="sd">        | issues is a list keeping track of pending issues.</span>
-<span class="sd">        | logs is a dict containing a in-memory log for the primary channel,</span>
-<span class="sd">        |   control channel, and private messages.</span>
 <span class="sd">        | channels is a dict containing the objects for each channel the bot</span>
 <span class="sd">        |   is connected to.</span>
 <span class="sd">        | abuselist is a dict keeping track of how many times nicks have used</span>
 <span class="sd">        |   rate-limited commands.</span>
 <span class="sd">        | modules is a dict containing the commands the bot supports.</span>
 <span class="sd">        | srcdir is the path to the directory where the bot is stored.</span>
-<span class="sd">        | logfiles is a dict containing the file objects to which the logs are</span>
-<span class="sd">        |   written.</span>
+<span class="sd">        | db - Is a db wrapper for data storage.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">guarded</span> <span class="o">=</span> <span class="p">[]</span>
@@ -115,9 +113,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">issues</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="p">{</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;channel&#39;</span><span class="p">]:</span> <span class="p">[],</span>
-                     <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]:</span> <span class="p">[],</span>
-                     <span class="s">&#39;private&#39;</span><span class="p">:</span> <span class="p">[]}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">admins</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s">&#39;auth&#39;</span><span class="p">][</span><span class="s">&#39;admins&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;, &#39;</span><span class="p">)</span>
@@ -125,15 +120,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">modules</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadmodules</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">srcdir</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log_to_ctrlchan</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span> <span class="o">=</span> <span class="p">{</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;channel&#39;</span><span class="p">]:</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">.log&quot;</span>
-                         <span class="o">%</span> <span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;logdir&#39;</span><span class="p">],</span>
-                            <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;channel&#39;</span><span class="p">]),</span> <span class="s">&quot;a&quot;</span><span class="p">),</span>
-                         <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]:</span>
-                         <span class="nb">open</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">.log&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;logdir&#39;</span><span class="p">],</span>
-                                             <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]),</span>
-                              <span class="s">&quot;a&quot;</span><span class="p">),</span>
-                         <span class="s">&#39;private&#39;</span><span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">/private.log&quot;</span> <span class="o">%</span>
-                                         <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;logdir&#39;</span><span class="p">],</span> <span class="s">&quot;a&quot;</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">Sql</span><span class="p">()</span>
 
 <div class="viewcode-block" id="BotHandler.get_data"><a class="viewcode-back" href="../handler.html#handler.BotHandler.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Saves the handler&#39;s data for :func:`bot.do_reload`&quot;&quot;&quot;</span>
@@ -142,10 +129,8 @@
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;ignored&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;disabled_mods&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;issues&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">issues</span><span class="p">)</span>
-        <span class="n">data</span><span class="p">[</span><span class="s">&#39;logs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;channels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;abuselist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">)</span>
-        <span class="n">data</span><span class="p">[</span><span class="s">&#39;logfiles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;guarded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">guarded</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span>
 </div>
@@ -155,8 +140,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;ignored&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;disabled_mods&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">issues</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;issues&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;logs&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;logfiles&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;channels&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;abuselist&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">guarded</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;guarded&#39;</span><span class="p">]</span>
@@ -276,14 +259,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&#39;Hey, no points in private messages!&#39;</span><span class="p">,</span>
                       <span class="n">e</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
             <span class="k">return</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;priv&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;privmsg&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.pubmsg"><a class="viewcode-back" href="../handler.html#handler.BotHandler.pubmsg">[docs]</a>    <span class="k">def</span> <span class="nf">pubmsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Handle public messages.</span>
 
 <span class="sd">        Forward messages to :func:`handle_msg`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;pub&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;pubmsg&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.privnotice"><a class="viewcode-back" href="../handler.html#handler.BotHandler.privnotice">[docs]</a>    <span class="k">def</span> <span class="nf">privnotice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Handle private notices.</span>
@@ -292,17 +275,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;privnotice&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
+<div class="viewcode-block" id="BotHandler.pubnotice"><a class="viewcode-back" href="../handler.html#handler.BotHandler.pubnotice">[docs]</a>    <span class="k">def</span> <span class="nf">pubnotice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Handle public notices.</span>
+
+<span class="sd">        Forward notices to :func:`handle_msg`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;pubnotice&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="BotHandler.action"><a class="viewcode-back" href="../handler.html#handler.BotHandler.action">[docs]</a>    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Handle actions.</span>
 
-<span class="sd">        Forward notices to :func:`handle_msg`.</span>
+<span class="sd">        Forward actions to :func:`handle_msg`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;action&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.mode"><a class="viewcode-back" href="../handler.html#handler.BotHandler.mode">[docs]</a>    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Handle actions.</span>
 
-<span class="sd">        Forward notices to :func:`handle_msg`.</span>
+<span class="sd">        Forward mode changes to :func:`handle_msg`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;mode&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 </div>
@@ -336,9 +326,7 @@
 <div class="viewcode-block" id="BotHandler.do_log"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_log">[docs]</a>    <span class="k">def</span> <span class="nf">do_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Handles logging.</span>
 
-<span class="sd">        | Logs nick and time.</span>
-<span class="sd">        | Logs &quot;New Day&quot; when day turns over.</span>
-<span class="sd">        | Logs both to a file and a in-memory array.</span>
+<span class="sd">        | Logs to a sqlite db.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;IRC doesn&#39;t like it when you send it a &quot;</span> <span class="o">+</span>
@@ -346,61 +334,22 @@
         <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="n">isop</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">if</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;#&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">in</span> \
-                    <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">opers</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">opers</span><span class="p">():</span>
                     <span class="n">isop</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="s">&#39;private&#39;</span>
-        <span class="n">currenttime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">)</span>
-        <span class="n">day</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">))</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="n">target</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">day</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="n">target</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
-                <span class="n">log</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;New Day: %a, %b </span><span class="si">%d</span><span class="s">, %Y</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">day</span><span class="p">,</span> <span class="n">log</span><span class="p">])</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="c"># strip ctrl chars from !creffett</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\x02\x03</span><span class="s">8,4&#39;</span><span class="p">,</span> <span class="s">&#39;&lt;rage&gt;&#39;</span><span class="p">)</span>
         <span class="c"># strip non-printable chars</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">msg</span> <span class="k">if</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">31</span> <span class="ow">and</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">127</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;action&#39;</span><span class="p">:</span>
-            <span class="n">log</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> * </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">currenttime</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;nick&#39;</span><span class="p">:</span>
-            <span class="n">log</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> -- </span><span class="si">%s</span><span class="s"> is now known as </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">currenttime</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;join&#39;</span><span class="p">:</span>
-            <span class="n">fullname</span> <span class="o">=</span> <span class="n">nick</span>
-            <span class="n">nick</span> <span class="o">=</span> <span class="n">nick</span><span class="o">.</span><span class="n">nick</span>
-            <span class="n">log</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> --&gt; </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">) has joined </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">currenttime</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span>
-                                                      <span class="n">fullname</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;part&#39;</span><span class="p">:</span>
-            <span class="n">fullname</span> <span class="o">=</span> <span class="n">nick</span>
-            <span class="n">nick</span> <span class="o">=</span> <span class="n">nick</span><span class="o">.</span><span class="n">nick</span>
-            <span class="n">log</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> &lt;-- </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">) has left </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">currenttime</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span>
-                                                    <span class="n">fullname</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;quit&#39;</span><span class="p">:</span>
-            <span class="n">fullname</span> <span class="o">=</span> <span class="n">nick</span>
-            <span class="n">nick</span> <span class="o">=</span> <span class="n">nick</span><span class="o">.</span><span class="n">nick</span>
-            <span class="n">log</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> &lt;-- </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">) has quit (</span><span class="si">%s</span><span class="s">)</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">currenttime</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span>
-                                                      <span class="n">fullname</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;kick&#39;</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
-            <span class="n">log</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> &lt;-- </span><span class="si">%s</span><span class="s"> has kicked </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">currenttime</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span>
-                                                      <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;mode&#39;</span><span class="p">:</span>
-            <span class="n">log</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> -- Mode </span><span class="si">%s</span><span class="s"> [</span><span class="si">%s</span><span class="s">] by </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">currenttime</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span>
-                                                  <span class="n">msg</span><span class="p">,</span> <span class="n">nick</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">isop</span><span class="p">:</span>
-                <span class="n">nick</span> <span class="o">=</span> <span class="s">&#39;@&#39;</span> <span class="o">+</span> <span class="n">nick</span>
-            <span class="n">log</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> &lt;</span><span class="si">%s</span><span class="s">&gt; </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">currenttime</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_ctrlchan</span><span class="p">:</span>
-            <span class="n">ctrlchan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">target</span> <span class="o">!=</span> <span class="n">ctrlchan</span><span class="p">:</span>
-                <span class="n">ctrlmsg</span> <span class="o">=</span> <span class="s">&quot;(</span><span class="si">%s</span><span class="s">) </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">log</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">ctrlchan</span><span class="p">,</span> <span class="n">ctrlmsg</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">day</span><span class="p">,</span> <span class="n">log</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">isop</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
+
+        <span class="c">#FIXME: reenable log to ctrlchan</span>
+        <span class="c">#if self.log_to_ctrlchan:</span>
+        <span class="c">#    ctrlchan = self.config[&#39;core&#39;][&#39;ctrlchan&#39;]</span>
+        <span class="c">#    if target != ctrlchan:</span>
+        <span class="c">#        ctrlmsg = &quot;(%s) %s&quot; % (target, log)</span>
+        <span class="c">#       self.connection.privmsg(ctrlchan, ctrlmsg.strip())</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_part"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_part">[docs]</a>    <span class="k">def</span> <span class="nf">do_part</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Leaves a channel.</span>
@@ -429,7 +378,6 @@
         <span class="sd">&quot;&quot;&quot; Join a channel.</span>
 
 <span class="sd">        | Checks if bot is already joined to channel.</span>
-<span class="sd">        | Opens logs for channel.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmdargs</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cmdargs</span><span class="p">:</span>
@@ -441,9 +389,6 @@
                  <span class="n">cmdargs</span><span class="p">))</span>
             <span class="k">return</span>
         <span class="n">c</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">[</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logfiles</span><span class="p">[</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">.log&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;logdir&#39;</span><span class="p">],</span>
-                                     <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s">&quot;a&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&quot;Joined at the request of &quot;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_scores"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_scores">[docs]</a>    <span class="k">def</span> <span class="nf">do_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
@@ -624,10 +569,10 @@
                 <span class="s">&#39;connection&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">,</span>
                 <span class="s">&#39;modules&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">,</span>
                 <span class="s">&#39;srcdir&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">srcdir</span><span class="p">,</span>
-                <span class="s">&#39;logs&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">,</span>
                 <span class="s">&#39;admins&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">,</span>
                 <span class="s">&#39;issues&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">issues</span><span class="p">,</span>
                 <span class="s">&#39;abuse&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">,</span>
+                <span class="s">&#39;db&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
                 <span class="s">&#39;kick_enabled&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">kick_enabled</span><span class="p">,</span>
                 <span class="s">&#39;guarded&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">guarded</span><span class="p">,</span>
                 <span class="s">&#39;config&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
@@ -643,6 +588,13 @@
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Invalid Argument: &quot;</span> <span class="o">+</span> <span class="n">arg</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">realargs</span>
 </div>
+<div class="viewcode-block" id="BotHandler.do_stallman"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_stallman">[docs]</a>    <span class="k">def</span> <span class="nf">do_stallman</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
+        <span class="n">msgl</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s">&quot;linux&quot;</span> <span class="ow">in</span> <span class="n">msgl</span> <span class="ow">and</span> <span class="s">&quot;gnu/linux&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">msgl</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;feature&#39;</span><span class="p">][</span><span class="s">&#39;stallmanmode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;True&quot;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">nick</span> <span class="o">+</span> <span class="s">&quot;: I&#39;d just like to interject for a moment. What you&#39;re referring to as Linux, is in fact, GNU/Linux, or as I&#39;ve recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Many computer users run a modified version of the GNU system every day, without realizing it. Through a peculiar turn of events, the version of GNU which is widely used today is often called &#39;Linux&#39;, and many of its users are not aware that it is basically the GNU system, developed by the GNU Project. There really is a Linux, and these people are using it, but it is just a part of the system they use.&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Linux is the kernel: the program in the system that allocates the machine&#39;s resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. Linux is normally used in combination with the GNU operating system: the whole system is basically GNU with Linux added, or GNU/Linux. All the so-called &#39;Linux&#39; distributions are really distributions of GNU/Linux.&quot;</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="BotHandler.handle_msg"><a class="viewcode-back" href="../handler.html#handler.BotHandler.handle_msg">[docs]</a>    <span class="k">def</span> <span class="nf">handle_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The Heart and Soul of IrcBot.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;action&#39;</span><span class="p">:</span>
@@ -653,7 +605,7 @@
             <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;pub&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;action&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;mode&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;pubmsg&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;pubnotice&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;action&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;mode&#39;</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">nick</span>
@@ -662,12 +614,16 @@
         <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;privnotice&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_admin</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
             <span class="k">return</span>
+
         <span class="c"># must come after set_admin to prevent spam</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">do_log</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;mode&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">do_mode</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
             <span class="k">return</span>
+
+        <span class="c"># Stallman mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">do_stallman</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]:</span>
             <span class="n">control</span><span class="o">.</span><span class="n">handle_ctrlchan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
