@@ -668,40 +668,40 @@ Syntax: !quit</p>
 <div class="section" id="module-commands.quote">
 <span id="quote-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">quote</span></tt> Module<a class="headerlink" href="#module-commands.quote" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="commands.quote.addquote">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">addquote</tt><big>(</big><em>quotes</em>, <em>quotefile</em>, <em>quote</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#addquote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.addquote" title="Permalink to this definition">¶</a></dt>
+<dt id="commands.quote.check_quote_exists_by_id">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">check_quote_exists_by_id</tt><big>(</big><em>cursor</em>, <em>qid</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#check_quote_exists_by_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.check_quote_exists_by_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.quote.cmd">
 <tt class="descclassname">commands.quote.</tt><tt class="descname">cmd</tt><big>(</big><em>send</em>, <em>msg</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.cmd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles quotes.
-Syntax: !quote &lt;number&gt;, !quote add &lt;quote&gt;, !quote list, !quote remove &lt;number&gt;, !quote edit &lt;number&gt; &lt;quote&gt;</p>
+Syntax: !quote &lt;number&gt;, !quote add &lt;quote&gt; &#8211; &lt;nick&gt;, !quote list, !quote remove &lt;number&gt;, !quote edit &lt;number&gt; &lt;quote&gt; &#8211; &lt;nick&gt;</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="commands.quote.editquote">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">editquote</tt><big>(</big><em>msg</em>, <em>quotes</em>, <em>quotefile</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#editquote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.editquote" title="Permalink to this definition">¶</a></dt>
+<dt id="commands.quote.do_add_quote">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_add_quote</tt><big>(</big><em>cmd</em>, <em>cursor</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_add_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_add_quote" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="commands.quote.getquote">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">getquote</tt><big>(</big><em>quotes</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#getquote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.getquote" title="Permalink to this definition">¶</a></dt>
+<dt id="commands.quote.do_delete_quote">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_delete_quote</tt><big>(</big><em>cursor</em>, <em>qid</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_delete_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_delete_quote" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="commands.quote.listquotes">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">listquotes</tt><big>(</big><em>quotes</em>, <em>nick</em>, <em>c</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#listquotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.listquotes" title="Permalink to this definition">¶</a></dt>
+<dt id="commands.quote.do_get_quote">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_get_quote</tt><big>(</big><em>cursor</em>, <em>qid=None</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_get_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_get_quote" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="commands.quote.removequote">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">removequote</tt><big>(</big><em>msg</em>, <em>quotes</em>, <em>quotefile</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#removequote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.removequote" title="Permalink to this definition">¶</a></dt>
+<dt id="commands.quote.do_list_quotes">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_list_quotes</tt><big>(</big><em>cursor</em>, <em>quote_url</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_list_quotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_list_quotes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="commands.quote.save_quotes">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">save_quotes</tt><big>(</big><em>quotefile</em>, <em>quotes</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#save_quotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.save_quotes" title="Permalink to this definition">¶</a></dt>
+<dt id="commands.quote.do_update_quote">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_update_quote</tt><big>(</big><em>cursor</em>, <em>qid</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_update_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_update_quote" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

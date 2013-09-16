@@ -65,112 +65,105 @@
 <span class="c"># along with this program; if not, write to the Free Software</span>
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getdoc</span>
 
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;connection&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;connection&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="getquote"><a class="viewcode-back" href="../../commands.html#commands.quote.getquote">[docs]</a><span class="k">def</span> <span class="nf">getquote</span><span class="p">(</span><span class="n">quotes</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">quotes</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&quot;Nobody has taste in this channel.&quot;</span>
-    <span class="k">elif</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">choice</span><span class="p">(</span><span class="n">quotes</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="ow">not</span> <span class="n">msg</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
-        <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer&quot;</span>
-    <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">quotes</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&quot;Quote Number Out Of Range.&quot;</span>
+<div class="viewcode-block" id="check_quote_exists_by_id"><a class="viewcode-back" href="../../commands.html#commands.quote.check_quote_exists_by_id">[docs]</a><span class="k">def</span> <span class="nf">check_quote_exists_by_id</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">qid</span><span class="p">):</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(id) FROM quotes WHERE id=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">qid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">False</span> <span class="k">if</span> <span class="n">quote</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">True</span>
+
+</div>
+<div class="viewcode-block" id="do_get_quote"><a class="viewcode-back" href="../../commands.html#commands.quote.do_get_quote">[docs]</a><span class="k">def</span> <span class="nf">do_get_quote</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">qid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">qid</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">quotes</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT quote FROM quotes&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">quotes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&quot;There aren&#39;t any quotes yet.&quot;</span>
+        <span class="k">return</span> <span class="n">choice</span><span class="p">(</span><span class="n">quotes</span><span class="p">)[</span><span class="s">&#39;quote&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">check_quote_exists_by_id</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">qid</span><span class="p">):</span>
+        <span class="n">quote</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT nick,quote FROM quotes WHERE id=?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">qid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;quote&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot; -- &quot;</span> <span class="o">+</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">quotes</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">msg</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="s">&quot;That quote doesn&#39;t exist!&quot;</span>
 
 </div>
-<div class="viewcode-block" id="addquote"><a class="viewcode-back" href="../../commands.html#commands.quote.addquote">[docs]</a><span class="k">def</span> <span class="nf">addquote</span><span class="p">(</span><span class="n">quotes</span><span class="p">,</span> <span class="n">quotefile</span><span class="p">,</span> <span class="n">quote</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&quot;No quote given.&quot;</span>
-    <span class="n">quotes</span> <span class="o">+=</span> <span class="p">[</span><span class="n">quote</span><span class="p">]</span>
-    <span class="n">save_quotes</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="n">quotes</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s">&quot;Quote added successfully.&quot;</span>
+<div class="viewcode-block" id="do_add_quote"><a class="viewcode-back" href="../../commands.html#commands.quote.do_add_quote">[docs]</a><span class="k">def</span> <span class="nf">do_add_quote</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">cursor</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s">&#39;--&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cmd</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;To add a quote, it must be in the format &lt;quote&gt; -- &lt;nick&gt;&quot;</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;--&#39;</span><span class="p">)</span>
+    <span class="c">#strip off excess leading/ending spaces</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">quote</span><span class="p">]</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;INSERT INTO quotes(quote, nick) VALUES(?,?)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">quote</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">quote</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s">&quot;Added quote!&quot;</span>
 
 </div>
-<div class="viewcode-block" id="listquotes"><a class="viewcode-back" href="../../commands.html#commands.quote.listquotes">[docs]</a><span class="k">def</span> <span class="nf">listquotes</span><span class="p">(</span><span class="n">quotes</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">quotes</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nobody has taste in this channel.&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">quotes</span><span class="p">):</span>
-            <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%d</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
-            <span class="c"># work around broken clients.</span>
-            <span class="n">sleep</span><span class="p">(</span><span class="mf">0.7</span><span class="p">)</span>
+<div class="viewcode-block" id="do_update_quote"><a class="viewcode-back" href="../../commands.html#commands.quote.do_update_quote">[docs]</a><span class="k">def</span> <span class="nf">do_update_quote</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">qid</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s">&quot;The first argument to !quote edit must be a number!&quot;</span>
+    <span class="k">if</span> <span class="s">&#39;--&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;To add a quote, it must be in the format &lt;quote&gt; -- &lt;nick&gt;&quot;</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;--&#39;</span><span class="p">)</span>
+    <span class="c">#strip off excess leading/trailing spaces</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">quote</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_quote_exists_by_id</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">qid</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;That quote doesn&#39;t exist!&quot;</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;UPDATE quotes SET quote=?,nick=?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">quote</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">quote</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="s">&quot;Updated quote!&quot;</span>
 
 </div>
-<div class="viewcode-block" id="removequote"><a class="viewcode-back" href="../../commands.html#commands.quote.removequote">[docs]</a><span class="k">def</span> <span class="nf">removequote</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">quotes</span><span class="p">,</span> <span class="n">quotefile</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&quot;Which quote?&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
-        <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer.&quot;</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">key</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">quotes</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&quot;Quote Number Out Of Range.&quot;</span>
-    <span class="n">quotes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">quotes</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-    <span class="n">save_quotes</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="n">quotes</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s">&quot;Deleted quote successfully.&quot;</span>
+<div class="viewcode-block" id="do_list_quotes"><a class="viewcode-back" href="../../commands.html#commands.quote.do_list_quotes">[docs]</a><span class="k">def</span> <span class="nf">do_list_quotes</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">quote_url</span><span class="p">):</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(id) FROM quotes&quot;</span><span class="p">)</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s">&quot;There are </span><span class="si">%d</span><span class="s"> quotes. Check them out at </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">quote_url</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="editquote"><a class="viewcode-back" href="../../commands.html#commands.quote.editquote">[docs]</a><span class="k">def</span> <span class="nf">editquote</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">quotes</span><span class="p">,</span> <span class="n">quotefile</span><span class="p">):</span>
-    <span class="n">cmd</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&quot;Missing arguments.&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
-        <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer.&quot;</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">key</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">quotes</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&quot;Quote Number Out Of Range.&quot;</span>
-    <span class="n">quotes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-    <span class="n">save_quotes</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="n">quotes</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s">&quot;Edited quote successfully.&quot;</span>
-
-</div>
-<div class="viewcode-block" id="save_quotes"><a class="viewcode-back" href="../../commands.html#commands.quote.save_quotes">[docs]</a><span class="k">def</span> <span class="nf">save_quotes</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="n">quotes</span><span class="p">):</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">quotefile</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">quotes</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<div class="viewcode-block" id="do_delete_quote"><a class="viewcode-back" href="../../commands.html#commands.quote.do_delete_quote">[docs]</a><span class="k">def</span> <span class="nf">do_delete_quote</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">qid</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">qid</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s">&quot;Second argument to !quote remove must be a number!&quot;</span>
+    <span class="n">qid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_quote_exists_by_id</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">qid</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;That quote doesn&#39;t exist!&quot;</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;DELETE FROM quotes WHERE id=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">qid</span><span class="p">,))</span>
+    <span class="k">return</span> <span class="s">&#39;Deleted quote with ID </span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">qid</span>
 
 </div>
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.quote.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Handles quotes.</span>
-<span class="sd">    Syntax: !quote &lt;number&gt;, !quote add &lt;quote&gt;, !quote list, !quote remove &lt;number&gt;, !quote edit &lt;number&gt; &lt;quote&gt;</span>
+<span class="sd">    Syntax: !quote &lt;number&gt;, !quote add &lt;quote&gt; -- &lt;nick&gt;, !quote list, !quote remove &lt;number&gt;, !quote edit &lt;number&gt; &lt;quote&gt; -- &lt;nick&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">quotefile</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;/data/quotes&quot;</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">quotefile</span><span class="p">):</span>
-        <span class="n">quotes</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">quotefile</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">quotes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">getquote</span><span class="p">(</span><span class="n">quotes</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;add&quot;</span><span class="p">:</span>
-        <span class="n">quote</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">addquote</span><span class="p">(</span><span class="n">quotes</span><span class="p">,</span> <span class="n">quotefile</span><span class="p">,</span> <span class="n">quote</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;list&quot;</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;See </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;quoteurl&#39;</span><span class="p">])</span>
-        <span class="c"># disabled due to slowness.</span>
-        <span class="c"># listquotes(quotes, args[&#39;nick&#39;], args[&#39;connection&#39;], send)</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;remove&quot;</span> <span class="ow">or</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;delete&quot;</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">do_get_quote</span><span class="p">(</span><span class="n">cursor</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">do_get_quote</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;add&#39;</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">do_add_quote</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">cursor</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;list&#39;</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">do_list_quotes</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;quoteurl&#39;</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;remove&#39;</span> <span class="ow">or</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;delete&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]):</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-            <span class="n">send</span><span class="p">(</span><span class="n">removequote</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">quotes</span><span class="p">,</span> <span class="n">quotefile</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;Which quote?&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">send</span><span class="p">(</span><span class="n">do_delete_quote</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;edit&quot;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]):</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-            <span class="n">send</span><span class="p">(</span><span class="n">editquote</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">quotes</span><span class="p">,</span> <span class="n">quotefile</span><span class="p">))</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;You aren&#39;t allowed to delete quotes. Please ask a bot admin to do it&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;edit&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Which quote?&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">do_update_quote</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">msg</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;You aren&#39;t allowed to edit quotes. Please ask a bot admin to do it&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">getquote</span><span class="p">(</span><span class="n">quotes</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span></div>
+        <span class="n">send</span><span class="p">(</span><span class="n">getdoc</span><span class="p">())</span></div>
 </pre></div>
 
           </div>
