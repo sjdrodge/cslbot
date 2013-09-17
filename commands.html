@@ -581,48 +581,51 @@ Syntax: !vote &lt;start|end|list|tally|edit|delete|vote|retract&gt;</p>
 
 <dl class="function">
 <dt id="commands.poll.delete_poll">
-<tt class="descclassname">commands.poll.</tt><tt class="descname">delete_poll</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#delete_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.delete_poll" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.poll.</tt><tt class="descname">delete_poll</tt><big>(</big><em>cursor</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#delete_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.delete_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.poll.edit_poll">
-<tt class="descclassname">commands.poll.</tt><tt class="descname">edit_poll</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#edit_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.edit_poll" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.poll.</tt><tt class="descname">edit_poll</tt><big>(</big><em>cursor</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#edit_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.edit_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Edits a poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.poll.end_poll">
-<tt class="descclassname">commands.poll.</tt><tt class="descname">end_poll</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#end_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.end_poll" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.poll.</tt><tt class="descname">end_poll</tt><big>(</big><em>cursor</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#end_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.end_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ends a poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.poll.list_polls">
-<tt class="descclassname">commands.poll.</tt><tt class="descname">list_polls</tt><big>(</big><em>polls</em>, <em>send</em>, <em>c</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#list_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.list_polls" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.poll.</tt><tt class="descname">list_polls</tt><big>(</big><em>cursor</em>, <em>c</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#list_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.list_polls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends nick the list of polls in a PM</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.poll.retract">
-<tt class="descclassname">commands.poll.</tt><tt class="descname">retract</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#retract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.retract" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="commands.poll.save_polls">
-<tt class="descclassname">commands.poll.</tt><tt class="descname">save_polls</tt><big>(</big><em>pollfile</em>, <em>polls</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#save_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.save_polls" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.poll.</tt><tt class="descname">retract</tt><big>(</big><em>cursor</em>, <em>poll</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#retract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.retract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a vote for a poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.poll.start_poll">
-<tt class="descclassname">commands.poll.</tt><tt class="descname">start_poll</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#start_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.start_poll" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.poll.</tt><tt class="descname">start_poll</tt><big>(</big><em>cursor</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#start_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.start_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.poll.tally_poll">
-<tt class="descclassname">commands.poll.</tt><tt class="descname">tally_poll</tt><big>(</big><em>polls</em>, <em>poll</em>, <em>send</em>, <em>c</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.tally_poll" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.poll.</tt><tt class="descname">tally_poll</tt><big>(</big><em>cursor</em>, <em>poll</em>, <em>send</em>, <em>c</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.tally_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows the results of poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.poll.vote">
-<tt class="descclassname">commands.poll.</tt><tt class="descname">vote</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>nick</em>, <em>poll</em>, <em>vote</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#vote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.vote" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.poll.</tt><tt class="descname">vote</tt><big>(</big><em>cursor</em>, <em>nick</em>, <em>pid</em>, <em>vote</em><big>)</big><a class="reference internal" href="_modules/commands/poll.html#vote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.poll.vote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Votes on a poll</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-commands.praise">
@@ -956,48 +959,51 @@ Syntax: !vote &lt;start|end|list|tally|edit|delete|vote|retract&gt;</p>
 
 <dl class="function">
 <dt id="commands.vote.delete_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">delete_poll</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#delete_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.delete_poll" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">delete_poll</tt><big>(</big><em>cursor</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#delete_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.delete_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.edit_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">edit_poll</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#edit_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.edit_poll" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">edit_poll</tt><big>(</big><em>cursor</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#edit_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.edit_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Edits a poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.end_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">end_poll</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#end_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.end_poll" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">end_poll</tt><big>(</big><em>cursor</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#end_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.end_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ends a poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.list_polls">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">list_polls</tt><big>(</big><em>polls</em>, <em>send</em>, <em>c</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#list_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.list_polls" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">list_polls</tt><big>(</big><em>cursor</em>, <em>c</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#list_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.list_polls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends nick the list of polls in a PM</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.retract">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">retract</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#retract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.retract" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="commands.vote.save_polls">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">save_polls</tt><big>(</big><em>pollfile</em>, <em>polls</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#save_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.save_polls" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">retract</tt><big>(</big><em>cursor</em>, <em>poll</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#retract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.retract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a vote for a poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.start_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">start_poll</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#start_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.start_poll" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">start_poll</tt><big>(</big><em>cursor</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#start_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.start_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.tally_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">tally_poll</tt><big>(</big><em>polls</em>, <em>poll</em>, <em>send</em>, <em>c</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.tally_poll" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">tally_poll</tt><big>(</big><em>cursor</em>, <em>poll</em>, <em>send</em>, <em>c</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.tally_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows the results of poll</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.vote">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">vote</tt><big>(</big><em>pollfile</em>, <em>polls</em>, <em>nick</em>, <em>poll</em>, <em>vote</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#vote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.vote" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">vote</tt><big>(</big><em>cursor</em>, <em>nick</em>, <em>pid</em>, <em>vote</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#vote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.vote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Votes on a poll</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-commands.weather">

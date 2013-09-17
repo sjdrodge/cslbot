@@ -1,0 +1,7 @@
+import_polls Module
+===================
+
+.. automodule:: import_polls
+    :members:
+    :undoc-members:
+    :show-inheritance:
