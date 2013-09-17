@@ -70,32 +70,26 @@
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote</span>
 
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;srcdir&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;srcdir&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">,</span> <span class="s">&#39;db&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="get_default"><a class="viewcode-back" href="../../commands.html#commands.weather.get_default">[docs]</a><span class="k">def</span> <span class="nf">get_default</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">prefsfile</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">defaults</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">prefsfile</span><span class="p">))</span>
-        <span class="n">location</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span>
-    <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+<div class="viewcode-block" id="get_default"><a class="viewcode-back" href="../../commands.html#commands.weather.get_default">[docs]</a><span class="k">def</span> <span class="nf">get_default</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT location FROM weather_prefs WHERE nick=?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">nick</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="n">location</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;No default location for </span><span class="si">%s</span><span class="s">, defaulting to TJ.&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
         <span class="c"># default to TJHSST</span>
         <span class="n">location</span> <span class="o">=</span> <span class="s">&#39;22312&#39;</span>
     <span class="k">return</span> <span class="n">location</span>
 
 </div>
-<div class="viewcode-block" id="set_default"><a class="viewcode-back" href="../../commands.html#commands.weather.set_default">[docs]</a><span class="k">def</span> <span class="nf">set_default</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">prefsfile</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">apikey</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">defaults</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">prefsfile</span><span class="p">))</span>
-    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-        <span class="n">defaults</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="viewcode-block" id="set_default"><a class="viewcode-back" href="../../commands.html#commands.weather.set_default">[docs]</a><span class="k">def</span> <span class="nf">set_default</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">apikey</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sets nick&#39;s default location to location.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">get_weather</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">apikey</span><span class="p">):</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Setting default location&quot;</span><span class="p">)</span>
-        <span class="n">defaults</span><span class="p">[</span><span class="n">nick</span><span class="p">]</span> <span class="o">=</span> <span class="n">location</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefsfile</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">defaults</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;INSERT OR REPLACE INTO weather_prefs(nick,location) VALUES(:nick,:loc)&#39;</span><span class="p">,</span>
+                       <span class="p">{</span><span class="s">&#39;nick&#39;</span><span class="p">:</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&#39;loc&#39;</span><span class="p">:</span> <span class="n">location</span><span class="p">})</span>
 
 </div>
 <div class="viewcode-block" id="get_weather"><a class="viewcode-back" href="../../commands.html#commands.weather.get_weather">[docs]</a><span class="k">def</span> <span class="nf">get_weather</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">apikey</span><span class="p">):</span>
@@ -103,6 +97,7 @@
     <span class="k">if</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;-&quot;</span><span class="p">:</span>
         <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://api.wunderground.com/api/</span><span class="si">%s</span><span class="s">/conditions/q/</span><span class="si">%s</span><span class="s">.json&#39;</span>
                        <span class="o">%</span> <span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
         <span class="k">if</span> <span class="s">&#39;current_observation&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid or Ambiguous Location&quot;</span><span class="p">)</span>
@@ -160,14 +155,14 @@
     <span class="sd">&quot;&quot;&quot;Gets the weather.</span>
 <span class="sd">    Syntax: !weather &lt;location|set default&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">prefsfile</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;/data/weather&quot;</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
     <span class="n">apikey</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;api&#39;</span><span class="p">][</span><span class="s">&#39;weatherapikey&#39;</span><span class="p">]</span>
     <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;set (.*)&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-        <span class="n">set_default</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">prefsfile</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">apikey</span><span class="p">)</span>
+        <span class="n">set_default</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">apikey</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">get_default</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">prefsfile</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">get_default</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
     <span class="n">get_weather</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">apikey</span><span class="p">)</span></div>
 </pre></div>
 

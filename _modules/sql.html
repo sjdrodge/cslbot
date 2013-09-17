@@ -130,9 +130,9 @@
         <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_db_for_current_thread</span><span class="p">()</span>
         <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS log(source TEXT, target TEXT, operator INTEGER, msg TEXT, type TEXT, time INTEGER)&#39;</span><span class="p">)</span>
         <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS quotes(quote TEXT, nick TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS weather(location INTEGER, nick TEXT)&#39;</span><span class="p">)</span>
         <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS polls(question TEXT, active INTEGER DEFAULT 1, deleted INTEGER DEFAULT 0, pid INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS poll_responses(pid INTEGER, response TEXT, voter TEXT)&#39;</span><span class="p">)</span></div></div>
+        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS poll_responses(pid INTEGER, response TEXT, voter TEXT)&#39;</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS weather_prefs(nick TEXT UNIQUE, location TEXT)&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
