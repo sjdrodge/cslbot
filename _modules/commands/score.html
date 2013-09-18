@@ -66,59 +66,58 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
 
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">,</span> <span class="s">&#39;db&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.score.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Gets scores.</span>
 <span class="sd">    Syntax: !score &lt;--high|--low|nick&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">scorefile</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;srcdir&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/data/score&#39;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">scorefile</span><span class="p">))</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;([a-zA-Z0-9_\|]+)&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">score</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                <span class="n">botnick</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">botnick</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-                    <span class="n">output</span> <span class="o">=</span> <span class="s">&#39;has </span><span class="si">%s</span><span class="s"> points! :)&#39;</span> <span class="o">%</span> <span class="n">score</span>
-                    <span class="n">send</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s">&#39;action&#39;</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> has </span><span class="si">%i</span><span class="s"> points!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">score</span><span class="p">))</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nobody cares about &quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;--(.*)&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-                <span class="n">sorted_data</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;high&#39;</span><span class="p">:</span>
-                    <span class="n">send</span><span class="p">(</span><span class="s">&#39;High Scores:&#39;</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">]:</span>
-                        <span class="k">try</span><span class="p">:</span>
-                            <span class="n">name</span> <span class="o">=</span> <span class="n">sorted_data</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
-                            <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
-                        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-                            <span class="k">pass</span>
-                <span class="k">if</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;low&#39;</span><span class="p">:</span>
-                    <span class="n">send</span><span class="p">(</span><span class="s">&#39;Low Scores:&#39;</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
-                        <span class="k">try</span><span class="p">:</span>
-                            <span class="n">name</span> <span class="o">=</span> <span class="n">sorted_data</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
-                            <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
-                        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-                            <span class="k">pass</span>
-            <span class="k">elif</span> <span class="n">msg</span><span class="p">:</span>
-                <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid nick&quot;</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;([a-zA-Z0-9_\|]+)&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT score FROM scores WHERE nick=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">score</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">botnick</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">botnick</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="s">&#39;has </span><span class="si">%s</span><span class="s"> points! :)&#39;</span> <span class="o">%</span> <span class="n">score</span>
+                <span class="n">send</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s">&#39;action&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">name</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
-                <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> has </span><span class="si">%i</span><span class="s"> points!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
-    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nobody cares about anything.&quot;</span><span class="p">)</span></div>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> has </span><span class="si">%i</span><span class="s"> points!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">score</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nobody cares about &quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;--(.*)&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;high&#39;</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT nick,score FROM scores ORDER BY score LIMIT 3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&#39;High Scores:&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                    <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s">&#39;score&#39;</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;low&#39;</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT nick,score FROM scores ORDER BY score DESC LIMIT 3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&#39;Low Scores:&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                    <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s">&#39;score&#39;</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> is not a valid flag&quot;</span> <span class="o">%</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid nick&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(*) FROM scores&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nobody cares about anything =(&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">randid</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">randid</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT nick,score FROM scores WHERE id=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">randid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> has </span><span class="si">%i</span><span class="s"> points!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">query</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">query</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span></div>
 </pre></div>
 
           </div>

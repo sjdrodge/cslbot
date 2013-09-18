@@ -70,7 +70,6 @@
 
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">imp</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -349,11 +348,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">isop</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
 
         <span class="c">#FIXME: reenable log to ctrlchan</span>
-        <span class="c">#if self.log_to_ctrlchan:</span>
-        <span class="c">#    ctrlchan = self.config[&#39;core&#39;][&#39;ctrlchan&#39;]</span>
-        <span class="c">#    if target != ctrlchan:</span>
-        <span class="c">#        ctrlmsg = &quot;(%s) %s&quot; % (target, log)</span>
-        <span class="c">#       self.connection.privmsg(ctrlchan, ctrlmsg.strip())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_ctrlchan</span><span class="p">:</span>
+            <span class="n">ctrlchan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">target</span> <span class="o">!=</span> <span class="n">ctrlchan</span><span class="p">:</span>
+                <span class="n">ctrlmsg</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">ctrlchan</span><span class="p">,</span> <span class="n">ctrlmsg</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_part"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_part">[docs]</a>    <span class="k">def</span> <span class="nf">do_part</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Leaves a channel.</span>
@@ -402,7 +401,6 @@
 <span class="sd">        | themselves.</span>
 <span class="sd">        | Otherwise substract one point.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">scorefile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">srcdir</span> <span class="o">+</span> <span class="s">&#39;/data/score&#39;</span>
         <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
             <span class="c"># limit to 5 score changes per minute</span>
@@ -415,18 +413,12 @@
                     <span class="n">score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">scorefile</span><span class="p">):</span>
-                <span class="n">scores</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">scorefile</span><span class="p">))</span>
+            <span class="c">#TODO: maybe we can do this with INSERT OR REPLACE?</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(1) FROM scores WHERE nick=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;UPDATE scores SET score=score+? WHERE nick=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">scores</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">:</span>
-                <span class="n">scores</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">score</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">scores</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">scorefile</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;INSERT INTO scores(score,nick) VALUES(?,?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_urls"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_urls">[docs]</a>    <span class="k">def</span> <span class="nf">do_urls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get titles for urls.</span>
