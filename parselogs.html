@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sql Module &mdash; IrcBot 0.1 documentation</title>
+    <title>parselogs Module &mdash; IrcBot 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,7 +27,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="IrcBot 0.1 documentation" href="index.html" />
     <link rel="up" title="IrcBot" href="modules.html" />
-    <link rel="prev" title="server Module" href="server.html" /> 
+    <link rel="next" title="parsequotes Module" href="parsequotes.html" />
+    <link rel="prev" title="handler Module" href="handler.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,7 +41,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="server.html" title="server Module"
+          <a href="parsequotes.html" title="parsequotes Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="handler.html" title="handler Module"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">IrcBot 0.1 documentation</a> &raquo;</li>
           <li><a href="modules.html" accesskey="U">IrcBot</a> &raquo;</li> 
@@ -52,50 +56,27 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-sql">
-<span id="sql-module"></span><h1>sql Module<a class="headerlink" href="#module-sql" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="sql.Sql">
-<em class="property">class </em><tt class="descclassname">sql.</tt><tt class="descname">Sql</tt><a class="reference internal" href="_modules/sql.html#Sql"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+  <div class="section" id="module-parselogs">
+<span id="parselogs-module"></span><h1>parselogs Module<a class="headerlink" href="#module-parselogs" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
-<dt id="sql.Sql.clean_connection_pool">
-<tt class="descname">clean_connection_pool</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/sql.html#Sql.clean_connection_pool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql.clean_connection_pool" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cleans out the connection pool.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="sql.Sql.get">
-<tt class="descname">get</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/sql.html#Sql.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql.get" title="Permalink to this definition">¶</a></dt>
+<dt id="parselogs.check_day">
+<tt class="descclassname">parselogs.</tt><tt class="descname">check_day</tt><big>(</big><em>row</em>, <em>outdir</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/parselogs.html#check_day"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parselogs.check_day" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="sql.Sql.get_db_for_current_thread">
-<tt class="descname">get_db_for_current_thread</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/sql.html#Sql.get_db_for_current_thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql.get_db_for_current_thread" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets a database connection unique to the current thread</p>
-</dd></dl>
+<dt id="parselogs.gen_log">
+<tt class="descclassname">parselogs.</tt><tt class="descname">gen_log</tt><big>(</big><em>row</em><big>)</big><a class="reference internal" href="_modules/parselogs.html#gen_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parselogs.gen_log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
-<dt id="sql.Sql.log">
-<tt class="descname">log</tt><big>(</big><em>self</em>, <em>source</em>, <em>target</em>, <em>operator</em>, <em>msg</em>, <em>msg_type</em><big>)</big><a class="reference internal" href="_modules/sql.html#Sql.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql.log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Logs a message to the database</p>
-<div class="line-block">
-<div class="line">source: The source of the message.</div>
-<div class="line">target: The target of the message.</div>
-<div class="line">operator: Is the user a operator?</div>
-<div class="line">msg: The text of the message.</div>
-<div class="line">msg: The type of message.</div>
-<div class="line">time: The current time (Unix Epoch).</div>
-</div>
-</dd></dl>
+<dt id="parselogs.main">
+<tt class="descclassname">parselogs.</tt><tt class="descname">main</tt><big>(</big><em>config</em>, <em>outdir</em><big>)</big><a class="reference internal" href="_modules/parselogs.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parselogs.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
-<dt id="sql.Sql.setup_db">
-<tt class="descname">setup_db</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/sql.html#Sql.setup_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql.setup_db" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets up the database.</p>
-</dd></dl>
-
-</dd></dl>
+<dt id="parselogs.write_log">
+<tt class="descclassname">parselogs.</tt><tt class="descname">write_log</tt><big>(</big><em>name</em>, <em>outdir</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/parselogs.html#write_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parselogs.write_log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 
@@ -106,11 +87,14 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="server.html"
-                        title="previous chapter">server Module</a></p>
+  <p class="topless"><a href="handler.html"
+                        title="previous chapter">handler Module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="parsequotes.html"
+                        title="next chapter">parsequotes Module</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/sql.txt"
+    <li><a href="_sources/parselogs.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -140,7 +124,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="server.html" title="server Module"
+          <a href="parsequotes.html" title="parsequotes Module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="handler.html" title="handler Module"
              >previous</a> |</li>
         <li><a href="index.html">IrcBot 0.1 documentation</a> &raquo;</li>
           <li><a href="modules.html" >IrcBot</a> &raquo;</li> 
