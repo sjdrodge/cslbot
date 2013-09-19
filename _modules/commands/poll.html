@@ -73,8 +73,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Polls need a question.&quot;</span>
     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;INSERT INTO polls(question) VALUES(?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">msg</span><span class="p">,))</span>
-    <span class="n">pid</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;select last_insert_rowid()&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="s">&quot;Poll #</span><span class="si">%d</span><span class="s"> created!&quot;</span> <span class="o">%</span> <span class="n">pid</span>
+    <span class="k">return</span> <span class="s">&quot;Poll #</span><span class="si">%d</span><span class="s"> created!&quot;</span> <span class="o">%</span> <span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span>
 
 </div>
 <div class="viewcode-block" id="delete_poll"><a class="viewcode-back" href="../../commands.html#commands.poll.delete_poll">[docs]</a><span class="k">def</span> <span class="nf">delete_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">poll</span><span class="p">):</span>
