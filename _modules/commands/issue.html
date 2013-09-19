@@ -86,6 +86,9 @@
     <span class="sd">&quot;&quot;&quot;Files a github issue.</span>
 <span class="sd">    Syntax: !issue &lt;description&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Issue needs a description.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
     <span class="n">args</span><span class="p">[</span><span class="s">&#39;issues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;source&#39;</span><span class="p">]])</span>
     <span class="n">args</span><span class="p">[</span><span class="s">&#39;connection&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">],</span> <span class="s">&quot;New Issue: #</span><span class="si">%d</span><span class="s"> -- </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;issues&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
     <span class="n">send</span><span class="p">(</span><span class="s">&quot;Issue submitted for approval.&quot;</span><span class="p">)</span></div>
