@@ -633,8 +633,7 @@
             <span class="k">return</span>
 
         <span class="n">cmdchar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;cmdchar&#39;</span><span class="p">]</span>
-        <span class="c">#FIXME: make this dynamic</span>
-        <span class="n">botnick</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: &#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">]</span>
+        <span class="n">botnick</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: &#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">real_nickname</span>
         <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">botnick</span><span class="p">):</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">botnick</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;cmdchar&#39;</span><span class="p">])</span>
 
