@@ -124,6 +124,39 @@ Syntax: !award &lt;recipient&gt;</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-commands.babble">
+<span id="babble-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">babble</span></tt> Module<a class="headerlink" href="#module-commands.babble" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.babble.build_markov">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">build_markov</tt><big>(</big><em>cursor</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#build_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_markov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a markov dictionary of the form
+word : {</p>
+<blockquote>
+<div>nextword1 : num_apperences,
+nextword2 : num_apperances,
+....
+nextwordn : num_apperances</div></blockquote>
+<p>}</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.babble.build_msg">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">build_msg</tt><big>(</big><em>markov</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#build_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_msg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.babble.cmd">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">cmd</tt><big>(</big><em>send</em>, <em>msg</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.cmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Babbles like a user
+Syntax: !babble (nick)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.babble.get_nick">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">get_nick</tt><big>(</big><em>cursor</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#get_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.get_nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
 <div class="section" id="module-commands.bc">
 <span id="bc-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">bc</span></tt> Module<a class="headerlink" href="#module-commands.bc" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -1166,6 +1199,7 @@ Syntax: !yoda &lt;msg&gt;</p>
 <li><a class="reference internal" href="#module-commands.admins"><tt class="docutils literal"><span class="pre">admins</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.ahamilto"><tt class="docutils literal"><span class="pre">ahamilto</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.award"><tt class="docutils literal"><span class="pre">award</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-commands.babble"><tt class="docutils literal"><span class="pre">babble</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.bc"><tt class="docutils literal"><span class="pre">bc</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.bike"><tt class="docutils literal"><span class="pre">bike</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.blame"><tt class="docutils literal"><span class="pre">blame</span></tt> Module</a></li>
