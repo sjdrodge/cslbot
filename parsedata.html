@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>server Module &mdash; IrcBot 0.1 documentation</title>
+    <title>parsedata Module &mdash; IrcBot 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,8 +27,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="IrcBot 0.1 documentation" href="index.html" />
     <link rel="up" title="IrcBot" href="modules.html" />
-    <link rel="next" title="sql Module" href="sql.html" />
-    <link rel="prev" title="parselogs Module" href="parselogs.html" /> 
+    <link rel="next" title="parselogs Module" href="parselogs.html" />
+    <link rel="prev" title="handler Module" href="handler.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,10 +41,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="sql.html" title="sql Module"
+          <a href="parselogs.html" title="parselogs Module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="parselogs.html" title="parselogs Module"
+          <a href="handler.html" title="handler Module"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">IrcBot 0.1 documentation</a> &raquo;</li>
           <li><a href="modules.html" accesskey="U">IrcBot</a> &raquo;</li> 
@@ -56,38 +56,31 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-server">
-<span id="server-module"></span><h1>server Module<a class="headerlink" href="#module-server" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="server.BotNetHandler">
-<em class="property">class </em><tt class="descclassname">server.</tt><tt class="descname">BotNetHandler</tt><big>(</big><em>request</em>, <em>client_address</em>, <em>server</em><big>)</big><a class="reference internal" href="_modules/server.html#BotNetHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.BotNetHandler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">socketserver.BaseRequestHandler</span></tt></p>
-<dl class="method">
-<dt id="server.BotNetHandler.get_data">
-<tt class="descname">get_data</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/server.html#BotNetHandler.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.BotNetHandler.get_data" title="Permalink to this definition">¶</a></dt>
+  <div class="section" id="module-parsedata">
+<span id="parsedata-module"></span><h1>parsedata Module<a class="headerlink" href="#module-parsedata" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="parsedata.get_quotes">
+<tt class="descclassname">parsedata.</tt><tt class="descname">get_quotes</tt><big>(</big><em>cursor</em><big>)</big><a class="reference internal" href="_modules/parsedata.html#get_quotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsedata.get_quotes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="server.BotNetHandler.handle">
-<tt class="descname">handle</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/server.html#BotNetHandler.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.BotNetHandler.handle" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="server.BotNetServer">
-<em class="property">class </em><tt class="descclassname">server.</tt><tt class="descname">BotNetServer</tt><big>(</big><em>server_address</em>, <em>RequestHandlerClass</em>, <em>bind_and_activate=True</em><big>)</big><a class="reference internal" href="_modules/server.html#BotNetServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.BotNetServer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">socketserver.ThreadingMixIn</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">socketserver.TCPServer</span></tt></p>
-<dl class="attribute">
-<dt id="server.BotNetServer.allow_reuse_address">
-<tt class="descname">allow_reuse_address</tt><em class="property"> = True</em><a class="headerlink" href="#server.BotNetServer.allow_reuse_address" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
 
 <dl class="function">
-<dt id="server.init_server">
-<tt class="descclassname">server.</tt><tt class="descname">init_server</tt><big>(</big><em>bot</em><big>)</big><a class="reference internal" href="_modules/server.html#init_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#server.init_server" title="Permalink to this definition">¶</a></dt>
+<dt id="parsedata.get_scores">
+<tt class="descclassname">parsedata.</tt><tt class="descname">get_scores</tt><big>(</big><em>cursor</em><big>)</big><a class="reference internal" href="_modules/parsedata.html#get_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsedata.get_scores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="parsedata.main">
+<tt class="descclassname">parsedata.</tt><tt class="descname">main</tt><big>(</big><em>outdir</em><big>)</big><a class="reference internal" href="_modules/parsedata.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsedata.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="parsedata.output_quotes">
+<tt class="descclassname">parsedata.</tt><tt class="descname">output_quotes</tt><big>(</big><em>env</em>, <em>cursor</em>, <em>outdir</em><big>)</big><a class="reference internal" href="_modules/parsedata.html#output_quotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsedata.output_quotes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="parsedata.output_scores">
+<tt class="descclassname">parsedata.</tt><tt class="descname">output_scores</tt><big>(</big><em>env</em>, <em>cursor</em>, <em>outdir</em><big>)</big><a class="reference internal" href="_modules/parsedata.html#output_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#parsedata.output_scores" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -99,14 +92,14 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="parselogs.html"
-                        title="previous chapter">parselogs Module</a></p>
+  <p class="topless"><a href="handler.html"
+                        title="previous chapter">handler Module</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="sql.html"
-                        title="next chapter">sql Module</a></p>
+  <p class="topless"><a href="parselogs.html"
+                        title="next chapter">parselogs Module</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/server.txt"
+    <li><a href="_sources/parsedata.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -136,10 +129,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="sql.html" title="sql Module"
+          <a href="parselogs.html" title="parselogs Module"
              >next</a> |</li>
         <li class="right" >
-          <a href="parselogs.html" title="parselogs Module"
+          <a href="handler.html" title="handler Module"
              >previous</a> |</li>
         <li><a href="index.html">IrcBot 0.1 documentation</a> &raquo;</li>
           <li><a href="modules.html" >IrcBot</a> &raquo;</li> 
