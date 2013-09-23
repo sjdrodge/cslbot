@@ -67,11 +67,11 @@
 
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
 
 
 <span class="c">#FIXME: make sphinx happy</span>
-<div class="viewcode-block" id="build_markov"><a class="viewcode-back" href="../../commands.html#commands.babble.build_markov">[docs]</a><span class="k">def</span> <span class="nf">build_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+<div class="viewcode-block" id="build_markov"><a class="viewcode-back" href="../../commands.html#commands.babble.build_markov">[docs]</a><span class="k">def</span> <span class="nf">build_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Builds a markov dictionary of the form</span>
 
 <span class="sd">        word : {</span>
@@ -81,12 +81,15 @@
 <span class="sd">           nextwordn : num_apperances</span>
 <span class="sd">        }</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">messages</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE UPPER(source)=UPPER(?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">nick</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">speaker</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">):</span>
+        <span class="n">messages</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE UPPER(target)=UPPER(?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">speaker</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">messages</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE UPPER(source)=UPPER(?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">speaker</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
     <span class="n">markov</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">messages</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">markov</span>
     <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s">&#39;msg&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">msg</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">markov</span><span class="p">:</span>
                 <span class="n">markov</span><span class="p">[</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -97,9 +100,9 @@
     <span class="k">return</span> <span class="n">markov</span>
 
 </div>
-<div class="viewcode-block" id="build_msg"><a class="viewcode-back" href="../../commands.html#commands.babble.build_msg">[docs]</a><span class="k">def</span> <span class="nf">build_msg</span><span class="p">(</span><span class="n">markov</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+<div class="viewcode-block" id="build_msg"><a class="viewcode-back" href="../../commands.html#commands.babble.build_msg">[docs]</a><span class="k">def</span> <span class="nf">build_msg</span><span class="p">(</span><span class="n">markov</span><span class="p">,</span> <span class="n">speaker</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">markov</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&quot;No one has talked with </span><span class="si">%s</span><span class="s"> =(&quot;</span> <span class="o">%</span> <span class="n">nick</span>
+        <span class="k">return</span> <span class="s">&quot;No one has talked with </span><span class="si">%s</span><span class="s"> =(&quot;</span> <span class="o">%</span> <span class="n">speaker</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">markov</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
     <span class="n">last_word</span> <span class="o">=</span> <span class="n">msg</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span>
@@ -108,13 +111,7 @@
         <span class="n">next_word</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">markov</span><span class="p">[</span><span class="n">last_word</span><span class="p">]))</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">next_word</span><span class="p">)</span>
         <span class="n">last_word</span> <span class="o">=</span> <span class="n">next_word</span>
-    <span class="k">return</span> <span class="n">msg</span>
-
-</div>
-<div class="viewcode-block" id="get_nick"><a class="viewcode-back" href="../../commands.html#commands.babble.get_nick">[docs]</a><span class="k">def</span> <span class="nf">get_nick</span><span class="p">(</span><span class="n">cursor</span><span class="p">):</span>
-    <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT source from log WHERE type=&#39;privmsg&#39; OR type=&#39;pubmsg&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-    <span class="n">nicks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;source&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;!&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">choice</span><span class="p">(</span><span class="n">nicks</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> says: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">speaker</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.babble.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -122,10 +119,9 @@
 <span class="sd">    Syntax: !babble (nick)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">get_nick</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
-    <span class="n">markov</span> <span class="o">=</span> <span class="n">build_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">send</span><span class="p">(</span><span class="n">build_msg</span><span class="p">(</span><span class="n">markov</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span></div>
+    <span class="n">speaker</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">msg</span> <span class="k">else</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;channel&#39;</span><span class="p">]</span>
+    <span class="n">markov</span> <span class="o">=</span> <span class="n">build_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">)</span>
+    <span class="n">send</span><span class="p">(</span><span class="n">build_msg</span><span class="p">(</span><span class="n">markov</span><span class="p">,</span> <span class="n">speaker</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
