@@ -68,6 +68,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span>
 
 
 <div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.wiki.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -77,15 +78,24 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Need a article.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://en.wikipedia.org/w/api.php?format=json&amp;action=query&amp;list=search&amp;srlimit=1&amp;srsearch=&#39;</span> <span class="o">+</span> <span class="n">quote</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
+    <span class="k">if</span> <span class="s">&#39;livedoc&#39;</span> <span class="ow">in</span> <span class="n">basename</span><span class="p">(</span><span class="n">__file__</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://www.tjhsst.edu/admin/livedoc&#39;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;livedoc&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://en.wikipedia.org/w&#39;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;wikipedia&#39;</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">/api.php?format=json&amp;action=query&amp;list=search&amp;srlimit=1&amp;srsearch=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">quote</span><span class="p">(</span><span class="n">msg</span><span class="p">)))</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">][</span><span class="s">&#39;search&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;title&#39;</span><span class="p">]</span>
+        <span class="n">article</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">][</span><span class="s">&#39;search&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;title&#39;</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> isn&#39;t important enough to have a wikipedia article.&quot;</span> <span class="o">%</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> isn&#39;t important enough to have a </span><span class="si">%s</span><span class="s"> article.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
         <span class="k">return</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
-    <span class="n">send</span><span class="p">(</span><span class="s">&#39;http://en.wikipedia.org/wiki/&#39;</span> <span class="o">+</span> <span class="n">url</span><span class="p">)</span></div>
+    <span class="n">article</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
+    <span class="c"># wikipedia uses /w for api and /wiki for articles</span>
+    <span class="k">if</span> <span class="s">&#39;livedoc&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">basename</span><span class="p">(</span><span class="n">__file__</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="s">&#39;iki&#39;</span>
+    <span class="n">send</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">article</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
