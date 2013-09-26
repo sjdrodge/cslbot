@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sql Module &mdash; IrcBot 0.1 documentation</title>
+    <title>hook Module &mdash; IrcBot 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,7 +27,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="IrcBot 0.1 documentation" href="index.html" />
     <link rel="up" title="IrcBot" href="modules.html" />
-    <link rel="prev" title="server Module" href="server.html" /> 
+    <link rel="next" title="parsedata Module" href="parsedata.html" />
+    <link rel="prev" title="handler Module" href="handler.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,7 +41,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="server.html" title="server Module"
+          <a href="parsedata.html" title="parsedata Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="handler.html" title="handler Module"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">IrcBot 0.1 documentation</a> &raquo;</li>
           <li><a href="modules.html" accesskey="U">IrcBot</a> &raquo;</li> 
@@ -52,48 +56,16 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-sql">
-<span id="sql-module"></span><h1>sql Module<a class="headerlink" href="#module-sql" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-hook">
+<span id="hook-module"></span><h1>hook Module<a class="headerlink" href="#module-hook" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="sql.Sql">
-<em class="property">class </em><tt class="descclassname">sql.</tt><tt class="descname">Sql</tt><a class="reference internal" href="_modules/sql.html#Sql"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql" title="Permalink to this definition">¶</a></dt>
+<dt id="hook.Hook">
+<em class="property">class </em><tt class="descclassname">hook.</tt><tt class="descname">Hook</tt><big>(</big><em>types</em><big>)</big><a class="reference internal" href="_modules/hook.html#Hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hook.Hook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="method">
-<dt id="sql.Sql.clean_connection_pool">
-<tt class="descname">clean_connection_pool</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sql.html#Sql.clean_connection_pool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql.clean_connection_pool" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cleans out the connection pool.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="sql.Sql.get">
-<tt class="descname">get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sql.html#Sql.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql.get" title="Permalink to this definition">¶</a></dt>
+<dl class="staticmethod">
+<dt id="hook.Hook.val_types">
+<em class="property">static </em><tt class="descname">val_types</tt><big>(</big><em>types</em><big>)</big><a class="reference internal" href="_modules/hook.html#Hook.val_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hook.Hook.val_types" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="sql.Sql.get_db_for_current_thread">
-<tt class="descname">get_db_for_current_thread</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sql.html#Sql.get_db_for_current_thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql.get_db_for_current_thread" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets a database connection unique to the current thread</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="sql.Sql.log">
-<tt class="descname">log</tt><big>(</big><em>source</em>, <em>target</em>, <em>operator</em>, <em>msg</em>, <em>msg_type</em><big>)</big><a class="reference internal" href="_modules/sql.html#Sql.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql.log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Logs a message to the database</p>
-<div class="line-block">
-<div class="line">source: The source of the message.</div>
-<div class="line">target: The target of the message.</div>
-<div class="line">operator: Is the user a operator?</div>
-<div class="line">msg: The text of the message.</div>
-<div class="line">msg: The type of message.</div>
-<div class="line">time: The current time (Unix Epoch).</div>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="sql.Sql.setup_db">
-<tt class="descname">setup_db</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sql.html#Sql.setup_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sql.Sql.setup_db" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets up the database.</p>
-</dd></dl>
 
 </dd></dl>
 
@@ -106,11 +78,14 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="server.html"
-                        title="previous chapter">server Module</a></p>
+  <p class="topless"><a href="handler.html"
+                        title="previous chapter">handler Module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="parsedata.html"
+                        title="next chapter">parsedata Module</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/sql.txt"
+    <li><a href="_sources/hook.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -140,7 +115,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="server.html" title="server Module"
+          <a href="parsedata.html" title="parsedata Module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="handler.html" title="handler Module"
              >previous</a> |</li>
         <li><a href="index.html">IrcBot 0.1 documentation</a> &raquo;</li>
           <li><a href="modules.html" >IrcBot</a> &raquo;</li> 
