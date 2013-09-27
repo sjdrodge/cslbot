@@ -25,3 +25,11 @@ hooks Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`caps` Module
+------------------
+
+.. automodule:: hooks.caps
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
