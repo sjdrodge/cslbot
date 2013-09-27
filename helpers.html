@@ -126,9 +126,9 @@
 <dt id="helpers.hook.Hook">
 <em class="property">class </em><tt class="descclassname">helpers.hook.</tt><tt class="descname">Hook</tt><big>(</big><em>types</em>, <em>reqargs</em><big>)</big><a class="reference internal" href="_modules/helpers/hook.html#Hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.Hook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="method">
+<dl class="function">
 <dt id="helpers.hook.Hook.run">
-<tt class="descname">run</tt><big>(</big><em>send</em>, <em>msg</em>, <em>msgtype</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/helpers/hook.html#Hook.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.Hook.run" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">run</tt><big>(</big><em>self</em>, <em>send</em>, <em>msg</em>, <em>msgtype</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/helpers/hook.html#Hook.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.Hook.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -146,14 +146,14 @@
 <dt id="helpers.server.BotNetHandler">
 <em class="property">class </em><tt class="descclassname">helpers.server.</tt><tt class="descname">BotNetHandler</tt><big>(</big><em>request</em>, <em>client_address</em>, <em>server</em><big>)</big><a class="reference internal" href="_modules/helpers/server.html#BotNetHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.server.BotNetHandler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">socketserver.BaseRequestHandler</span></tt></p>
-<dl class="method">
+<dl class="function">
 <dt id="helpers.server.BotNetHandler.get_data">
-<tt class="descname">get_data</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/server.html#BotNetHandler.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.server.BotNetHandler.get_data" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_data</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/helpers/server.html#BotNetHandler.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.server.BotNetHandler.get_data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="helpers.server.BotNetHandler.handle">
-<tt class="descname">handle</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/server.html#BotNetHandler.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.server.BotNetHandler.handle" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">handle</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/helpers/server.html#BotNetHandler.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.server.BotNetHandler.handle" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -181,26 +181,26 @@
 <dt id="helpers.sql.Sql">
 <em class="property">class </em><tt class="descclassname">helpers.sql.</tt><tt class="descname">Sql</tt><a class="reference internal" href="_modules/helpers/sql.html#Sql"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="method">
+<dl class="function">
 <dt id="helpers.sql.Sql.clean_connection_pool">
-<tt class="descname">clean_connection_pool</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.clean_connection_pool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.clean_connection_pool" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">clean_connection_pool</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.clean_connection_pool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.clean_connection_pool" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cleans out the connection pool.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="helpers.sql.Sql.get">
-<tt class="descname">get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.get" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.get" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="helpers.sql.Sql.get_db_for_current_thread">
-<tt class="descname">get_db_for_current_thread</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.get_db_for_current_thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.get_db_for_current_thread" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_db_for_current_thread</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.get_db_for_current_thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.get_db_for_current_thread" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a database connection unique to the current thread</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="helpers.sql.Sql.log">
-<tt class="descname">log</tt><big>(</big><em>source</em>, <em>target</em>, <em>operator</em>, <em>msg</em>, <em>msg_type</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.log" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">log</tt><big>(</big><em>self</em>, <em>source</em>, <em>target</em>, <em>operator</em>, <em>msg</em>, <em>msg_type</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Logs a message to the database</p>
 <div class="line-block">
 <div class="line">source: The source of the message.</div>
@@ -212,9 +212,9 @@
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="function">
 <dt id="helpers.sql.Sql.setup_db">
-<tt class="descname">setup_db</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.setup_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.setup_db" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">setup_db</tt><big>(</big><em>self</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.setup_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.setup_db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets up the database.</p>
 </dd></dl>
 
