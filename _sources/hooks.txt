@@ -1,0 +1,19 @@
+hooks Package
+=============
+
+:mod:`hooks` Package
+--------------------
+
+.. automodule:: hooks
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`bob` Module
+-----------------
+
+.. automodule:: hooks.bob
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
