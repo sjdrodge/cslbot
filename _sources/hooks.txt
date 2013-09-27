@@ -33,3 +33,11 @@ hooks Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`url` Module
+-----------------
+
+.. automodule:: hooks.url
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
