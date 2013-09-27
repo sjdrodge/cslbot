@@ -7,5 +7,5 @@ IrcBot
    bot
    commands
    handler
+   helpers
    hooks
-   modules

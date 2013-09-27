@@ -9,6 +9,14 @@ hooks Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`band` Module
+------------------
+
+.. automodule:: hooks.band
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`bob` Module
 -----------------
 

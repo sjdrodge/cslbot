@@ -77,7 +77,7 @@
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">errno</span>
-<span class="kn">from</span> <span class="nn">modules</span> <span class="kn">import</span> <span class="n">control</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">hook</span>
+<span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">control</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">hook</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">dirname</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 <span class="kn">from</span> <span class="nn">lxml.html</span> <span class="kn">import</span> <span class="n">parse</span>
@@ -561,12 +561,6 @@
         <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;part&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">do_part</span><span class="p">(</span><span class="n">cmdargs</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="BotHandler.do_band"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_band">[docs]</a>    <span class="k">def</span> <span class="nf">do_band</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.005</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&#39;&quot;</span><span class="si">%s</span><span class="s">&quot; would be a good name for a band...&#39;</span> <span class="o">%</span> <span class="n">msg</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-</div>
 <div class="viewcode-block" id="BotHandler.do_args"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_args">[docs]</a>    <span class="k">def</span> <span class="nf">do_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modargs</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Handle the various args that modules need.&quot;&quot;&quot;</span>
         <span class="n">realargs</span> <span class="o">=</span> <span class="p">{}</span>
@@ -658,8 +652,6 @@
         <span class="n">admins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;auth&#39;</span><span class="p">][</span><span class="s">&#39;admins&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;, &#39;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">do_caps</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">cmdchar</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">do_band</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cmdchar</span><span class="p">):]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;That module is disabled, sorry.&quot;</span><span class="p">)</span>
