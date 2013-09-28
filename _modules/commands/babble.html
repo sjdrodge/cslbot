@@ -66,8 +66,7 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
-
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <span class="c"># Make the generated messages look better.</span>
@@ -136,14 +135,15 @@
     <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> says: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">speaker</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.babble.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;babble&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Babbles like a user</span>
 <span class="sd">    Syntax: !babble (nick)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
     <span class="n">speaker</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">msg</span> <span class="k">else</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;channel&#39;</span><span class="p">]</span>
     <span class="n">markov</span> <span class="o">=</span> <span class="n">build_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">)</span>
-    <span class="n">send</span><span class="p">(</span><span class="n">build_msg</span><span class="p">(</span><span class="n">markov</span><span class="p">,</span> <span class="n">speaker</span><span class="p">))</span></div>
+    <span class="n">send</span><span class="p">(</span><span class="n">build_msg</span><span class="p">(</span><span class="n">markov</span><span class="p">,</span> <span class="n">speaker</span><span class="p">))</span>
 </pre></div>
 
           </div>

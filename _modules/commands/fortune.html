@@ -65,9 +65,9 @@
 <span class="c"># along with this program; if not, write to the Free Software</span>
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="get_list"><a class="viewcode-back" href="../../commands.html#commands.fortune.get_list">[docs]</a><span class="k">def</span> <span class="nf">get_list</span><span class="p">():</span>
@@ -77,7 +77,8 @@
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fortunes</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.fortune.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="nd">@Command</span><span class="p">([</span><span class="s">&#39;fortune&#39;</span><span class="p">,</span> <span class="s">&#39;bofh&#39;</span><span class="p">,</span> <span class="s">&#39;excuse&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns a fortune.</span>
 <span class="sd">    Syntax: !fortune &lt;list|module&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -86,7 +87,7 @@
         <span class="k">if</span> <span class="n">msg</span> <span class="o">==</span> <span class="s">&#39;list&#39;</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fortunes</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s">&#39;bofh&#39;</span> <span class="ow">in</span> <span class="n">basename</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span> <span class="ow">or</span> <span class="s">&#39;excuse&#39;</span> <span class="ow">in</span> <span class="n">basename</span><span class="p">(</span><span class="n">__file__</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s">&#39;bofh&#39;</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="s">&#39;excuse&#39;</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]:</span>
                 <span class="n">mod</span> <span class="o">=</span> <span class="s">&#39;bofh-excuses&#39;</span>
             <span class="k">elif</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">fortunes</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
                 <span class="n">mod</span> <span class="o">=</span> <span class="n">msg</span>
@@ -97,7 +98,7 @@
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
                 <span class="n">send</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;fortune-mod is not installed!&quot;</span><span class="p">)</span></div>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;fortune-mod is not installed!&quot;</span><span class="p">)</span>
 </pre></div>
 
           </div>

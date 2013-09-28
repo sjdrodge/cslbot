@@ -68,9 +68,7 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;channels&#39;</span><span class="p">,</span> <span class="s">&#39;connection&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;target&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="do_nuke"><a class="viewcode-back" href="../../commands.html#commands.microwave.do_nuke">[docs]</a><span class="k">def</span> <span class="nf">do_nuke</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">channel</span><span class="p">):</span>
@@ -95,7 +93,8 @@
     <span class="n">c</span><span class="o">.</span><span class="n">privmsg_many</span><span class="p">([</span><span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="s">&quot;     (  ;&#39; . ;&#39;;,.;&#39;, ;  &#39;;  ;  )    &quot;</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.microwave.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;microwave&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;channels&#39;</span><span class="p">,</span> <span class="s">&#39;connection&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;target&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">],</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Microwaves something.</span>
 <span class="sd">    Syntax: !microvave &lt;level&gt; &lt;target&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -149,7 +148,7 @@
         <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
             <span class="n">args</span><span class="p">[</span><span class="s">&#39;connection&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="s">&quot;Caught in backwash.&quot;</span><span class="p">)</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
           </div>

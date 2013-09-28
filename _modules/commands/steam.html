@@ -68,8 +68,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
-
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="get_ids"><a class="viewcode-back" href="../../commands.html#commands.steam.get_ids">[docs]</a><span class="k">def</span> <span class="nf">get_ids</span><span class="p">():</span>
@@ -77,7 +76,8 @@
     <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">steamidfile</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.steam.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;steam&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Gets steam status.</span>
 <span class="sd">    Syntax: !steam &lt;user&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -99,7 +99,7 @@
         <span class="k">return</span>
     <span class="n">send</span><span class="p">(</span><span class="s">&#39;Name: </span><span class="si">%s</span><span class="s">; Status: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s">&#39;personaname&#39;</span><span class="p">],</span> <span class="n">get_status</span><span class="p">(</span><span class="n">output</span><span class="p">)))</span>
 
-</div>
+
 <div class="viewcode-block" id="get_status"><a class="viewcode-back" href="../../commands.html#commands.steam.get_status">[docs]</a><span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
     <span class="n">state</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="s">&#39;personastate&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>

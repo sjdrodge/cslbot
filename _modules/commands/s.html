@@ -66,8 +66,7 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
-
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;target&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="get_log"><a class="viewcode-back" href="../../commands.html#commands.s.get_log">[docs]</a><span class="k">def</span> <span class="nf">get_log</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
@@ -98,7 +97,8 @@
     <span class="k">return</span> <span class="n">mods</span>
 
 </div>
-<div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.s.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">,</span> <span class="s">&#39;botnick&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Corrects a previous message.</span>
 <span class="sd">    Syntax: !s/&lt;msg&gt;/&lt;replacement&gt;/&lt;ig|nick&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -107,8 +107,8 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid Syntax.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
-    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;private&#39;</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Don&#39;t worry, </span><span class="si">%s</span><span class="s"> is not a grammar Nazi.&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;privmsg&#39;</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Don&#39;t worry, </span><span class="si">%s</span><span class="s"> is not a grammar Nazi.&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;botnick&#39;</span><span class="p">])</span>
         <span class="k">return</span>
     <span class="n">string</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">replacement</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -129,7 +129,7 @@
             <span class="k">elif</span> <span class="n">line</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;mode&#39;</span><span class="p">:</span>
                 <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> actually meant: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="s">&#39;source&#39;</span><span class="p">],</span> <span class="n">output</span><span class="p">))</span>
             <span class="k">return</span>
-    <span class="n">send</span><span class="p">(</span><span class="s">&quot;No match found.&quot;</span><span class="p">)</span></div>
+    <span class="n">send</span><span class="p">(</span><span class="s">&quot;No match found.&quot;</span><span class="p">)</span>
 </pre></div>
 
           </div>

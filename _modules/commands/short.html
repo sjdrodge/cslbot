@@ -68,6 +68,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
 <span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">HTTPError</span>
+<span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="get_short"><a class="viewcode-back" href="../../commands.html#commands.short.get_short">[docs]</a><span class="k">def</span> <span class="nf">get_short</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
@@ -93,14 +94,15 @@
             <span class="k">raise</span> <span class="n">e</span>
 
 </div>
-<div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.short.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;short&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shortens the given url.</span>
 <span class="sd">    Syntax: !short &lt;url&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Shorten what?&quot;</span><span class="p">)</span>
         <span class="k">return</span>
-    <span class="n">send</span><span class="p">(</span><span class="n">get_short</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span></div>
+    <span class="n">send</span><span class="p">(</span><span class="n">get_short</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
 </pre></div>
 
           </div>

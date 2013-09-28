@@ -68,8 +68,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
-
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="get_categories"><a class="viewcode-back" href="../../commands.html#commands.ebay.get_categories">[docs]</a><span class="k">def</span> <span class="nf">get_categories</span><span class="p">(</span><span class="n">apikey</span><span class="p">):</span>
@@ -108,7 +107,8 @@
     <span class="k">return</span> <span class="n">item</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39; -- http://www.ebay.com/itm/&#39;</span> <span class="o">+</span> <span class="n">item</span><span class="p">[</span><span class="s">&#39;itemId&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
 </div>
-<div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.ebay.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;ebay&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implements xkcd 576.</span>
 <span class="sd">    Syntax: !ebay</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -117,7 +117,7 @@
     <span class="n">item</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">item</span><span class="p">:</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">get_item</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">categories</span><span class="p">),</span> <span class="n">apikey</span><span class="p">)</span>
-    <span class="n">send</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+    <span class="n">send</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 </pre></div>
 
           </div>

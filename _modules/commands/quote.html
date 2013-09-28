@@ -66,8 +66,7 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
-
-<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;connection&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="check_quote_exists_by_id"><a class="viewcode-back" href="../../commands.html#commands.quote.check_quote_exists_by_id">[docs]</a><span class="k">def</span> <span class="nf">check_quote_exists_by_id</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">qid</span><span class="p">):</span>
@@ -129,7 +128,8 @@
     <span class="k">return</span> <span class="s">&#39;Deleted quote with ID </span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">qid</span>
 
 </div>
-<div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.quote.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;quote&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;connection&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Handles quotes.</span>
 <span class="sd">    Syntax: !quote &lt;number&gt;, !quote add &lt;quote&gt; -- &lt;nick&gt;, !quote list, !quote remove &lt;number&gt;, !quote edit &lt;number&gt; &lt;quote&gt; -- &lt;nick&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -141,8 +141,11 @@
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="n">send</span><span class="p">(</span><span class="n">do_get_quote</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;add&#39;</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">do_add_quote</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">cursor</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;privmsg&#39;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;You want everybody to know about your witty sayings, right?&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">do_add_quote</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">cursor</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;list&#39;</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="n">do_list_quotes</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;quoteurl&#39;</span><span class="p">]))</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;remove&#39;</span> <span class="ow">or</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;delete&#39;</span><span class="p">:</span>
@@ -162,7 +165,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;You aren&#39;t allowed to edit quotes. Please ask a bot admin to do it&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Bad command, please use !quote &lt;number&gt; to get quotes. Valid commands are !quote [add|list|remove|edit]&quot;</span><span class="p">)</span></div>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Bad command, please use !quote &lt;number&gt; to get quotes. Valid commands are !quote [add|list|remove|edit]&quot;</span><span class="p">)</span>
 </pre></div>
 
           </div>
