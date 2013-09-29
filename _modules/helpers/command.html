@@ -132,7 +132,9 @@
 <div class="viewcode-block" id="enable_command"><a class="viewcode-back" href="../../helpers.html#helpers.command.enable_command">[docs]</a><span class="k">def</span> <span class="nf">enable_command</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; removes a command from the disabled commands list&quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">_disabled_commands</span>
-    <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">_disabled_commands</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="s">&quot;all&quot;</span><span class="p">:</span>
+        <span class="n">_disabled_commands</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">elif</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">_disabled_commands</span><span class="p">:</span>
         <span class="k">del</span> <span class="n">_disabled_commands</span><span class="p">[</span><span class="n">command</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">command</span> <span class="o">+</span> <span class="s">&quot; reenabled&quot;</span>
     <span class="k">else</span><span class="p">:</span>

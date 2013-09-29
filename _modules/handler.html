@@ -88,7 +88,6 @@
 <span class="sd">        | caps is a array of the nicks who have abused capslock.</span>
 <span class="sd">        | ignored is a array of the nicks who are currently ignored for</span>
 <span class="sd">        |   bot abuse.</span>
-<span class="sd">        | disabled_mods is a array of the currently disabled modules.</span>
 <span class="sd">        | issues is a list keeping track of pending issues.</span>
 <span class="sd">        | channels is a dict containing the objects for each channel the bot</span>
 <span class="sd">        |   is connected to.</span>
@@ -103,7 +102,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">kick_enabled</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">caps</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">issues</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span> <span class="o">=</span> <span class="p">{}</span>
@@ -120,7 +118,6 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;caps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">caps</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;ignored&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">)</span>
-        <span class="n">data</span><span class="p">[</span><span class="s">&#39;disabled_mods&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;issues&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">issues</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;channels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;abuselist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">)</span>
@@ -131,7 +128,6 @@
         <span class="sd">&quot;&quot;&quot;Called from :func:`bot.do_reload` to restore the handler&#39;s data.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">caps</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;caps&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;ignored&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;disabled_mods&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">issues</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;issues&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;channels&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;abuselist&#39;</span><span class="p">]</span>
@@ -479,10 +475,6 @@
 
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">admins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;auth&#39;</span><span class="p">][</span><span class="s">&#39;admins&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;, &#39;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cmdchar</span><span class="p">):]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">disabled_mods</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;That module is disabled, sorry.&quot;</span><span class="p">)</span>
-            <span class="k">return</span>
 
         <span class="c"># handle !s/a/b/</span>
         <span class="k">if</span> <span class="n">cmd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">s/&#39;</span> <span class="o">%</span> <span class="n">cmdchar</span><span class="p">):</span>
