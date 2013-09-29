@@ -498,11 +498,9 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">clean_sql_connection_pool</span><span class="p">()</span>
-                    <span class="c">#reload commands</span>
                     <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;helpers.command&#39;</span><span class="p">])</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">loadmodules</span><span class="p">()</span>
-                    <span class="c">#reload hooks</span>
                     <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;helpers.hook&#39;</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">loadmodules</span><span class="p">()</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">loadhooks</span><span class="p">()</span>
                     <span class="n">send</span><span class="p">(</span><span class="s">&quot;Aye Aye Capt&#39;n&quot;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">get_admins</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>

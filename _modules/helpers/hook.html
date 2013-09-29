@@ -95,6 +95,10 @@
     <span class="k">return</span> <span class="n">_known_hooks</span>
 
 </div>
+<div class="viewcode-block" id="get_known_hooks"><a class="viewcode-back" href="../../helpers.html#helpers.hook.get_known_hooks">[docs]</a><span class="k">def</span> <span class="nf">get_known_hooks</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">_known_hooks</span>
+
+</div>
 <div class="viewcode-block" id="Hook"><a class="viewcode-back" href="../../helpers.html#helpers.hook.Hook">[docs]</a><span class="k">class</span> <span class="nc">Hook</span><span class="p">():</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -108,7 +112,11 @@
             <span class="k">if</span> <span class="n">msgtype</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">types</span><span class="p">:</span>
                 <span class="n">func</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exe</span> <span class="o">=</span> <span class="n">wrapper</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">__module__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
 <div class="viewcode-block" id="Hook.run"><a class="viewcode-back" href="../../helpers.html#helpers.hook.Hook.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exe</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span></div></div>
