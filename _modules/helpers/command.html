@@ -69,12 +69,8 @@
 <span class="c"># USA.</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">importlib</span>
-<span class="kn">import</span> <span class="nn">imp</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getdoc</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span>
-<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span> <span class="nn">helpers.modutils</span> <span class="kn">import</span> <span class="n">scan_and_reimport</span>
 
 <span class="n">_known_commands</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">_disabled_commands</span> <span class="o">=</span> <span class="p">[]</span>
@@ -84,16 +80,7 @@
     <span class="sd">&quot;&quot;&quot; Scans folder for commands &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">_known_commands</span>
     <span class="n">_known_commands</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="n">folder</span> <span class="o">+</span> <span class="s">&#39;/*.py&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">):</span>
-            <span class="n">cmd</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="c">#We only need to run import_module, the command decorator constructor</span>
-            <span class="c">#will take care of the rest</span>
-            <span class="n">mod_name</span> <span class="o">=</span> <span class="s">&quot;commands.&quot;</span> <span class="o">+</span> <span class="n">cmd</span>
-            <span class="k">if</span> <span class="n">mod_name</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
-                <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">mod_name</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">mod_name</span><span class="p">)</span>
+    <span class="n">scan_and_reimport</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="s">&quot;commands&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_known_commands</span>
 
 </div>
