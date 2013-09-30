@@ -74,7 +74,7 @@
 <span class="kn">from</span> <span class="nn">commands.pull</span> <span class="kn">import</span> <span class="n">do_pull</span>
 <span class="kn">from</span> <span class="nn">configparser</span> <span class="kn">import</span> <span class="n">ConfigParser</span>
 <span class="kn">from</span> <span class="nn">irc.bot</span> <span class="kn">import</span> <span class="n">ServerSpec</span><span class="p">,</span> <span class="n">SingleServerIRCBot</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">dirname</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span><span class="p">,</span> <span class="n">exists</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
 
 
@@ -263,7 +263,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigParser</span><span class="p">()</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;/config.cfg&#39;</span><span class="p">))</span>
+    <span class="n">configfile</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s">&#39;config.cfg&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">configfile</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Please copy config.example to config.cfg and modify to fit your needs.&quot;</span><span class="p">)</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">configfile</span><span class="p">))</span>
     <span class="n">bot</span> <span class="o">=</span> <span class="n">IrcBot</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
     <span class="n">bot</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">init_server</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>
     <span class="n">bot</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
