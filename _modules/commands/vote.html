@@ -139,6 +139,7 @@
         <span class="k">return</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Not A Valid Positive Integer.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
     <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
     <span class="n">query_result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT question,active FROM polls WHERE deleted=0 AND pid=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">query_result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
