@@ -65,6 +65,7 @@
 <span class="c"># along with this program; if not, write to the Free Software</span>
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
@@ -72,7 +73,8 @@
 <span class="c"># Make the generated messages look better.</span>
 <div class="viewcode-block" id="clean_msg"><a class="viewcode-back" href="../../commands.html#commands.babble.clean_msg">[docs]</a><span class="k">def</span> <span class="nf">clean_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;https?://&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">msg</span>
 
 </div>
 <div class="viewcode-block" id="weighted_rand"><a class="viewcode-back" href="../../commands.html#commands.babble.weighted_rand">[docs]</a><span class="k">def</span> <span class="nf">weighted_rand</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
