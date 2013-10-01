@@ -128,6 +128,10 @@
         <span class="k">return</span> <span class="s">&quot;that command isn&#39;t disabled!&quot;</span>
 
 </div>
+<div class="viewcode-block" id="record_command"><a class="viewcode-back" href="../../helpers.html#helpers.command.record_command">[docs]</a><span class="k">def</span> <span class="nf">record_command</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;INSERT INTO commands(nick,command) VALUES(?,?)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+
+</div>
 <div class="viewcode-block" id="Command"><a class="viewcode-back" href="../../helpers.html#helpers.command.Command">[docs]</a><span class="k">class</span> <span class="nc">Command</span><span class="p">():</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[],</span> <span class="n">limit</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="k">global</span> <span class="n">_known_commands</span>
@@ -146,10 +150,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">exe</span> <span class="o">=</span> <span class="n">wrapper</span>
         <span class="k">return</span> <span class="n">wrapper</span>
 
-<div class="viewcode-block" id="Command.run"><a class="viewcode-back" href="../../helpers.html#helpers.command.Command.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.run"><a class="viewcode-back" href="../../helpers.html#helpers.command.Command.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">cursor</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_disabled_commands</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Sorry, that command is disabled.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="n">record_command</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">exe</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Command.get_doc"><a class="viewcode-back" href="../../helpers.html#helpers.command.Command.get_doc">[docs]</a>    <span class="k">def</span> <span class="nf">get_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
