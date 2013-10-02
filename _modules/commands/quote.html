@@ -87,6 +87,14 @@
         <span class="k">return</span> <span class="s">&quot;That quote doesn&#39;t exist!&quot;</span>
 
 </div>
+<div class="viewcode-block" id="get_quotes_nick"><a class="viewcode-back" href="../../commands.html#commands.quote.get_quotes_nick">[docs]</a><span class="k">def</span> <span class="nf">get_quotes_nick</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT quote FROM quotes WHERE nick=?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">nick</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;No quotes for </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">nick</span>
+    <span class="n">quotes</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;quote&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">choice</span><span class="p">(</span><span class="n">quotes</span><span class="p">)</span>
+
+</div>
 <div class="viewcode-block" id="do_add_quote"><a class="viewcode-back" href="../../commands.html#commands.quote.do_add_quote">[docs]</a><span class="k">def</span> <span class="nf">do_add_quote</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">cursor</span><span class="p">):</span>
     <span class="k">if</span> <span class="s">&#39;--&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cmd</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;To add a quote, it must be in the format &lt;quote&gt; -- &lt;nick&gt;&quot;</span>
@@ -165,7 +173,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;You aren&#39;t allowed to edit quotes. Please ask a bot admin to do it&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Bad command, please use !quote &lt;number&gt; to get quotes. Valid commands are !quote [add|list|remove|edit]&quot;</span><span class="p">)</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">get_quotes_nick</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
 </pre></div>
 
           </div>
