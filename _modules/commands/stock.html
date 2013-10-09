@@ -86,10 +86,10 @@
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Which Symbol?&quot;</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="n">get_quote</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;Ask&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;Name&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid Symbol.&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Current: </span><span class="si">%s</span><span class="s"> Change: </span><span class="si">%s</span><span class="s"> 52wk: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">quote</span><span class="p">[</span><span class="s">&#39;BidRealtime&#39;</span><span class="p">],</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;ChangeinPercent&#39;</span><span class="p">],</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;YearRange&#39;</span><span class="p">]))</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> -- </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">) 52wk: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">quote</span><span class="p">[</span><span class="s">&#39;Name&#39;</span><span class="p">],</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;BidRealtime&#39;</span><span class="p">],</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;ChangeinPercent&#39;</span><span class="p">],</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;YearRange&#39;</span><span class="p">]))</span>
 </pre></div>
 
           </div>
