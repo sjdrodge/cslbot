@@ -74,7 +74,7 @@
     <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://query.yahooapis.com/v1/public/yql?q=select%20*</span><span class="si">%20f</span><span class="s">rom%20yahoo.finance.quotes%20WHERE</span><span class="si">%20s</span><span class="s">ymbol%3D&#39;&quot;</span> <span class="o">+</span> <span class="n">symbol</span> \
         <span class="o">+</span> <span class="s">&quot;&#39;&amp;format=json&amp;env=store%3A</span><span class="si">%2F%2F</span><span class="s">datatables.org</span><span class="si">%2F</span><span class="s">alltableswithkeys&amp;callback=&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">][</span><span class="s">&#39;results&#39;</span><span class="p">][</span><span class="s">&#39;quote&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">][</span><span class="s">&#39;results&#39;</span><span class="p">]</span>
 
 </div>
 <span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;stock&#39;</span><span class="p">)</span>
@@ -85,7 +85,10 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Which Symbol?&quot;</span><span class="p">)</span>
         <span class="k">return</span>
-    <span class="n">quote</span> <span class="o">=</span> <span class="n">get_quote</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">while</span> <span class="n">quote</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">quote</span> <span class="o">=</span> <span class="n">get_quote</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;quote&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;Name&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid Symbol.&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
