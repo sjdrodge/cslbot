@@ -127,6 +127,57 @@ thingn: freqn</dd>
 </dd></dl>
 
 </div>
+<div class="section" id="module-commands.badble">
+<span id="badble-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">badble</span></tt> Module<a class="headerlink" href="#module-commands.badble" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.badble.analyze_chat">
+<tt class="descclassname">commands.badble.</tt><tt class="descname">analyze_chat</tt><big>(</big><em>messages</em>, <em>speaker</em><big>)</big><a class="reference internal" href="_modules/commands/badble.html#analyze_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.badble.analyze_chat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a markov dictionary of the form</p>
+<dl class="docutils">
+<dt>word_list <span class="classifier-delimiter">:</span> <span class="classifier">{</span></dt>
+<dd>nextword1 : num_apperences,
+nextword2 : num_apperances,
+....
+nextwordn : num_apperances</dd>
+</dl>
+<p>}</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.badble.build_msg">
+<tt class="descclassname">commands.badble.</tt><tt class="descname">build_msg</tt><big>(</big><em>markov</em>, <em>starts</em>, <em>ends</em>, <em>speaker</em><big>)</big><a class="reference internal" href="_modules/commands/badble.html#build_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.badble.build_msg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.badble.clean_msg">
+<tt class="descclassname">commands.badble.</tt><tt class="descname">clean_msg</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/badble.html#clean_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.badble.clean_msg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.badble.get_messages">
+<tt class="descclassname">commands.badble.</tt><tt class="descname">get_messages</tt><big>(</big><em>cursor</em>, <em>speaker</em>, <em>cmdchar</em><big>)</big><a class="reference internal" href="_modules/commands/badble.html#get_messages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.badble.get_messages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.badble.update_freq_map">
+<tt class="descclassname">commands.badble.</tt><tt class="descname">update_freq_map</tt><big>(</big><em>prefix</em>, <em>suffix</em>, <em>m</em><big>)</big><a class="reference internal" href="_modules/commands/badble.html#update_freq_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.badble.update_freq_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.badble.weighted_rand">
+<tt class="descclassname">commands.badble.</tt><tt class="descname">weighted_rand</tt><big>(</big><em>d</em><big>)</big><a class="reference internal" href="_modules/commands/badble.html#weighted_rand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.badble.weighted_rand" title="Permalink to this definition">¶</a></dt>
+<dd><p>d should be a dictionary of the form</p>
+<dl class="docutils">
+<dt>{</dt>
+<dd>thing1: freq1,
+thing2: freq2,
+...
+thingn: freqn</dd>
+</dl>
+<p>}</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-commands.bc">
 <span id="bc-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">bc</span></tt> Module<a class="headerlink" href="#module-commands.bc" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -278,6 +329,9 @@ thingn: freqn</dd>
 <tt class="descclassname">commands.microwave.</tt><tt class="descname">do_nuke</tt><big>(</big><em>args</em>, <em>target</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/commands/microwave.html#do_nuke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.microwave.do_nuke" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</div>
+<div class="section" id="module-commands.mission">
+<span id="mission-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">mission</span></tt> Module<a class="headerlink" href="#module-commands.mission" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-commands.morse">
 <span id="morse-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">morse</span></tt> Module<a class="headerlink" href="#module-commands.morse" title="Permalink to this headline">¶</a></h2>
@@ -635,6 +689,7 @@ thingn: freqn</dd>
 <li><a class="reference internal" href="#module-commands.ahamilto"><tt class="docutils literal"><span class="pre">ahamilto</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.award"><tt class="docutils literal"><span class="pre">award</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.babble"><tt class="docutils literal"><span class="pre">babble</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-commands.badble"><tt class="docutils literal"><span class="pre">badble</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.bc"><tt class="docutils literal"><span class="pre">bc</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.bike"><tt class="docutils literal"><span class="pre">bike</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.blame"><tt class="docutils literal"><span class="pre">blame</span></tt> Module</a></li>
@@ -669,6 +724,7 @@ thingn: freqn</dd>
 <li><a class="reference internal" href="#module-commands.lmgtfy"><tt class="docutils literal"><span class="pre">lmgtfy</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.meme"><tt class="docutils literal"><span class="pre">meme</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.microwave"><tt class="docutils literal"><span class="pre">microwave</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-commands.mission"><tt class="docutils literal"><span class="pre">mission</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.morse"><tt class="docutils literal"><span class="pre">morse</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.pester"><tt class="docutils literal"><span class="pre">pester</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-commands.pfoley"><tt class="docutils literal"><span class="pre">pfoley</span></tt> Module</a></li>
