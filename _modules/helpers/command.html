@@ -121,11 +121,12 @@
     <span class="k">global</span> <span class="n">_disabled_commands</span>
     <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="s">&quot;all&quot;</span><span class="p">:</span>
         <span class="n">_disabled_commands</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="s">&quot;Enabled all modules.&quot;</span>
     <span class="k">elif</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">_disabled_commands</span><span class="p">:</span>
         <span class="n">_disabled_commands</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">command</span> <span class="o">+</span> <span class="s">&quot; reenabled&quot;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&quot;that command isn&#39;t disabled!&quot;</span>
+        <span class="k">return</span> <span class="s">&quot;That command isn&#39;t disabled!&quot;</span>
 
 </div>
 <div class="viewcode-block" id="record_command"><a class="viewcode-back" href="../../helpers.html#helpers.command.record_command">[docs]</a><span class="k">def</span> <span class="nf">record_command</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">channel</span><span class="p">):</span>
