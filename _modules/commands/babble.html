@@ -127,7 +127,7 @@
 </div>
 <div class="viewcode-block" id="build_msg"><a class="viewcode-back" href="../../commands.html#commands.babble.build_msg">[docs]</a><span class="k">def</span> <span class="nf">build_msg</span><span class="p">(</span><span class="n">markov</span><span class="p">,</span> <span class="n">speaker</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">markov</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&quot;No one has talked with </span><span class="si">%s</span><span class="s"> =(&quot;</span> <span class="o">%</span> <span class="n">speaker</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> hasn&#39;t said anything =(&quot;</span> <span class="o">%</span> <span class="n">speaker</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">markov</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
     <span class="n">last_word</span> <span class="o">=</span> <span class="n">msg</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span>
