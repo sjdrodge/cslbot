@@ -86,19 +86,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connection_pool</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setup_db</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Sql.log"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">):</span>
+<div class="viewcode-block" id="Sql.log"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Logs a message to the database</span>
 
 <span class="sd">        | source: The source of the message.</span>
 <span class="sd">        | target: The target of the message.</span>
-<span class="sd">        | operator: Is the user a operator?</span>
+<span class="sd">        | flags: Is the user a operator or voiced?</span>
 <span class="sd">        | msg: The text of the message.</span>
 <span class="sd">        | msg: The type of message.</span>
 <span class="sd">        | time: The current time (Unix Epoch).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_db_for_current_thread</span><span class="p">()</span>
         <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;INSERT INTO log VALUES(?,?,?,?,?,?)&#39;</span><span class="p">,</span>
-                   <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">,</span> <span class="n">time</span><span class="p">()))</span>
+                   <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">,</span> <span class="n">time</span><span class="p">()))</span>
         <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Sql.get_db_for_current_thread"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.get_db_for_current_thread">[docs]</a>    <span class="k">def</span> <span class="nf">get_db_for_current_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -128,7 +128,7 @@
         <span class="sd">&quot;&quot;&quot; Sets up the database.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_db_for_current_thread</span><span class="p">()</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS log(source TEXT, target TEXT, operator INTEGER, msg TEXT, type TEXT, time INTEGER)&#39;</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS log(source TEXT, target TEXT, flags INTEGER, msg TEXT, type TEXT, time INTEGER)&#39;</span><span class="p">)</span>
         <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS quotes(quote TEXT, nick TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
         <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS polls(question TEXT, active INTEGER DEFAULT 1, deleted INTEGER DEFAULT 0, pid INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
         <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS poll_responses(pid INTEGER, response TEXT, voter TEXT)&#39;</span><span class="p">)</span>
