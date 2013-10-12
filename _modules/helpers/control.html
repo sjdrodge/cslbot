@@ -86,7 +86,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid action.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
-    <span class="n">c</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="s">&quot;ChanServ&quot;</span><span class="p">,</span> <span class="n">action</span><span class="p">)</span>
+    <span class="n">send</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s">&quot;ChanServ&quot;</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="handle_disable"><a class="viewcode-back" href="../../helpers.html#helpers.control.handle_disable">[docs]</a><span class="k">def</span> <span class="nf">handle_disable</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
