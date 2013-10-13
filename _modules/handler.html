@@ -74,8 +74,6 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">commands.creffett</span> <span class="kn">import</span> <span class="n">gen_creffett</span>
 <span class="kn">from</span> <span class="nn">commands.slogan</span> <span class="kn">import</span> <span class="n">gen_slogan</span>
-<span class="kn">from</span> <span class="nn">commands.fwilson</span> <span class="kn">import</span> <span class="n">gen_fwilson</span>
-<span class="kn">from</span> <span class="nn">commands.insult</span> <span class="kn">import</span> <span class="n">gen_insult</span>
 <span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">control</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">hook</span><span class="p">,</span> <span class="n">command</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span><span class="p">,</span> <span class="n">random</span>
@@ -101,7 +99,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">guarded</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outputfilter</span> <span class="o">=</span> <span class="s">&quot;passthrough&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputfilter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kick_enabled</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">caps</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span> <span class="o">=</span> <span class="p">[]</span>
@@ -239,16 +237,7 @@
 <span class="sd">        Records the message in the log.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">msgs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">passthrough</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
-        <span class="n">output_filters</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s">&quot;fwilson&quot;</span><span class="p">:</span> <span class="n">gen_fwilson</span><span class="p">,</span>
-            <span class="s">&quot;creffett&quot;</span><span class="p">:</span> <span class="n">gen_creffett</span><span class="p">,</span>
-            <span class="s">&quot;slogan&quot;</span><span class="p">:</span> <span class="n">gen_slogan</span><span class="p">,</span>
-            <span class="s">&quot;insult&quot;</span><span class="p">:</span> <span class="n">gen_insult</span><span class="p">,</span>
-            <span class="s">&quot;passthrough&quot;</span><span class="p">:</span> <span class="n">passthrough</span><span class="p">,</span>
-            <span class="s">&quot;reset&quot;</span><span class="p">:</span> <span class="n">passthrough</span>
-            <span class="p">}</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">output_filters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">outputfilter</span><span class="p">](</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputfilter</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">400</span><span class="p">:</span>
             <span class="n">split_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_split_pos</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="n">msgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">[:</span><span class="n">split_pos</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
@@ -389,9 +378,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">admins</span> <span class="o">=</span> <span class="p">{</span><span class="n">nick</span><span class="p">:</span> <span class="bp">False</span> <span class="k">for</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">admins</span><span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_admins</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Verified admins reset.&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;outputfilter&#39;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">outputfilter</span> <span class="o">=</span> <span class="n">cmdargs</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Okay!&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;ignore&#39;</span><span class="p">:</span>
             <span class="n">cmdargs</span> <span class="o">=</span> <span class="n">cmdargs</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">cmdargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;clear&#39;</span><span class="p">:</span>
@@ -429,6 +415,7 @@
                 <span class="s">&#39;admins&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">,</span>
                 <span class="s">&#39;issues&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">issues</span><span class="p">,</span>
                 <span class="s">&#39;abuselist&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span><span class="p">,</span>
+                <span class="s">&#39;handler&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
                 <span class="s">&#39;db&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
                 <span class="s">&#39;kick_enabled&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">kick_enabled</span><span class="p">,</span>
                 <span class="s">&#39;guarded&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">guarded</span><span class="p">,</span>
