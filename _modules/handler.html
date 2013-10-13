@@ -72,9 +72,7 @@
 <span class="kn">import</span> <span class="nn">imp</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">commands.creffett</span> <span class="kn">import</span> <span class="n">gen_creffett</span>
-<span class="kn">from</span> <span class="nn">commands.slogan</span> <span class="kn">import</span> <span class="n">gen_slogan</span>
-<span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">control</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">hook</span><span class="p">,</span> <span class="n">command</span>
+<span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">control</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">hook</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">textutils</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span><span class="p">,</span> <span class="n">random</span>
 
@@ -183,23 +181,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="BotHandler.set_admin"><a class="viewcode-back" href="../handler.html#handler.BotHandler.set_admin">[docs]</a>    <span class="k">def</span> <span class="nf">set_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Handle admin verification responses from NickServ.</span>
-
-<span class="sd">        | If someone other than NickServ is trying to become a admin,</span>
-<span class="sd">        | kick them.</span>
-<span class="sd">        | If NickServ tells us that the nick is authed, mark it as verified.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;(.*) ACC ([0-3])&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
-            <span class="k">return</span>
-        <span class="k">if</span> <span class="n">nick</span> <span class="o">!=</span> <span class="s">&#39;NickServ&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;channel&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">users</span><span class="p">()):</span>
-                <span class="n">send</span><span class="p">(</span><span class="s">&quot;Attemped admin abuse by </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;channel&#39;</span><span class="p">])</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">do_kick</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&quot;imposter&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">True</span>
-</div>
 <div class="viewcode-block" id="BotHandler.get_admins"><a class="viewcode-back" href="../handler.html#handler.BotHandler.get_admins">[docs]</a>    <span class="k">def</span> <span class="nf">get_admins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check verification for all admins.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">admin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">:</span>
@@ -226,7 +207,7 @@
                 <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">limit</span><span class="p">:</span>
             <span class="n">text</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">: don&#39;t abuse scores&quot;</span> <span class="k">if</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;scores&#39;</span> <span class="k">else</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">: stop abusing the bot&quot;</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="n">gen_creffett</span><span class="p">(</span><span class="n">text</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">textutils</span><span class="o">.</span><span class="n">gen_creffett</span><span class="p">(</span><span class="n">text</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;channel&#39;</span><span class="p">],</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">True</span>
@@ -263,6 +244,9 @@
 
 <span class="sd">        | Logs to a sqlite db.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># We don&#39;t log NickServ auth calls.</span>
+        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;privnotice&#39;</span><span class="p">:</span>
+            <span class="k">return</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;IRC doesn&#39;t like it when you send it a </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -360,11 +344,11 @@
             <span class="n">ops</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;someone&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
-                <span class="n">send</span><span class="p">(</span><span class="n">gen_creffett</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: /op the bot&quot;</span> <span class="o">%</span> <span class="n">choice</span><span class="p">(</span><span class="n">ops</span><span class="p">)),</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+                <span class="n">send</span><span class="p">(</span><span class="n">textutils</span><span class="o">.</span><span class="n">gen_creffett</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: /op the bot&quot;</span> <span class="o">%</span> <span class="n">choice</span><span class="p">(</span><span class="n">ops</span><span class="p">)),</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.01</span> <span class="ow">and</span> <span class="n">msg</span> <span class="o">==</span> <span class="s">&quot;shutting caps lock off&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">kick</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&quot;HUEHUEHUE GIBE CAPSLOCK PLS I REPORT U&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">kick</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">gen_slogan</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">kick</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">textutils</span><span class="o">.</span><span class="n">gen_slogan</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
 </div>
 <div class="viewcode-block" id="BotHandler.do_admin"><a class="viewcode-back" href="../handler.html#handler.BotHandler.do_admin">[docs]</a>    <span class="k">def</span> <span class="nf">do_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;abuse&#39;</span><span class="p">:</span>
@@ -456,10 +440,6 @@
             <span class="n">realargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_args</span><span class="p">(</span><span class="n">hook</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">hook</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
             <span class="n">hook</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">realargs</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;privnotice&#39;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_admin</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-            <span class="k">return</span>
-
         <span class="c"># must come after set_admin to prevent spam</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">do_log</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
 
@@ -510,6 +490,8 @@
                     <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;helpers.command&#39;</span><span class="p">])</span>
                     <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;helpers.control&#39;</span><span class="p">])</span>
                     <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;helpers.hook&#39;</span><span class="p">])</span>
+                    <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;helpers.sql&#39;</span><span class="p">])</span>
+                    <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;helpers.textutils&#39;</span><span class="p">])</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">loadmodules</span><span class="p">()</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">loadhooks</span><span class="p">()</span>
                     <span class="n">send</span><span class="p">(</span><span class="s">&quot;Aye Aye Capt&#39;n&quot;</span><span class="p">)</span>
