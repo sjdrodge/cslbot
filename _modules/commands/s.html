@@ -69,13 +69,13 @@
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
-<div class="viewcode-block" id="get_log"><a class="viewcode-back" href="../../commands.html#commands.s.get_log">[docs]</a><span class="k">def</span> <span class="nf">get_log</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+<div class="viewcode-block" id="get_log"><a class="viewcode-back" href="../../commands.html#commands.s.get_log">[docs]</a><span class="k">def</span> <span class="nf">get_log</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT msg,type,source FROM log ORDER BY time DESC LIMIT 50&#39;</span><span class="p">)</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT msg,type,source FROM log WHERE target=? ORDER BY time DESC LIMIT 50&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">target</span><span class="p">,))</span>
         <span class="c"># Don&#39;t parrot back the !s call.</span>
         <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT msg,type,source FROM log WHERE source=? ORDER BY time DESC LIMIT 50&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">user</span><span class="p">,))</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT msg,type,source FROM log WHERE source=? AND target=? ORDER BY time DESC LIMIT 50&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
 
 </div>
@@ -97,7 +97,7 @@
     <span class="k">return</span> <span class="n">mods</span>
 
 </div>
-<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">,</span> <span class="s">&#39;botnick&#39;</span><span class="p">])</span>
+<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">,</span> <span class="s">&#39;botnick&#39;</span><span class="p">,</span> <span class="s">&#39;target&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Corrects a previous message.</span>
 <span class="sd">    Syntax: !s/&lt;msg&gt;/&lt;replacement&gt;/&lt;ig|nick&gt;</span>
@@ -118,7 +118,7 @@
     <span class="n">replacement</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">modifiers</span> <span class="o">=</span> <span class="n">get_modifiers</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">])</span>
     <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span> <span class="k">if</span> <span class="n">modifiers</span><span class="p">[</span><span class="s">&#39;ignorecase&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-    <span class="n">log</span> <span class="o">=</span> <span class="n">get_log</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">],</span> <span class="n">modifiers</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">])</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">get_log</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">],</span> <span class="n">modifiers</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">])</span>
 
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">log</span><span class="p">:</span>
         <span class="c"># ignore previous !s calls.</span>
