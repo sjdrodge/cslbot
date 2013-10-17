@@ -80,7 +80,7 @@
 </div>
 <span class="nd">@Hook</span><span class="p">(</span><span class="n">types</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;pubmsg&#39;</span><span class="p">,</span> <span class="s">&#39;action&#39;</span><span class="p">],</span> <span class="n">args</span><span class="o">=</span><span class="p">[])</span>
 <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;/r/([\w]*)&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;(?:^|\s)/r/([\w|^/]*)\b&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
         <span class="k">return</span>
     <span class="n">subreddit</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -89,7 +89,8 @@
     <span class="n">req</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="s">&#39;http://reddit.com/r/</span><span class="si">%s</span><span class="s">/about.json&#39;</span> <span class="o">%</span> <span class="n">subreddit</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s">&#39;CslBot/1.0&#39;</span><span class="p">})</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="s">&#39;data&#39;</span><span class="p">]</span>
-    <span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;public_description&#39;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;public_description&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 </pre></div>
 
           </div>
