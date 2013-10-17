@@ -76,9 +76,9 @@
 
 
 <div class="viewcode-block" id="gen_word"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_word">[docs]</a><span class="k">def</span> <span class="nf">gen_word</span><span class="p">():</span>
-        <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://randomword.setgetgo.com/get.php&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="c"># strip BOM</span>
-        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">decode</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://randomword.setgetgo.com/get.php&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="c"># strip BOM</span>
+    <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">decode</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
 
 </div>
 <div class="viewcode-block" id="gen_fwilson"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_fwilson">[docs]</a><span class="k">def</span> <span class="nf">gen_fwilson</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
