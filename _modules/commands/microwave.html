@@ -66,8 +66,6 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
@@ -145,10 +143,6 @@
         <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&#39;Ding, your </span><span class="si">%s</span><span class="s"> is ready.&#39;</span> <span class="o">%</span> <span class="n">target</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
-            <span class="n">args</span><span class="p">[</span><span class="s">&#39;connection&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="s">&quot;Caught in backwash.&quot;</span><span class="p">)</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
           </div>
