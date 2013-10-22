@@ -99,7 +99,7 @@
 <div class="viewcode-block" id="get_title"><a class="viewcode-back" href="../../helpers.html#helpers.urlutils.get_title">[docs]</a><span class="k">def</span> <span class="nf">get_title</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
         <span class="n">title</span> <span class="o">=</span> <span class="s">&#39;No Title Found&#39;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;http&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;http&#39;</span><span class="p">):</span>
                 <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://&#39;</span> <span class="o">+</span> <span class="n">url</span>
             <span class="n">shorturl</span> <span class="o">=</span> <span class="n">get_short</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
             <span class="c"># Wikipedia doesn&#39;t like the default User-Agent, so we rip-off chrome</span>
