@@ -217,7 +217,7 @@
     <span class="k">return</span> <span class="s">&quot;There are </span><span class="si">%d</span><span class="s"> polls. Check them out at </span><span class="si">%s</span><span class="s">polls.html&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">poll_url</span><span class="p">)</span>
 
 </div>
-<span class="nd">@Command</span><span class="p">([</span><span class="s">&#39;vote&#39;</span><span class="p">,</span> <span class="s">&#39;poll&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">])</span>
+<span class="nd">@Command</span><span class="p">([</span><span class="s">&#39;vote&#39;</span><span class="p">,</span> <span class="s">&#39;poll&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Handles voting.</span>
 <span class="sd">    Syntax: !vote &lt;start|end|list|tally|edit|delete|vote|retract&gt;</span>
