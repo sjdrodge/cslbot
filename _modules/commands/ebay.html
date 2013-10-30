@@ -67,25 +67,22 @@
 
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="get_categories"><a class="viewcode-back" href="../../commands.html#commands.ebay.get_categories">[docs]</a><span class="k">def</span> <span class="nf">get_categories</span><span class="p">(</span><span class="n">apikey</span><span class="p">):</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://open.api.ebay.com/shopping&#39;</span>
-    <span class="n">url</span> <span class="o">+=</span> <span class="s">&#39;?callname=GetCategoryInfo&#39;</span>
-    <span class="n">url</span> <span class="o">+=</span> <span class="s">&#39;&amp;CategoryID=-1&#39;</span>
-    <span class="n">url</span> <span class="o">+=</span> <span class="s">&#39;&amp;IncludeSelector=ChildCategories&#39;</span>
-    <span class="n">req</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    <span class="n">req</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s">&#39;X-EBAY-API-RESPONSE-ENCODING&#39;</span><span class="p">,</span> <span class="s">&#39;JSON&#39;</span><span class="p">)</span>
-    <span class="n">req</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s">&#39;X-EBAY-API-VERSION&#39;</span><span class="p">,</span> <span class="s">&#39;733&#39;</span><span class="p">)</span>
-    <span class="n">req</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s">&#39;X-EBAY-API-APP-ID&#39;</span><span class="p">,</span> <span class="n">apikey</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;callname&#39;</span><span class="p">:</span> <span class="s">&#39;GetCategoryInfo&#39;</span><span class="p">,</span> <span class="s">&#39;CategoryID&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;IncludeSelector&#39;</span><span class="p">:</span> <span class="s">&#39;ChildCategories&#39;</span><span class="p">}</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;X-EBAY-API-RESPONSE-ENCODING&#39;</span><span class="p">:</span> <span class="s">&#39;JSON&#39;</span><span class="p">,</span> <span class="s">&#39;X-EBAY-API-VERSION&#39;</span><span class="p">:</span> <span class="s">&#39;733&#39;</span><span class="p">,</span> <span class="s">&#39;X-EBAY-API-APP-ID&#39;</span><span class="p">:</span> <span class="n">apikey</span><span class="p">}</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s">&#39;http://open.api.ebay.com/shopping&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
     <span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="n">category</span><span class="p">[</span><span class="s">&#39;CategoryID&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;CategoryArray&#39;</span><span class="p">][</span><span class="s">&#39;Category&#39;</span><span class="p">]]</span>
     <span class="n">categories</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;-1&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">categories</span>
 
-</div>
+
+<span class="c"># Only works with urllib&#39;s unencoded query strings.</span></div>
 <div class="viewcode-block" id="get_item"><a class="viewcode-back" href="../../commands.html#commands.ebay.get_item">[docs]</a><span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">apikey</span><span class="p">):</span>
     <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://svcs.ebay.com/services/search/FindingService/v1&#39;</span>
     <span class="n">url</span> <span class="o">+=</span> <span class="s">&#39;?itemFilter(0).name=FreeShippingOnly&amp;itemFilter(0).value=true&#39;</span>
