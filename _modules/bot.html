@@ -69,6 +69,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
 <span class="kn">import</span> <span class="nn">imp</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">handler</span>
 <span class="kn">import</span> <span class="nn">helpers.server</span>
 <span class="kn">from</span> <span class="nn">commands.pull</span> <span class="kn">import</span> <span class="n">do_pull</span>
@@ -273,6 +274,8 @@
     <span class="n">bot</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Need Python 3.3 or higher.&quot;</span><span class="p">)</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
