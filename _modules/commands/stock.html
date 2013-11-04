@@ -65,16 +65,15 @@
 <span class="c"># along with this program; if not, write to the Free Software</span>
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
-<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="get_quote"><a class="viewcode-back" href="../../commands.html#commands.stock.get_quote">[docs]</a><span class="k">def</span> <span class="nf">get_quote</span><span class="p">(</span><span class="n">symbol</span><span class="p">):</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://query.yahooapis.com/v1/public/yql?q=select%20*</span><span class="si">%20f</span><span class="s">rom%20yahoo.finance.quotes%20WHERE</span><span class="si">%20s</span><span class="s">ymbol%3D&#39;&quot;</span> <span class="o">+</span> <span class="n">symbol</span> \
-        <span class="o">+</span> <span class="s">&quot;&#39;&amp;format=json&amp;env=store%3A</span><span class="si">%2F%2F</span><span class="s">datatables.org</span><span class="si">%2F</span><span class="s">alltableswithkeys&amp;callback=&quot;</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;q&#39;</span><span class="p">:</span> <span class="s">&quot;select BidRealtime,Name,ChangeinPercent,YearRange from yahoo.finance.quotes WHERE symbol=&#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="n">symbol</span><span class="p">,</span>
+              <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="s">&#39;json&#39;</span><span class="p">,</span> <span class="s">&#39;env&#39;</span><span class="p">:</span> <span class="s">&#39;store://datatables.org/alltableswithkeys&#39;</span><span class="p">}</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s">&quot;http://query.yahooapis.com/v1/public/yql&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">][</span><span class="s">&#39;results&#39;</span><span class="p">]</span>
 
 </div>
@@ -90,7 +89,7 @@
 
 </div>
 <div class="viewcode-block" id="random_stock"><a class="viewcode-back" href="../../commands.html#commands.stock.random_stock">[docs]</a><span class="k">def</span> <span class="nf">random_stock</span><span class="p">():</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://www.openicon.com/rsp/rsp_n100.php&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s">&#39;http://www.openicon.com/rsp/rsp_n100.php&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
     <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;\((.*)\)&#39;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
 </div>
