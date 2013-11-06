@@ -74,6 +74,7 @@
     <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;q&#39;</span><span class="p">:</span> <span class="s">&quot;select BidRealtime,Name,ChangeinPercent,YearRange from yahoo.finance.quotes WHERE symbol=&#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="n">symbol</span><span class="p">,</span>
               <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="s">&#39;json&#39;</span><span class="p">,</span> <span class="s">&#39;env&#39;</span><span class="p">:</span> <span class="s">&#39;store://datatables.org/alltableswithkeys&#39;</span><span class="p">}</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s">&quot;http://query.yahooapis.com/v1/public/yql&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">][</span><span class="s">&#39;results&#39;</span><span class="p">]</span>
 
 </div>

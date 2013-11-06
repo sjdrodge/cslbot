@@ -65,9 +65,8 @@
 <span class="c"># along with this program; if not, write to the Free Software</span>
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
-<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
@@ -87,11 +86,11 @@
         <span class="k">return</span>
     <span class="n">idlist</span> <span class="o">=</span> <span class="n">get_ids</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=</span><span class="si">%s</span><span class="s">&amp;steamids=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">idlist</span><span class="p">[</span><span class="n">msg</span><span class="p">]))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;key&#39;</span><span class="p">:</span> <span class="n">apikey</span><span class="p">,</span> <span class="s">&#39;steamids&#39;</span><span class="p">:</span> <span class="n">idlist</span><span class="p">[</span><span class="n">msg</span><span class="p">]}</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s">&#39;http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;I don&#39;t have that player in my database.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
