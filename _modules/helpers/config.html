@@ -72,6 +72,7 @@
 <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
 <span class="kn">from</span> <span class="nn">configparser</span> <span class="kn">import</span> <span class="n">ConfigParser</span>
 
+
 <div class="viewcode-block" id="do_config"><a class="viewcode-back" href="../../helpers.html#helpers.config.do_config">[docs]</a><span class="k">def</span> <span class="nf">do_config</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
     <span class="n">nickregex</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nickregex&#39;</span><span class="p">]</span>
     <span class="n">channelregex</span> <span class="o">=</span> <span class="s">&quot;#[^ ,]{1,49}&quot;</span>
@@ -91,11 +92,12 @@
     <span class="k">while</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">channelregex</span><span class="p">,</span> <span class="n">controlchannel</span><span class="p">):</span>
         <span class="n">controlchannel</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompttext</span> <span class="o">%</span> <span class="s">&quot;control channel&quot;</span><span class="p">)</span>
     <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">controlchannel</span>
-    
+
     <span class="n">admins</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">check_admins</span><span class="p">(</span><span class="n">admins</span><span class="p">,</span> <span class="n">nickregex</span><span class="p">):</span>
         <span class="n">admins</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompttext</span> <span class="o">%</span> <span class="s">&quot;coma-delimited list of admins&quot;</span><span class="p">)</span>
     <span class="n">config</span><span class="p">[</span><span class="s">&#39;auth&#39;</span><span class="p">][</span><span class="s">&#39;admins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">admins</span>
+
 </div>
 <div class="viewcode-block" id="check_admins"><a class="viewcode-back" href="../../helpers.html#helpers.config.check_admins">[docs]</a><span class="k">def</span> <span class="nf">check_admins</span><span class="p">(</span><span class="n">admins</span><span class="p">,</span> <span class="n">nickregex</span><span class="p">):</span>
     <span class="n">admins</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">admins</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
@@ -103,6 +105,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">nickregex</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="bp">True</span>
+
 </div>
 <div class="viewcode-block" id="do_setup"><a class="viewcode-back" href="../../helpers.html#helpers.config.do_setup">[docs]</a><span class="k">def</span> <span class="nf">do_setup</span><span class="p">(</span><span class="n">configfile</span><span class="p">):</span>
     <span class="n">examplefile</span> <span class="o">=</span> <span class="n">configfile</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;cfg&#39;</span><span class="p">,</span> <span class="s">&#39;example&#39;</span><span class="p">)</span>
