@@ -103,8 +103,7 @@
     <span class="c">#strip off excess leading/ending spaces</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">quote</span><span class="p">]</span>
     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;INSERT INTO quotes(quote, nick) VALUES(?,?)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">quote</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">quote</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
-    <span class="k">return</span> <span class="s">&quot;Added quote!&quot;</span>
+    <span class="k">return</span> <span class="s">&quot;Added quote </span><span class="si">%d</span><span class="s">!&quot;</span> <span class="o">%</span> <span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span>
 
 </div>
 <div class="viewcode-block" id="do_update_quote"><a class="viewcode-back" href="../../commands.html#commands.quote.do_update_quote">[docs]</a><span class="k">def</span> <span class="nf">do_update_quote</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
