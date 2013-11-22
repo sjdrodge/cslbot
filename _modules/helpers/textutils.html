@@ -80,8 +80,12 @@
     <span class="k">return</span> <span class="n">html</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="gen_fwilson"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_fwilson">[docs]</a><span class="k">def</span> <span class="nf">gen_fwilson</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;fwil&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+<div class="viewcode-block" id="gen_fwilson"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_fwilson">[docs]</a><span class="k">def</span> <span class="nf">gen_fwilson</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;fwil&#39;</span><span class="p">):</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;w&#39;</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;w&#39;</span> <span class="k">if</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="s">&#39;f&#39;</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;w&#39;</span><span class="p">:</span>
         <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;wheeeee </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">x</span>
         <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
