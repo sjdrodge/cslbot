@@ -74,10 +74,21 @@
     <span class="k">return</span> <span class="n">get</span><span class="p">(</span><span class="s">&#39;http://xkcd.com/info.0.json&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s">&#39;num&#39;</span><span class="p">]</span>
 
 </div>
-<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;xkcd&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="do_search"><a class="viewcode-back" href="../../commands.html#commands.xkcd.do_search">[docs]</a><span class="k">def</span> <span class="nf">do_search</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">searchid</span><span class="p">):</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;q&#39;</span><span class="p">:</span> <span class="n">msg</span><span class="p">,</span> <span class="s">&#39;key&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span> <span class="s">&#39;cx&#39;</span><span class="p">:</span> <span class="n">searchid</span><span class="p">}</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s">&#39;https://www.googleapis.com/customsearch/v1&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s">&#39;items&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;No Results found.&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;items&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> -- </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;link&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">output</span>
+
+</div>
+<span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;xkcd&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Gets a xkcd comic.</span>
-<span class="sd">    Syntax: !xkcd &lt;num|latest&gt;</span>
+<span class="sd">    Syntax: !xkcd &lt;num|latest|term&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">latest</span> <span class="o">=</span> <span class="n">get_latest</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
@@ -90,7 +101,7 @@
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;Number out of range&quot;</span><span class="p">)</span>
             <span class="k">return</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Not A Valid Positive Integer&quot;</span><span class="p">)</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">do_search</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;api&#39;</span><span class="p">][</span><span class="s">&#39;xkcdkey&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;api&#39;</span><span class="p">][</span><span class="s">&#39;xkcdid&#39;</span><span class="p">]))</span>
         <span class="k">return</span>
     <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://xkcd.com/</span><span class="si">%d</span><span class="s">/info.0.json&#39;</span> <span class="o">%</span> <span class="n">msg</span> <span class="k">if</span> <span class="n">msg</span> <span class="o">!=</span> <span class="s">&#39;latest&#39;</span> <span class="k">else</span> <span class="s">&#39;http://xkcd.com/info.0.json&#39;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
