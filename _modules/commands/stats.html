@@ -100,7 +100,7 @@
     <span class="sd">&quot;&quot;&quot;Gets stats.</span>
 <span class="sd">    Syntax: !stats &lt;--high|--low|command&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">commands</span> <span class="o">=</span> <span class="n">get_commands</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
     <span class="n">totals</span> <span class="o">=</span> <span class="n">get_command_totals</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">commands</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">is_registered</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>

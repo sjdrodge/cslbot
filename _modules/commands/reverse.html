@@ -84,11 +84,12 @@
     <span class="sd">&quot;&quot;&quot;Reverses a message.</span>
 <span class="sd">    Syntax: !reverse --&lt;nick&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&quot;^--&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span> <span class="k">else</span> <span class="bp">None</span>
     <span class="k">if</span> <span class="n">msg</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
         <span class="k">return</span>
-    <span class="n">log</span> <span class="o">=</span> <span class="n">get_log</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">],</span> <span class="n">user</span><span class="p">)</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">get_log</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">log</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Couldn&#39;t find a message from </span><span class="si">%s</span><span class="s"> :(&quot;</span> <span class="o">%</span> <span class="n">user</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
