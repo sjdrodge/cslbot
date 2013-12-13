@@ -105,7 +105,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Invalid Syntax.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
-    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
     <span class="n">char</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
     <span class="c">#fix for people who forget a trailing slash</span>
