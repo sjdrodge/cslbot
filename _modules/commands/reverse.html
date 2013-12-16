@@ -69,17 +69,17 @@
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
-<div class="viewcode-block" id="get_log"><a class="viewcode-back" href="../../commands.html#commands.reverse.get_log">[docs]</a><span class="k">def</span> <span class="nf">get_log</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+<div class="viewcode-block" id="get_log"><a class="viewcode-back" href="../../commands.html#commands.reverse.get_log">[docs]</a><span class="k">def</span> <span class="nf">get_log</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE type=&#39;pubmsg&#39; ORDER BY time DESC&quot;</span><span class="p">)</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE (target=? AND type=&#39;pubmsg&#39;) ORDER BY time DESC&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">target</span><span class="p">,))</span>
         <span class="c"># Don&#39;t parrot back the !reverse call.</span>
         <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE (source=? AND type=&#39;pubmsg&#39;) ORDER BY time DESC&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">user</span><span class="p">,))</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE (source=? AND target=? AND type=&#39;pubmsg&#39;) ORDER BY time DESC&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
 
 </div>
-<span class="nd">@Command</span><span class="p">([</span><span class="s">&#39;reverse&#39;</span><span class="p">,</span> <span class="s">&#39;sdamashek&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">])</span>
+<span class="nd">@Command</span><span class="p">([</span><span class="s">&#39;reverse&#39;</span><span class="p">,</span> <span class="s">&#39;sdamashek&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;target&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Reverses a message.</span>
 <span class="sd">    Syntax: !reverse --&lt;nick&gt;</span>
@@ -89,7 +89,7 @@
     <span class="k">if</span> <span class="n">msg</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
         <span class="k">return</span>
-    <span class="n">log</span> <span class="o">=</span> <span class="n">get_log</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">cursor</span><span class="p">(),</span> <span class="n">user</span><span class="p">)</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">get_log</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">cursor</span><span class="p">(),</span> <span class="n">user</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;target&#39;</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">log</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Couldn&#39;t find a message from </span><span class="si">%s</span><span class="s"> :(&quot;</span> <span class="o">%</span> <span class="n">user</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
