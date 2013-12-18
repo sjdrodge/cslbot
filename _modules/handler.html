@@ -503,9 +503,7 @@
         <span class="c"># special commands</span>
         <span class="k">if</span> <span class="n">cmd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">cmdchar</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cmdchar</span><span class="p">):]</span> <span class="o">==</span> <span class="s">&#39;reload&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">admins</span><span class="p">:</span>
-                    <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">admins</span><span class="p">:</span>
                     <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">uptime</span><span class="p">[</span><span class="s">&#39;reloaded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">clean_sql_connection_pool</span><span class="p">()</span>
