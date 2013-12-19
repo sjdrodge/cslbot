@@ -173,7 +173,26 @@
         <span class="s">&quot;poop&quot;</span><span class="p">,</span> <span class="s">&quot;craptacular carpet droppings&quot;</span><span class="p">,</span> <span class="s">&quot;jizzum&quot;</span><span class="p">,</span> <span class="s">&quot;cold sores&quot;</span><span class="p">,</span>
         <span class="s">&quot;anal warts&quot;</span><span class="p">]</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> is a </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> of </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">choice</span><span class="p">(</span><span class="n">adj</span><span class="p">),</span> <span class="n">choice</span><span class="p">(</span><span class="n">amt</span><span class="p">),</span> <span class="n">choice</span><span class="p">(</span><span class="n">noun</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">msg</span></div>
+    <span class="k">return</span> <span class="n">msg</span>
+
+</div>
+<div class="viewcode-block" id="char_to_bin"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.char_to_bin">[docs]</a><span class="k">def</span> <span class="nf">char_to_bin</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="c"># We need to be able to handle wchars</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">16</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">ret</span>
+
+</div>
+<div class="viewcode-block" id="gen_binary"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_binary">[docs]</a><span class="k">def</span> <span class="nf">gen_binary</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">char_to_bin</span><span class="p">,</span> <span class="n">string</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
