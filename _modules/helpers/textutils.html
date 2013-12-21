@@ -192,7 +192,11 @@
 
 </div>
 <div class="viewcode-block" id="gen_binary"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_binary">[docs]</a><span class="k">def</span> <span class="nf">gen_binary</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">char_to_bin</span><span class="p">,</span> <span class="n">string</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">char_to_bin</span><span class="p">,</span> <span class="n">string</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="gen_clippy"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_clippy">[docs]</a><span class="k">def</span> <span class="nf">gen_clippy</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: I see you are trying to </span><span class="si">%s</span><span class="s">, would you like some help with that?&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
