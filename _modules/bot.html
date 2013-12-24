@@ -69,6 +69,7 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">handler</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">helpers.workers</span> <span class="kn">import</span> <span class="n">start_workers</span>
 <span class="kn">from</span> <span class="nn">helpers.server</span> <span class="kn">import</span> <span class="n">init_server</span>
 <span class="kn">from</span> <span class="nn">helpers.config</span> <span class="kn">import</span> <span class="n">do_setup</span>
 <span class="kn">from</span> <span class="nn">helpers.defer</span> <span class="kn">import</span> <span class="n">defer</span>
@@ -147,6 +148,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">handler</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">BotHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">c</span>
+        <span class="n">start_workers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">output</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">output</span>
 </div>
@@ -166,6 +168,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="o">.</span><span class="n">get_admins</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
         <span class="n">c</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;channel&#39;</span><span class="p">])</span>
         <span class="n">c</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;auth&#39;</span><span class="p">][</span><span class="s">&#39;ctrlkey&#39;</span><span class="p">])</span>
+        <span class="n">start_workers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="p">)</span>
         <span class="n">extrachans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;extrachans&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">extrachans</span><span class="p">:</span>
             <span class="n">extrachans</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">extrachans</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
