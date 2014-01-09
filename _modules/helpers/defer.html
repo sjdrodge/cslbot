@@ -66,17 +66,24 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,</span>
 <span class="c"># USA.</span>
 
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
-<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">helpers.workers</span> <span class="kn">import</span> <span class="n">add_thread</span><span class="p">,</span> <span class="n">get_thread</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span><span class="p">,</span> <span class="n">current_thread</span><span class="p">,</span> <span class="n">get_ident</span>
 
 
 <span class="k">def</span> <span class="nf">_defer</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-    <span class="n">sleep</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
-    <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">add_thread</span><span class="p">(</span><span class="n">current_thread</span><span class="p">())</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">get_thread</span><span class="p">(</span><span class="n">get_ident</span><span class="p">())[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">)):</span>
+        <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="defer"><a class="viewcode-back" href="../../helpers.html#helpers.defer.defer">[docs]</a><span class="k">def</span> <span class="nf">defer</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-    <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">_defer</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defers an function with args for t seconds. Returns a unique identifier representing</span>
+<span class="sd">    the function to be deferred (i.e. it can be killed to cancel defer).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">_defer</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>
+    <span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">thread</span><span class="o">.</span><span class="n">ident</span></div>
 </pre></div>
 
           </div>

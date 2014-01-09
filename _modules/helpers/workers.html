@@ -64,33 +64,42 @@
 <span class="c"># along with this program; if not, write to the Free Software</span>
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
-<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span><span class="p">,</span> <span class="n">Event</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Lock</span><span class="p">,</span> <span class="n">current_thread</span><span class="p">,</span> <span class="n">get_ident</span>
 <span class="kn">from</span> <span class="nn">helpers.control</span> <span class="kn">import</span> <span class="n">show_issues</span><span class="p">,</span> <span class="n">show_quotes</span>
 
-<span class="n">_threads</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">event</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>
+<span class="n">_threads</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="start_workers"><a class="viewcode-back" href="../../helpers.html#helpers.workers.start_workers">[docs]</a><span class="k">def</span> <span class="nf">start_workers</span><span class="p">(</span><span class="n">handler</span><span class="p">):</span>
-    <span class="k">global</span> <span class="n">_threads</span><span class="p">,</span> <span class="n">event</span>
-
-    <span class="n">event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">_threads</span><span class="p">:</span>
+<div class="viewcode-block" id="stop_workers"><a class="viewcode-back" href="../../helpers.html#helpers.workers.stop_workers">[docs]</a><span class="k">def</span> <span class="nf">stop_workers</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">thread</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">_threads</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
         <span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-    <span class="n">event</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
     <span class="n">_threads</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
+</div>
+<div class="viewcode-block" id="start_workers"><a class="viewcode-back" href="../../helpers.html#helpers.workers.start_workers">[docs]</a><span class="k">def</span> <span class="nf">start_workers</span><span class="p">(</span><span class="n">handler</span><span class="p">):</span>
+    <span class="n">stop_workers</span><span class="p">()</span>
+
+    <span class="c"># Set-up notifications for pending admin approval.</span>
     <span class="n">send</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">handler</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]:</span> <span class="n">handler</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">handler</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">msg</span><span class="p">,</span> <span class="s">&#39;privmsg&#39;</span><span class="p">)</span>
-    <span class="n">_threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">handle_pending</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">send</span><span class="p">),</span> <span class="n">daemon</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">_threads</span><span class="p">:</span>
-        <span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">handle_pending</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">send</span><span class="p">),</span> <span class="n">daemon</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="add_thread"><a class="viewcode-back" href="../../helpers.html#helpers.workers.add_thread">[docs]</a><span class="k">def</span> <span class="nf">add_thread</span><span class="p">(</span><span class="n">thread</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">_threads</span>
+    <span class="n">_threads</span><span class="p">[</span><span class="n">thread</span><span class="o">.</span><span class="n">ident</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">thread</span><span class="p">,</span> <span class="n">Event</span><span class="p">())</span>
+
+</div>
+<div class="viewcode-block" id="get_thread"><a class="viewcode-back" href="../../helpers.html#helpers.workers.get_thread">[docs]</a><span class="k">def</span> <span class="nf">get_thread</span><span class="p">(</span><span class="n">ident</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_threads</span><span class="p">[</span><span class="n">ident</span><span class="p">]</span> <span class="k">if</span> <span class="n">ident</span> <span class="ow">in</span> <span class="n">_threads</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="bp">None</span>
 
 </div>
 <div class="viewcode-block" id="handle_pending"><a class="viewcode-back" href="../../helpers.html#helpers.workers.handle_pending">[docs]</a><span class="k">def</span> <span class="nf">handle_pending</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
-    <span class="k">global</span> <span class="n">event</span>
     <span class="n">admins</span> <span class="o">=</span> <span class="s">&quot;: &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">admins</span><span class="p">)</span>
     <span class="n">cursor</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-    <span class="k">while</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mi">3600</span><span class="p">):</span>
+    <span class="n">add_thread</span><span class="p">(</span><span class="n">current_thread</span><span class="p">())</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">_threads</span><span class="p">[</span><span class="n">get_ident</span><span class="p">()][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mi">3600</span><span class="p">):</span>
         <span class="n">issues</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT title,source,id FROM issues WHERE accepted=0&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
         <span class="n">quotes</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT id,quote,nick,submitter FROM quotes WHERE approved=0&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">issues</span> <span class="ow">or</span> <span class="n">quotes</span><span class="p">:</span>
