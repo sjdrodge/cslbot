@@ -81,7 +81,11 @@
 
 </div>
 <div class="viewcode-block" id="parse_time"><a class="viewcode-back" href="../../helpers.html#helpers.misc.parse_time">[docs]</a><span class="k">def</span> <span class="nf">parse_time</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
-    <span class="n">time</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">time</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="n">time</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
     <span class="n">conv</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;m&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s">&#39;h&#39;</span><span class="p">:</span> <span class="mi">3600</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">:</span> <span class="mi">86400</span><span class="p">}</span>
     <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">conv</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">time</span> <span class="o">*</span> <span class="n">conv</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span>
