@@ -66,12 +66,19 @@
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
-<div class="viewcode-block" id="start_poll"><a class="viewcode-back" href="../../commands.html#commands.vote.start_poll">[docs]</a><span class="k">def</span> <span class="nf">start_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+<div class="viewcode-block" id="start_poll"><a class="viewcode-back" href="../../commands.html#commands.vote.start_poll">[docs]</a><span class="k">def</span> <span class="nf">start_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">isadmin</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Starts a poll &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Polls need a question.&quot;</span>
-    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;INSERT INTO polls(question) VALUES(?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">msg</span><span class="p">,))</span>
-    <span class="k">return</span> <span class="s">&quot;Poll #</span><span class="si">%d</span><span class="s"> created!&quot;</span> <span class="o">%</span> <span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;INSERT INTO polls(question,submitter) VALUES(?,?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">nick</span><span class="p">))</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span>
+    <span class="k">if</span> <span class="n">isadmin</span><span class="p">:</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;UPDATE polls SET accepted=1 WHERE pid=?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">num</span><span class="p">,))</span>
+        <span class="k">return</span> <span class="s">&quot;Poll #</span><span class="si">%d</span><span class="s"> created!&quot;</span> <span class="o">%</span> <span class="n">num</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Poll submitted for approval.&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">nick</span><span class="p">)</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;New Poll: #</span><span class="si">%d</span><span class="s"> -- </span><span class="si">%s</span><span class="s">, Submitted by </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">nick</span><span class="p">),</span> <span class="n">target</span><span class="o">=</span><span class="n">ctrlchan</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&quot;&quot;</span>
 
 </div>
 <div class="viewcode-block" id="delete_poll"><a class="viewcode-back" href="../../commands.html#commands.vote.delete_poll">[docs]</a><span class="k">def</span> <span class="nf">delete_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">poll</span><span class="p">):</span>
@@ -81,7 +88,9 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer.&quot;</span>
     <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
-    <span class="n">query_result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT active,deleted FROM polls WHERE pid=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="n">query_result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT active,deleted FROM polls WHERE pid=? AND accepted=1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">query_result</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;Poll does not exist.&quot;</span>
     <span class="k">if</span> <span class="n">query_result</span><span class="p">[</span><span class="s">&#39;active&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;You can&#39;t delete an active poll!&quot;</span>
     <span class="k">elif</span> <span class="n">query_result</span><span class="p">[</span><span class="s">&#39;deleted&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -98,7 +107,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer.&quot;</span>
     <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(1) FROM polls WHERE pid=? AND deleted=0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(1) FROM polls WHERE pid=? AND deleted=0 AND accepted=1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;That poll was deleted or does not exist!&quot;</span>
     <span class="n">newq</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;UPDATE polls SET question=? WHERE pid=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">newq</span><span class="p">,</span> <span class="n">pid</span><span class="p">))</span>
@@ -113,7 +122,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not a valid positve integer.&quot;</span>
     <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(1) FROM polls WHERE pid=? AND deleted=0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(1) FROM polls WHERE pid=? AND deleted=0 AND accepted=1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;That poll doesn&#39;t exist or has been deleted!&quot;</span>
     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;UPDATE polls SET active=1 WHERE pid=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span>
     <span class="k">return</span> <span class="s">&quot;Poll </span><span class="si">%d</span><span class="s"> reopened!&quot;</span> <span class="o">%</span> <span class="n">pid</span>
@@ -126,7 +135,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">poll</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer.&quot;</span>
     <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(1) FROM polls WHERE pid=? AND deleted=0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(1) FROM polls WHERE pid=? AND deleted=0 AND accepted=1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;That poll doesn&#39;t exist or has already been deleted!&quot;</span>
     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;UPDATE polls SET active=0 WHERE pid=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span>
     <span class="k">return</span> <span class="s">&quot;Poll ended!&quot;</span>
@@ -141,7 +150,7 @@
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Not A Valid Positive Integer.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
-    <span class="n">query_result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT question,active FROM polls WHERE deleted=0 AND pid=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="n">query_result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT question,active FROM polls WHERE deleted=0 AND pid=? AND accepted=1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">query_result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;That poll doesn&#39;t exist or was deleted. Use !poll list to see valid polls&quot;</span><span class="p">)</span>
         <span class="k">return</span>
@@ -182,7 +191,7 @@
         <span class="n">vote</span> <span class="o">=</span> <span class="s">&quot;no&quot;</span>
     <span class="k">elif</span> <span class="n">vote</span> <span class="o">==</span> <span class="s">&quot;y&quot;</span> <span class="ow">or</span> <span class="n">vote</span> <span class="o">==</span> <span class="s">&quot;aye&quot;</span><span class="p">:</span>
         <span class="n">vote</span> <span class="o">=</span> <span class="s">&quot;yes&quot;</span>
-    <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(1) FROM polls WHERE pid=? AND active=1 AND deleted=0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(1) FROM polls WHERE pid=? AND active=1 AND deleted=0 AND accepted=1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;That poll doesn&#39;t exist or isn&#39;t active. Use !poll list to see valid polls&quot;</span>
     <span class="n">old_vote</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT response FROM poll_responses WHERE pid=? AND voter=?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pid</span><span class="p">,</span> <span class="n">nick</span><span class="p">))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">old_vote</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -210,7 +219,7 @@
 
 </div>
 <div class="viewcode-block" id="list_polls"><a class="viewcode-back" href="../../commands.html#commands.vote.list_polls">[docs]</a><span class="k">def</span> <span class="nf">list_polls</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">poll_url</span><span class="p">):</span>
-    <span class="n">num</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT COUNT() FROM polls WHERE active=1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT COUNT() FROM polls WHERE active=1 AND accepted=1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="s">&quot;There are </span><span class="si">%d</span><span class="s"> polls. Check them out at </span><span class="si">%s</span><span class="s">polls.html&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">poll_url</span><span class="p">)</span>
 
 </div>
@@ -227,42 +236,43 @@
         <span class="k">return</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">isadmin</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;start&#39;</span> <span class="ow">or</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;open&#39;</span> <span class="ow">or</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;add&#39;</span> <span class="ow">or</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;create&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;privmsg&#39;</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;We don&#39;t have secret ballots in this benevolent dictatorship!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="n">start_poll</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">cursor</span><span class="p">(),</span> <span class="n">msg</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;end&#39;</span> <span class="ow">or</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;close&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]):</span>
-            <span class="n">send</span><span class="p">(</span><span class="n">end_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;delete&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]):</span>
-            <span class="n">send</span><span class="p">(</span><span class="n">delete_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;edit&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]):</span>
-            <span class="n">send</span><span class="p">(</span><span class="n">edit_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">start_poll</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">cursor</span><span class="p">(),</span> <span class="n">msg</span><span class="p">,</span> <span class="n">isadmin</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]))</span>
     <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;tally&#39;</span><span class="p">:</span>
         <span class="n">tally_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">])</span>
     <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;list&#39;</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="n">list_polls</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;url&#39;</span><span class="p">]))</span>
     <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;retract&#39;</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="n">retract</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]))</span>
-    <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;reopen&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;is_admin&#39;</span><span class="p">](</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]):</span>
-            <span class="n">send</span><span class="p">(</span><span class="n">reopen</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;privmsg&#39;</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;We don&#39;t have secret ballots in this benevolent dictatorship!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="n">vote</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">),</span> <span class="n">msg</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;end&#39;</span> <span class="ow">or</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;close&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">isadmin</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">end_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;delete&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">isadmin</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">delete_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;edit&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">isadmin</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">edit_poll</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s">&#39;reopen&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">isadmin</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">reopen</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Nope, not gonna do it.&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&#39;Invalid Syntax.&#39;</span><span class="p">)</span>
 </pre></div>
