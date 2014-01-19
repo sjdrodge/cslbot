@@ -201,10 +201,12 @@
 <div class="viewcode-block" id="IrcBot.on_mode"><a class="viewcode-back" href="../bot.html#bot.IrcBot.on_mode">[docs]</a>    <span class="k">def</span> <span class="nf">on_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Pass mode changes to :func:`handle_msg`.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle_msg</span><span class="p">(</span><span class="s">&#39;mode&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
-
-    <span class="c">#FIXME: do something.</span>
-    <span class="c">#def on_disconnect(self, c, e):</span>
+</div>
+<div class="viewcode-block" id="IrcBot.on_error"><a class="viewcode-back" href="../bot.html#bot.IrcBot.on_error">[docs]</a>    <span class="k">def</span> <span class="nf">on_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Handle ping timeouts.&quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+        <span class="c"># trigger channel joining, etc. on reconnection.</span>
+        <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="p">,</span> <span class="s">&#39;connection&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="IrcBot.on_quit"><a class="viewcode-back" href="../bot.html#bot.IrcBot.on_quit">[docs]</a>    <span class="k">def</span> <span class="nf">on_quit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Log quits.&quot;&quot;&quot;</span>
