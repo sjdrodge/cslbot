@@ -196,7 +196,29 @@
 
 </div>
 <div class="viewcode-block" id="gen_clippy"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_clippy">[docs]</a><span class="k">def</span> <span class="nf">gen_clippy</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: I see you are trying to </span><span class="si">%s</span><span class="s">, would you like some help with that?&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: I see you are trying to </span><span class="si">%s</span><span class="s">, would you like some help with that?&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="do_xkcd_sub"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.do_xkcd_sub">[docs]</a><span class="k">def</span> <span class="nf">do_xkcd_sub</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">hook</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">substitutions</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;keyboard&#39;</span><span class="p">:</span> <span class="s">&#39;leopard&#39;</span><span class="p">,</span> <span class="s">&#39;witnesses&#39;</span><span class="p">:</span> <span class="s">&#39;these dudes I know&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;allegedly&#39;</span><span class="p">:</span> <span class="s">&#39;kinda probably&#39;</span><span class="p">,</span> <span class="s">&#39;new study&#39;</span><span class="p">:</span> <span class="s">&#39;tumblr post&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;rebuild&#39;</span><span class="p">:</span> <span class="s">&#39;avenge&#39;</span><span class="p">,</span> <span class="s">&#39;space&#39;</span><span class="p">:</span> <span class="s">&#39;SPAAAAAACCCEEEEE&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;google glass&#39;</span><span class="p">:</span> <span class="s">&#39;virtual boy&#39;</span><span class="p">,</span> <span class="s">&#39;smartphone&#39;</span><span class="p">:</span> <span class="s">&#39;pokedex&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;electric&#39;</span><span class="p">:</span> <span class="s">&#39;atomic&#39;</span><span class="p">,</span> <span class="s">&#39;senator&#39;</span><span class="p">:</span> <span class="s">&#39;elf-lord&#39;</span><span class="p">,</span> <span class="s">&#39;car&#39;</span><span class="p">:</span> <span class="s">&#39;cat&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;election&#39;</span><span class="p">:</span> <span class="s">&#39;eating contest&#39;</span><span class="p">,</span> <span class="s">&#39;congressional leaders&#39;</span><span class="p">:</span>
+                     <span class="s">&#39;river spirits&#39;</span><span class="p">,</span> <span class="s">&#39;homeland security&#39;</span><span class="p">:</span> <span class="s">&#39;homestar runner&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;could not be reached for comment&#39;</span><span class="p">:</span>
+                     <span class="s">&#39;is guilty and everyone knows it&#39;</span><span class="p">}</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">msg</span>
+    <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">replacement</span> <span class="ow">in</span> <span class="n">substitutions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&quot;\b</span><span class="si">%s</span><span class="s">\b&quot;</span> <span class="o">%</span> <span class="n">text</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;(.*)(?:-ass )(.*)&#39;</span><span class="p">,</span> <span class="s">r&#39;\1 ass-\2&#39;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">msg</span> <span class="o">==</span> <span class="n">output</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span> <span class="k">if</span> <span class="n">hook</span> <span class="k">else</span> <span class="n">msg</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">output</span></div>
 </pre></div>
 
           </div>
