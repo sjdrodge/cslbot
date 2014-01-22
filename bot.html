@@ -61,6 +61,11 @@
 <em class="property">class </em><tt class="descclassname">bot.</tt><tt class="descname">IrcBot</tt><big>(</big><em>botconfig</em><big>)</big><a class="reference internal" href="_modules/bot.html#IrcBot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.IrcBot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">irc.bot.SingleServerIRCBot</span></tt></p>
 <dl class="method">
+<dt id="bot.IrcBot.check_reload">
+<tt class="descname">check_reload</tt><big>(</big><em>target</em>, <em>c</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/bot.html#IrcBot.check_reload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.IrcBot.check_reload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="bot.IrcBot.do_reload">
 <tt class="descname">do_reload</tt><big>(</big><em>c</em>, <em>target</em>, <em>cmdargs</em>, <em>msgtype</em><big>)</big><a class="reference internal" href="_modules/bot.html#IrcBot.do_reload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.IrcBot.do_reload" title="Permalink to this definition">¶</a></dt>
 <dd><p>The reloading magic.</p>
@@ -81,11 +86,6 @@
 <div class="line">Join the control channel.</div>
 </div>
 </dd></dl>
-
-<dl class="method">
-<dt id="bot.IrcBot.get_channels">
-<tt class="descname">get_channels</tt><big>(</big><em>nick</em><big>)</big><a class="reference internal" href="_modules/bot.html#IrcBot.get_channels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bot.IrcBot.get_channels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="method">
 <dt id="bot.IrcBot.get_version">
@@ -138,7 +138,6 @@
 <dd><p>Handle joins.</p>
 <div class="line-block">
 <div class="line">If another user has joined, just log it.</div>
-<div class="line">Add the joined channel to the channel list.</div>
 <div class="line">If we&#8217;ve been kicked, yell at the kicker.</div>
 </div>
 </dd></dl>
@@ -177,7 +176,6 @@
 <dd><p>Handle parts.</p>
 <div class="line-block">
 <div class="line">If another user is parting, just log it.</div>
-<div class="line">Remove the channel from the list of channels.</div>
 </div>
 </dd></dl>
 

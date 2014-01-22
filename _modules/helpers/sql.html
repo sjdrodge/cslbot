@@ -140,7 +140,8 @@
         <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS urls (url TEXT, title TEXT, nick TEXT, time INTEGER)&#39;</span><span class="p">)</span>
         <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS issues (title TEXT, source TEXT, accepted INTEGER DEFAULT 0,</span><span class="se">\</span>
 <span class="s">                   id INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS notes (note TEXT, submitter TEXT, nick TEXT, time INTEGER, pending INTEGER DEFAULT 1, id INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span></div></div>
+        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS notes (note TEXT, submitter TEXT, nick TEXT, time INTEGER, pending INTEGER DEFAULT 1, id INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS nicks (old TEXT, new TEXT, time INTEGER)&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
