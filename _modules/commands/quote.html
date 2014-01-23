@@ -125,8 +125,7 @@
 
 </div>
 <div class="viewcode-block" id="do_list_quotes"><a class="viewcode-back" href="../../commands.html#commands.quote.do_list_quotes">[docs]</a><span class="k">def</span> <span class="nf">do_list_quotes</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">quote_url</span><span class="p">):</span>
-    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(id) FROM quotes WHERE approved=1&quot;</span><span class="p">)</span>
-    <span class="n">num</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT count(id) FROM quotes WHERE approved=1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="s">&quot;There are </span><span class="si">%d</span><span class="s"> quotes. Check them out at </span><span class="si">%s</span><span class="s">quotes.html&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">quote_url</span><span class="p">)</span>
 
 </div>
