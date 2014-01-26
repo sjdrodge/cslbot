@@ -74,13 +74,11 @@
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 
 
-<div class="viewcode-block" id="get_enabled"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.get_enabled">[docs]</a><span class="k">def</span> <span class="nf">get_enabled</span><span class="p">(</span><span class="n">moddir</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="get_enabled"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.get_enabled">[docs]</a><span class="k">def</span> <span class="nf">get_enabled</span><span class="p">(</span><span class="n">moddir</span><span class="p">):</span>
     <span class="n">mods</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="n">moddir</span> <span class="o">+</span> <span class="s">&#39;/*.py&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">executable</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">):</span>
             <span class="n">mods</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">executable</span><span class="p">:</span>
-        <span class="n">mods</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;__init__&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mods</span>
 
 </div>
