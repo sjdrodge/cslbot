@@ -434,7 +434,7 @@
             <span class="n">nick</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">nick</span>
 
         <span class="c"># modes have separate arguments, everything else just one</span>
-        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;mode&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;nick&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;mode&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;nick&#39;</span> <span class="ow">or</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;join&#39;</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -472,6 +472,11 @@
 
         <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;mode&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">do_mode</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;join&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">nick</span> <span class="o">==</span> <span class="n">c</span><span class="o">.</span><span class="n">real_nickname</span><span class="p">:</span>
+                <span class="n">send</span><span class="p">(</span><span class="s">&quot;Joined channel </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">target</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">])</span>
             <span class="k">return</span>
 
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]:</span>
