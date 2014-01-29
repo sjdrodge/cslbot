@@ -77,7 +77,11 @@
 </div>
 <div class="viewcode-block" id="gen_stock"><a class="viewcode-back" href="../../commands.html#commands.stock.gen_stock">[docs]</a><span class="k">def</span> <span class="nf">gen_stock</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="n">quote</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">quote</span> <span class="o">=</span> <span class="n">get_quote</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;quote&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">quote</span><span class="p">[</span><span class="s">&#39;BidRealtime&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>

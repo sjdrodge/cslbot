@@ -150,7 +150,24 @@
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">chanlist</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">channel</span><span class="o">.</span><span class="n">users</span><span class="p">():</span>
             <span class="n">channels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">channels</span></div>
+    <span class="k">return</span> <span class="n">channels</span>
+
+</div>
+<div class="viewcode-block" id="get_cmdchar"><a class="viewcode-back" href="../../helpers.html#helpers.misc.get_cmdchar">[docs]</a><span class="k">def</span> <span class="nf">get_cmdchar</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">):</span>
+        <span class="n">cmdchar</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;cmdchar&#39;</span><span class="p">]</span>
+        <span class="n">botnick</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: &#39;</span> <span class="o">%</span> <span class="n">connection</span><span class="o">.</span><span class="n">real_nickname</span>
+        <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">botnick</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">botnick</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">altchars</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;altcmdchars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">altchars</span> <span class="ow">and</span> <span class="n">altchars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">altchars</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c"># Don&#39;t require cmdchar in PMs.</span>
+        <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;privmsg&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">msg</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">cmdchar</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">cmdchar</span> <span class="o">+</span> <span class="n">msg</span>
+        <span class="k">return</span> <span class="n">msg</span></div>
 </pre></div>
 
           </div>
