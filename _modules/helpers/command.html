@@ -131,7 +131,6 @@
 </div>
 <div class="viewcode-block" id="record_command"><a class="viewcode-back" href="../../helpers.html#helpers.command.record_command">[docs]</a><span class="k">def</span> <span class="nf">record_command</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">channel</span><span class="p">):</span>
     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;INSERT INTO commands(nick,command,channel) VALUES(?,?,?)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">channel</span><span class="p">))</span>
-    <span class="n">cursor</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 
 </div>
 <div class="viewcode-block" id="check_command"><a class="viewcode-back" href="../../helpers.html#helpers.command.check_command">[docs]</a><span class="k">def</span> <span class="nf">check_command</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>

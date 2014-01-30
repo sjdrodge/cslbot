@@ -66,8 +66,7 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,</span>
 <span class="c"># USA.</span>
 
-<span class="kn">import</span> <span class="nn">sqlite3</span>
-<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">current_thread</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">MetaData</span><span class="p">,</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">create_engine</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span>
 
@@ -80,8 +79,8 @@
 <span class="sd">        | dbfile is the filename of the database</span>
 <span class="sd">        | connection_pool is a dictionary of threadid-&gt;dbconnection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;/../db.sqlite&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">connection_pool</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dbfile</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;/../db.sqlite&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">&#39;sqlite:///</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">dbfile</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setup_db</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Sql.log"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">):</span>
@@ -94,54 +93,79 @@
 <span class="sd">        | msg: The type of message.</span>
 <span class="sd">        | time: The current time (Unix Epoch).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_db_for_current_thread</span><span class="p">()</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;INSERT INTO log VALUES(?,?,?,?,?,?)&#39;</span><span class="p">,</span>
                    <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">,</span> <span class="n">time</span><span class="p">()))</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="Sql.get_db_for_current_thread"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.get_db_for_current_thread">[docs]</a>    <span class="k">def</span> <span class="nf">get_db_for_current_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Gets a database connection unique to the current thread</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">tid</span> <span class="o">=</span> <span class="n">current_thread</span><span class="p">()</span><span class="o">.</span><span class="n">ident</span>
-        <span class="k">if</span> <span class="n">tid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection_pool</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection_pool</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">dbconn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="p">)</span>
-            <span class="n">dbconn</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Row</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connection_pool</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span> <span class="o">=</span> <span class="n">dbconn</span>
-            <span class="k">return</span> <span class="n">dbconn</span>
-</div>
-<div class="viewcode-block" id="Sql.clean_connection_pool"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.clean_connection_pool">[docs]</a>    <span class="k">def</span> <span class="nf">clean_connection_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Cleans out the connection pool.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">conn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection_pool</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-            <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">connection_pool</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Sql.get"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_db_for_current_thread</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span>
 </div>
 <div class="viewcode-block" id="Sql.setup_db"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.setup_db">[docs]</a>    <span class="k">def</span> <span class="nf">setup_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Sets up the database.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_db_for_current_thread</span><span class="p">()</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS log(source TEXT, target TEXT, operator INTEGER, msg TEXT, type TEXT, time INTEGER)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS quotes(quote TEXT, nick TEXT, submitter TEXT, approved INTEGER DEFAULT 0,</span><span class="se">\</span>
-<span class="s">                   id INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS polls(question TEXT, active INTEGER DEFAULT 1, deleted INTEGER DEFAULT 0,</span><span class="se">\</span>
-<span class="s">                   accepted INTEGER DEFAULT 0, submitter TEXT, pid INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS poll_responses(pid INTEGER, response TEXT, voter TEXT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS weather_prefs(nick TEXT UNIQUE, location TEXT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS scores(nick TEXT UNIQUE, score INTEGER, id INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS commands(nick TEXT, command TEXT, channel TEXT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS stopwatches (id INTEGER PRIMARY KEY AUTOINCREMENT, active INTEGER DEFAULT 1,</span><span class="se">\</span>
-<span class="s">                   time INTEGER, elapsed INTEGER DEFAULT 0)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS urls (url TEXT, title TEXT, nick TEXT, time INTEGER)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS issues (title TEXT, source TEXT, accepted INTEGER DEFAULT 0,</span><span class="se">\</span>
-<span class="s">                   id INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS notes (note TEXT, submitter TEXT, nick TEXT, time INTEGER, pending INTEGER DEFAULT 1, id INTEGER PRIMARY KEY AUTOINCREMENT)&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE IF NOT EXISTS nicks (old TEXT, new TEXT, time INTEGER)&#39;</span><span class="p">)</span></div></div>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;source&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;target&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;operator&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;msg&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;quotes&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;quote&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;submitter&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;approved&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;polls&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;question&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;active&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;deleted&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;accepted&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;submitter&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;pid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;poll_responses&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;pid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;response&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;voter&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;weather_prefs&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;location&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;scores&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;score&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;commands&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;command&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;channel&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;stopwatches&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;active&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;elapsed&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;urls&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;url&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;issues&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;source&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;accepted&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;notes&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;note&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;submitter&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;pending&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;nicks&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;old&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;new&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">))</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
