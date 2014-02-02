@@ -69,11 +69,11 @@
 
 <div class="viewcode-block" id="get_log"><a class="viewcode-back" href="../../commands.html#commands.reverse.get_log">[docs]</a><span class="k">def</span> <span class="nf">get_log</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE (target=? AND type=&#39;pubmsg&#39;) ORDER BY time DESC&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">target</span><span class="p">,))</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE (target=</span><span class="si">%s</span><span class="s"> AND type=&#39;pubmsg&#39;) ORDER BY time DESC&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">target</span><span class="p">,))</span>
         <span class="c"># Don&#39;t parrot back the !reverse call.</span>
         <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE (source=? AND target=? AND type=&#39;pubmsg&#39;) ORDER BY time DESC&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE (source=</span><span class="si">%s</span><span class="s"> AND target=</span><span class="si">%s</span><span class="s"> AND type=&#39;pubmsg&#39;) ORDER BY time DESC&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
 
 </div>
