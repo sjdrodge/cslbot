@@ -95,7 +95,7 @@
                    <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">,</span> <span class="n">time</span><span class="p">()))</span>
 </div>
 <div class="viewcode-block" id="Sql.get"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Sql.setup_db"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.setup_db">[docs]</a>    <span class="k">def</span> <span class="nf">setup_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Sets up the database.</span>
