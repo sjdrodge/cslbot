@@ -74,8 +74,8 @@
 
 
 <div class="viewcode-block" id="check_quote_exists_by_id"><a class="viewcode-back" href="../../helpers.html#helpers.misc.check_quote_exists_by_id">[docs]</a><span class="k">def</span> <span class="nf">check_quote_exists_by_id</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">qid</span><span class="p">):</span>
-    <span class="n">quote</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT COUNT(1) FROM quotes WHERE id=</span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">qid</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
-    <span class="k">return</span> <span class="bp">False</span> <span class="k">if</span> <span class="n">quote</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">True</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT COUNT(1) FROM quotes WHERE id=</span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">qid</span><span class="p">,))</span><span class="o">.</span><span class="n">scalar</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">quote</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
 
 </div>
 <div class="viewcode-block" id="check_exists"><a class="viewcode-back" href="../../helpers.html#helpers.misc.check_exists">[docs]</a><span class="k">def</span> <span class="nf">check_exists</span><span class="p">(</span><span class="n">subreddit</span><span class="p">):</span>

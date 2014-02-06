@@ -69,13 +69,11 @@
 
 
 <div class="viewcode-block" id="get_default"><a class="viewcode-back" href="../../commands.html#commands.weather.get_default">[docs]</a><span class="k">def</span> <span class="nf">get_default</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
-    <span class="n">location</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT location FROM weather_prefs WHERE nick=</span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">nick</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">location</span> <span class="o">=</span> <span class="n">location</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;No default location for </span><span class="si">%s</span><span class="s">, defaulting to TJ.&quot;</span> <span class="o">%</span> <span class="n">nick</span><span class="p">)</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT location FROM weather_prefs WHERE nick=</span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">nick</span><span class="p">,))</span><span class="o">.</span><span class="n">scalar</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="c"># default to TJHSST</span>
         <span class="n">location</span> <span class="o">=</span> <span class="s">&#39;22312&#39;</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;No default location for </span><span class="si">%s</span><span class="s">, defaulting to TJ (</span><span class="si">%s</span><span class="s">).&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">location</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">location</span>
 
 </div>
