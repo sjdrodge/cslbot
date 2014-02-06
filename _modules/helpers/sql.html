@@ -66,18 +66,25 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,</span>
 <span class="c"># USA.</span>
 
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">MetaData</span><span class="p">,</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">create_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">Session</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 <span class="kn">from</span> <span class="nn">atexit</span> <span class="kn">import</span> <span class="n">register</span>
+<span class="kn">from</span> <span class="nn">.orm</span> <span class="kn">import</span> <span class="n">setup_db</span>
 
 
+<div class="viewcode-block" id="get_session"><a class="viewcode-back" href="../../helpers.html#helpers.sql.get_session">[docs]</a><span class="k">def</span> <span class="nf">get_session</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="c">#FIXME: add support for sqlite connection string</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">&#39;postgresql://ircbot:</span><span class="si">%s</span><span class="s">@localhost/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;auth&#39;</span><span class="p">][</span><span class="s">&#39;dbpass&#39;</span><span class="p">],</span> <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;dbname&#39;</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">Session</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+</div>
 <div class="viewcode-block" id="Sql"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql">[docs]</a><span class="k">class</span> <span class="nc">Sql</span><span class="p">():</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Set everything up&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">&#39;postgresql://ircbot:</span><span class="si">%s</span><span class="s">@localhost/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;auth&#39;</span><span class="p">][</span><span class="s">&#39;dbpass&#39;</span><span class="p">],</span> <span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;dbname&#39;</span><span class="p">]))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setup_db</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">get_session</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">setup_db</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">)</span>
         <span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Sql.log"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">):</span>
@@ -95,77 +102,11 @@
                    <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">,</span> <span class="n">time</span><span class="p">()))</span>
 </div>
 <div class="viewcode-block" id="Sql.get"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span>
+        <span class="c">#FIXME: don&#39;t use raw sql.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Sql.shutdown"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.shutdown">[docs]</a>    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="Sql.setup_db"><a class="viewcode-back" href="../../helpers.html#helpers.sql.Sql.setup_db">[docs]</a>    <span class="k">def</span> <span class="nf">setup_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Sets up the database.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">metadata</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;source&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;target&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;operator&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;msg&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;quotes&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;quote&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;submitter&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;approved&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;polls&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;question&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;active&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;deleted&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;accepted&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;submitter&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;pid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;poll_responses&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;pid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;response&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;voter&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;weather_prefs&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;location&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;scores&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;score&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;commands&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;command&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;channel&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;stopwatches&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;active&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;elapsed&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;urls&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;url&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;issues&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;source&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;accepted&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;notes&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;note&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;submitter&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;nick&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;pending&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-        <span class="n">Table</span><span class="p">(</span><span class="s">&#39;nicks&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;old&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;new&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
-              <span class="n">Column</span><span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">))</span>
-        <span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 </pre></div>
 
           </div>
