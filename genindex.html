@@ -59,11 +59,14 @@
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
@@ -83,18 +86,42 @@
   <dt><a href="helpers.html#helpers.control.accept_poll">accept_poll() (in module helpers.control)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="helpers.html#helpers.control.accept_quote">accept_quote() (in module helpers.control)</a>
   </dt>
 
+      
+  <dt><a href="helpers.html#helpers.orm.Issues.accepted">accepted (helpers.orm.Issues attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="helpers.html#helpers.orm.Polls.accepted">(helpers.orm.Polls attribute)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Polls.active">active (helpers.orm.Polls attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="helpers.html#helpers.orm.Stopwatches.active">(helpers.orm.Stopwatches attribute)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="helpers.html#helpers.workers.add_thread">add_thread() (in module helpers.workers)</a>
   </dt>
 
       
   <dt><a href="helpers.html#helpers.server.BotNetServer.allow_reuse_address">allow_reuse_address (helpers.server.BotNetServer attribute)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Quotes.approved">approved (helpers.orm.Quotes attribute)</a>
   </dt>
 
   </dl></td>
@@ -136,6 +163,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="helpers.html#helpers.orm.Commands.channel">channel (helpers.orm.Commands attribute)</a>
+  </dt>
+
+      
   <dt><a href="helpers.html#helpers.textutils.char_to_bin">char_to_bin() (in module helpers.textutils)</a>
   </dt>
 
@@ -169,6 +200,14 @@
 
       
   <dt><a href="helpers.html#helpers.command.Command">Command (class in helpers.command)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Commands.command">command (helpers.orm.Commands attribute)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Commands">Commands (class in helpers.orm)</a>
   </dt>
 
       
@@ -347,12 +386,12 @@
   <dt><a href="commands.html#module-commands.issue">commands.issue (module)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="commands.html#module-commands.isup">commands.isup (module)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="commands.html#module-commands.jargon">commands.jargon (module)</a>
   </dt>
@@ -584,6 +623,10 @@
   </dt>
 
       
+  <dt><a href="helpers.html#helpers.orm.Polls.deleted">deleted (helpers.orm.Polls attribute)</a>
+  </dt>
+
+      
   <dt><a href="helpers.html#helpers.command.disable_command">disable_command() (in module helpers.command)</a>
   </dt>
 
@@ -696,11 +739,15 @@
   </dt>
 
       
-  <dt><a href="helpers.html#helpers.command.enable_command">enable_command() (in module helpers.command)</a>
+  <dt><a href="helpers.html#helpers.orm.Stopwatches.elapsed">elapsed (helpers.orm.Stopwatches attribute)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.command.enable_command">enable_command() (in module helpers.command)</a>
+  </dt>
+
       
   <dt><a href="commands.html#commands.vote.end_poll">end_poll() (in module commands.vote)</a>
   </dt>
@@ -1194,9 +1241,55 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="helpers.html#helpers.orm.Log.id">id (helpers.orm.Log attribute)</a>
+  <dt><a href="helpers.html#helpers.orm.Commands.id">id (helpers.orm.Commands attribute)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="helpers.html#helpers.orm.Issues.id">(helpers.orm.Issues attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Log.id">(helpers.orm.Log attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Nicks.id">(helpers.orm.Nicks attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Notes.id">(helpers.orm.Notes attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Poll_responses.id">(helpers.orm.Poll_responses attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Polls.id">(helpers.orm.Polls attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Quotes.id">(helpers.orm.Quotes attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Scores.id">(helpers.orm.Scores attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Stopwatches.id">(helpers.orm.Stopwatches attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Urls.id">(helpers.orm.Urls attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Weather_prefs.id">(helpers.orm.Weather_prefs attribute)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="handler.html#handler.BotHandler.ignore">ignore() (handler.BotHandler method)</a>
   </dt>
@@ -1223,6 +1316,10 @@
   <dt><a href="helpers.html#helpers.command.is_registered">is_registered() (in module helpers.command)</a>
   </dt>
 
+      
+  <dt><a href="helpers.html#helpers.orm.Issues">Issues (class in helpers.orm)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -1244,6 +1341,10 @@
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="helpers.html#helpers.orm.Weather_prefs.location">location (helpers.orm.Weather_prefs attribute)</a>
+  </dt>
+
+      
   <dt><a href="helpers.html#helpers.orm.Log">Log (class in helpers.orm)</a>
   </dt>
 
@@ -1262,11 +1363,71 @@
   </dt>
 
   </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Log.msg">msg (helpers.orm.Log attribute)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Nicks.new">new (helpers.orm.Nicks attribute)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Commands.nick">nick (helpers.orm.Commands attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="helpers.html#helpers.orm.Notes.nick">(helpers.orm.Notes attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Quotes.nick">(helpers.orm.Quotes attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Scores.nick">(helpers.orm.Scores attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Urls.nick">(helpers.orm.Urls attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Weather_prefs.nick">(helpers.orm.Weather_prefs attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="helpers.html#helpers.orm.Nicks">Nicks (class in helpers.orm)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Notes.note">note (helpers.orm.Notes attribute)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Notes">Notes (class in helpers.orm)</a>
+  </dt>
+
+  </dl></td>
 </tr></table>
 
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Nicks.old">old (helpers.orm.Nicks attribute)</a>
+  </dt>
+
       
   <dt><a href="bot.html#bot.IrcBot.on_action">on_action() (bot.IrcBot method)</a>
   </dt>
@@ -1333,6 +1494,10 @@
   <dt><a href="bot.html#bot.IrcBot.on_welcome">on_welcome() (bot.IrcBot method)</a>
   </dt>
 
+      
+  <dt><a href="helpers.html#helpers.orm.Log.operator">operator (helpers.orm.Log attribute)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -1343,10 +1508,42 @@
   <dt><a href="helpers.html#helpers.misc.parse_time">parse_time() (in module helpers.misc)</a>
   </dt>
 
+      
+  <dt><a href="helpers.html#helpers.orm.Notes.pending">pending (helpers.orm.Notes attribute)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.misc.ping">ping() (in module helpers.misc)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="helpers.html#helpers.misc.ping">ping() (in module helpers.misc)</a>
+  <dt><a href="helpers.html#helpers.orm.Poll_responses">Poll_responses (class in helpers.orm)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Polls">Polls (class in helpers.orm)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Polls.question">question (helpers.orm.Polls attribute)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Quotes.quote">quote (helpers.orm.Quotes attribute)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Quotes">Quotes (class in helpers.orm)</a>
   </dt>
 
   </dl></td>
@@ -1424,6 +1621,10 @@
   </dt>
 
       
+  <dt><a href="helpers.html#helpers.orm.Poll_responses.response">response (helpers.orm.Poll_responses attribute)</a>
+  </dt>
+
+      
   <dt><a href="commands.html#commands.vote.retract">retract() (in module commands.vote)</a>
   </dt>
 
@@ -1453,6 +1654,14 @@
 
       
   <dt><a href="helpers.html#helpers.hook.scan_for_hooks">scan_for_hooks() (in module helpers.hook)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Scores.score">score (helpers.orm.Scores attribute)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Scores">Scores (class in helpers.orm)</a>
   </dt>
 
       
@@ -1502,6 +1711,16 @@
   </dt>
 
       
+  <dt><a href="helpers.html#helpers.orm.Issues.source">source (helpers.orm.Issues attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="helpers.html#helpers.orm.Log.source">(helpers.orm.Log attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
   <dt><a href="helpers.html#helpers.sql.Sql">Sql (class in helpers.sql)</a>
   </dt>
 
@@ -1529,6 +1748,24 @@
   <dt><a href="commands.html#commands.stopwatch.stopwatch_resume">stopwatch_resume() (in module commands.stopwatch)</a>
   </dt>
 
+      
+  <dt><a href="helpers.html#helpers.orm.Stopwatches">Stopwatches (class in helpers.orm)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Notes.submitter">submitter (helpers.orm.Notes attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="helpers.html#helpers.orm.Polls.submitter">(helpers.orm.Polls attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Quotes.submitter">(helpers.orm.Quotes attribute)</a>
+  </dt>
+
+      </dl></dd>
   </dl></td>
 </tr></table>
 
@@ -1537,6 +1774,64 @@
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="commands.html#commands.vote.tally_poll">tally_poll() (in module commands.vote)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Log.target">target (helpers.orm.Log attribute)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.Log.time">time (helpers.orm.Log attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="helpers.html#helpers.orm.Nicks.time">(helpers.orm.Nicks attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Notes.time">(helpers.orm.Notes attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Stopwatches.time">(helpers.orm.Stopwatches attribute)</a>
+  </dt>
+
+        
+  <dt><a href="helpers.html#helpers.orm.Urls.time">(helpers.orm.Urls attribute)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Issues.title">title (helpers.orm.Issues attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="helpers.html#helpers.orm.Urls.title">(helpers.orm.Urls attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="helpers.html#helpers.orm.Log.type">type (helpers.orm.Log attribute)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Urls.url">url (helpers.orm.Urls attribute)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Urls">Urls (class in helpers.orm)</a>
   </dt>
 
   </dl></td>
@@ -1550,10 +1845,22 @@
   </dt>
 
   </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Poll_responses.voter">voter (helpers.orm.Poll_responses attribute)</a>
+  </dt>
+
+  </dl></td>
 </tr></table>
 
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.orm.Weather_prefs">Weather_prefs (class in helpers.orm)</a>
+  </dt>
+
+  </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="commands.html#commands.babble.weighted_rand">weighted_rand() (in module commands.babble)</a>
