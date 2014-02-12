@@ -111,6 +111,15 @@ nextwordn : num_apperances</dd>
 <dd></dd></dl>
 
 <dl class="function">
+<dt id="commands.babble.or_">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">or_</tt><big>(</big><em>*clauses</em><big>)</big><a class="headerlink" href="#commands.babble.or_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join a list of clauses together using the <tt class="docutils literal"><span class="pre">OR</span></tt> operator.</p>
+<p>The <tt class="docutils literal"><span class="pre">|</span></tt> operator is also overloaded on all
+<tt class="xref py py-class docutils literal"><span class="pre">ColumnElement</span></tt> subclasses to produce the
+same result.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="commands.babble.weighted_rand">
 <tt class="descclassname">commands.babble.</tt><tt class="descname">weighted_rand</tt><big>(</big><em>d</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#weighted_rand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.weighted_rand" title="Permalink to this definition">¶</a></dt>
 <dd><p>d should be a dictionary of the form</p>
@@ -349,32 +358,32 @@ thingn: freqn</dd>
 <span id="commands-quote-module"></span><h2>commands.quote module<a class="headerlink" href="#module-commands.quote" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="commands.quote.do_add_quote">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">do_add_quote</tt><big>(</big><em>cmd</em>, <em>conn</em>, <em>isadmin</em>, <em>send</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_add_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_add_quote" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_add_quote</tt><big>(</big><em>cmd</em>, <em>session</em>, <em>isadmin</em>, <em>send</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_add_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_add_quote" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.quote.do_delete_quote">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">do_delete_quote</tt><big>(</big><em>cursor</em>, <em>qid</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_delete_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_delete_quote" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_delete_quote</tt><big>(</big><em>session</em>, <em>qid</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_delete_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_delete_quote" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.quote.do_get_quote">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">do_get_quote</tt><big>(</big><em>cursor</em>, <em>qid=None</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_get_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_get_quote" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_get_quote</tt><big>(</big><em>session</em>, <em>qid=None</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_get_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_get_quote" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.quote.do_list_quotes">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">do_list_quotes</tt><big>(</big><em>cursor</em>, <em>quote_url</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_list_quotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_list_quotes" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_list_quotes</tt><big>(</big><em>session</em>, <em>quote_url</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_list_quotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_list_quotes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.quote.do_update_quote">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">do_update_quote</tt><big>(</big><em>cursor</em>, <em>qid</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_update_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_update_quote" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_update_quote</tt><big>(</big><em>session</em>, <em>qid</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_update_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_update_quote" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.quote.get_quotes_nick">
-<tt class="descclassname">commands.quote.</tt><tt class="descname">get_quotes_nick</tt><big>(</big><em>cursor</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#get_quotes_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.get_quotes_nick" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.quote.</tt><tt class="descname">get_quotes_nick</tt><big>(</big><em>session</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#get_quotes_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.get_quotes_nick" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -456,22 +465,22 @@ thingn: freqn</dd>
 <span id="commands-stats-module"></span><h2>commands.stats module<a class="headerlink" href="#module-commands.stats" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="commands.stats.get_command_totals">
-<tt class="descclassname">commands.stats.</tt><tt class="descname">get_command_totals</tt><big>(</big><em>cursor</em>, <em>commands</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_command_totals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_command_totals" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.stats.</tt><tt class="descname">get_command_totals</tt><big>(</big><em>session</em>, <em>commands</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_command_totals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_command_totals" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.stats.get_commands">
-<tt class="descclassname">commands.stats.</tt><tt class="descname">get_commands</tt><big>(</big><em>cursor</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_commands" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.stats.</tt><tt class="descname">get_commands</tt><big>(</big><em>session</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_commands" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.stats.get_nick_totals">
-<tt class="descclassname">commands.stats.</tt><tt class="descname">get_nick_totals</tt><big>(</big><em>cursor</em>, <em>commands</em>, <em>name=None</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_nick_totals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_nick_totals" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.stats.</tt><tt class="descname">get_nick_totals</tt><big>(</big><em>session</em>, <em>commands</em>, <em>name=None</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_nick_totals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_nick_totals" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.stats.get_nicks">
-<tt class="descclassname">commands.stats.</tt><tt class="descname">get_nicks</tt><big>(</big><em>cursor</em>, <em>command</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_nicks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_nicks" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.stats.</tt><tt class="descname">get_nicks</tt><big>(</big><em>session</em>, <em>command</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_nicks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_nicks" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -509,38 +518,33 @@ thingn: freqn</dd>
 <div class="section" id="module-commands.stopwatch">
 <span id="commands-stopwatch-module"></span><h2>commands.stopwatch module<a class="headerlink" href="#module-commands.stopwatch" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="commands.stopwatch.check_sw_valid">
-<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">check_sw_valid</tt><big>(</big><em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#check_sw_valid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.check_sw_valid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="commands.stopwatch.create_sw">
-<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">create_sw</tt><big>(</big><em>cursor</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#create_sw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.create_sw" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">create_sw</tt><big>(</big><em>session</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#create_sw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.create_sw" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.stopwatch.get_elapsed">
-<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">get_elapsed</tt><big>(</big><em>cursor</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#get_elapsed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.get_elapsed" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">get_elapsed</tt><big>(</big><em>session</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#get_elapsed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.get_elapsed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.stopwatch.get_status">
-<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">get_status</tt><big>(</big><em>cursor</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#get_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.get_status" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">get_status</tt><big>(</big><em>session</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#get_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.get_status" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.stopwatch.stop_stopwatch">
-<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">stop_stopwatch</tt><big>(</big><em>cursor</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#stop_stopwatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.stop_stopwatch" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">stop_stopwatch</tt><big>(</big><em>session</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#stop_stopwatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.stop_stopwatch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.stopwatch.stopwatch_list">
-<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">stopwatch_list</tt><big>(</big><em>cursor</em>, <em>send</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#stopwatch_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.stopwatch_list" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">stopwatch_list</tt><big>(</big><em>session</em>, <em>send</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#stopwatch_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.stopwatch_list" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.stopwatch.stopwatch_resume">
-<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">stopwatch_resume</tt><big>(</big><em>cursor</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#stopwatch_resume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.stopwatch_resume" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">stopwatch_resume</tt><big>(</big><em>session</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#stopwatch_resume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.stopwatch_resume" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -574,54 +578,54 @@ thingn: freqn</dd>
 <span id="commands-vote-module"></span><h2>commands.vote module<a class="headerlink" href="#module-commands.vote" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="commands.vote.delete_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">delete_poll</tt><big>(</big><em>cursor</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#delete_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.delete_poll" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">delete_poll</tt><big>(</big><em>session</em>, <em>pid</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#delete_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.delete_poll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes a poll</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.edit_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">edit_poll</tt><big>(</big><em>cursor</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#edit_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.edit_poll" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">edit_poll</tt><big>(</big><em>session</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#edit_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.edit_poll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Edits a poll</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.end_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">end_poll</tt><big>(</big><em>cursor</em>, <em>poll</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#end_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.end_poll" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">end_poll</tt><big>(</big><em>session</em>, <em>pid</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#end_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.end_poll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ends a poll</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.list_polls">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">list_polls</tt><big>(</big><em>cursor</em>, <em>poll_url</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#list_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.list_polls" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">list_polls</tt><big>(</big><em>session</em>, <em>poll_url</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#list_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.list_polls" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.reopen">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">reopen</tt><big>(</big><em>cursor</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#reopen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.reopen" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">reopen</tt><big>(</big><em>session</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#reopen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.reopen" title="Permalink to this definition">¶</a></dt>
 <dd><p>reopens a closed poll.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.retract">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">retract</tt><big>(</big><em>cursor</em>, <em>poll</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#retract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.retract" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">retract</tt><big>(</big><em>session</em>, <em>pid</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#retract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.retract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes a vote for a poll</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.start_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">start_poll</tt><big>(</big><em>cursor</em>, <em>msg</em>, <em>isadmin</em>, <em>send</em>, <em>nick</em>, <em>ctrlchan</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#start_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.start_poll" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">start_poll</tt><big>(</big><em>session</em>, <em>msg</em>, <em>isadmin</em>, <em>send</em>, <em>nick</em>, <em>ctrlchan</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#start_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.start_poll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts a poll</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.tally_poll">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">tally_poll</tt><big>(</big><em>cursor</em>, <em>poll</em>, <em>send</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.tally_poll" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">tally_poll</tt><big>(</big><em>session</em>, <em>pid</em>, <em>send</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.tally_poll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shows the results of poll</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="commands.vote.vote">
-<tt class="descclassname">commands.vote.</tt><tt class="descname">vote</tt><big>(</big><em>cursor</em>, <em>nick</em>, <em>id</em>, <em>vote</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#vote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.vote" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.vote.</tt><tt class="descname">vote</tt><big>(</big><em>session</em>, <em>nick</em>, <em>pid</em>, <em>vote</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#vote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.vote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Votes on a poll</p>
 </dd></dl>
 
@@ -633,7 +637,7 @@ thingn: freqn</dd>
 <span id="commands-weather-module"></span><h2>commands.weather module<a class="headerlink" href="#module-commands.weather" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="commands.weather.get_default">
-<tt class="descclassname">commands.weather.</tt><tt class="descname">get_default</tt><big>(</big><em>nick</em>, <em>cursor</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/commands/weather.html#get_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.weather.get_default" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.weather.</tt><tt class="descname">get_default</tt><big>(</big><em>nick</em>, <em>session</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/commands/weather.html#get_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.weather.get_default" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -643,9 +647,14 @@ thingn: freqn</dd>
 
 <dl class="function">
 <dt id="commands.weather.set_default">
-<tt class="descclassname">commands.weather.</tt><tt class="descname">set_default</tt><big>(</big><em>nick</em>, <em>location</em>, <em>cursor</em>, <em>send</em>, <em>apikey</em><big>)</big><a class="reference internal" href="_modules/commands/weather.html#set_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.weather.set_default" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.weather.</tt><tt class="descname">set_default</tt><big>(</big><em>nick</em>, <em>location</em>, <em>session</em>, <em>send</em>, <em>apikey</em><big>)</big><a class="reference internal" href="_modules/commands/weather.html#set_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.weather.set_default" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets nick&#8217;s default location to location.</p>
 </dd></dl>
+
+<dl class="function">
+<dt id="commands.weather.valid_location">
+<tt class="descclassname">commands.weather.</tt><tt class="descname">valid_location</tt><big>(</big><em>location</em>, <em>apikey</em><big>)</big><a class="reference internal" href="_modules/commands/weather.html#valid_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.weather.valid_location" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-commands.wiki">

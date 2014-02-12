@@ -64,12 +64,13 @@
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
 <span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">helpers.orm</span> <span class="kn">import</span> <span class="n">Scores</span>
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="get_scores"><a class="viewcode-back" href="../../commands.html#commands.bc.get_scores">[docs]</a><span class="k">def</span> <span class="nf">get_scores</span><span class="p">(</span><span class="n">cursor</span><span class="p">):</span>
-    <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT nick,score FROM scores&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]:</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;score&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">}</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Scores</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">row</span><span class="o">.</span><span class="n">nick</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">score</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">}</span>
 
 </div>
 <span class="nd">@Command</span><span class="p">([</span><span class="s">&#39;bc&#39;</span><span class="p">,</span> <span class="s">&#39;math&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">])</span>
@@ -80,7 +81,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Calculate what?&quot;</span><span class="p">)</span>
         <span class="k">return</span>
-    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
     <span class="n">scores</span> <span class="o">=</span> <span class="n">get_scores</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">:</span>

@@ -65,7 +65,10 @@
 
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">or_</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.sql.expression</span> <span class="kn">import</span> <span class="n">func</span>
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
+<span class="kn">from</span> <span class="nn">helpers.orm</span> <span class="kn">import</span> <span class="n">Log</span>
 
 
 <span class="c"># Make the generated messages look better.</span>
@@ -93,8 +96,9 @@
 </div>
 <div class="viewcode-block" id="get_messages"><a class="viewcode-back" href="../../commands.html#commands.babble.get_messages">[docs]</a><span class="k">def</span> <span class="nf">get_messages</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">):</span>
     <span class="n">location</span> <span class="o">=</span> <span class="s">&#39;target&#39;</span> <span class="k">if</span> <span class="n">speaker</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;source&#39;</span>
-    <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT msg FROM log WHERE (type=&#39;pubmsg&#39; OR type=&#39;privmsg&#39;) AND UPPER(&quot;</span> <span class="o">+</span> <span class="n">location</span> <span class="o">+</span> <span class="s">&quot;)=UPPER(</span><span class="si">%s</span><span class="s">) AND msg NOT LIKE </span><span class="si">%s</span><span class="s">||&#39;</span><span class="si">%%</span><span class="s">&#39; AND msg NOT LIKE &#39;</span><span class="si">%%</span><span class="s">:</span><span class="si">%%</span><span class="s">&#39; ORDER BY RANDOM()&quot;</span><span class="p">,</span>
-                          <span class="p">(</span><span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="c">#FIXME: is python random sort faster?</span>
+    <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Log</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">or_</span><span class="p">(</span><span class="n">Log</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&#39;pubmsg&#39;</span><span class="p">,</span> <span class="n">Log</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&#39;privmsg&#39;</span><span class="p">),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Log</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="n">speaker</span><span class="p">),</span>
+                                        <span class="o">~</span><span class="n">Log</span><span class="o">.</span><span class="n">msg</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">cmdchar</span><span class="p">),</span> <span class="o">~</span><span class="n">Log</span><span class="o">.</span><span class="n">msg</span><span class="o">.</span><span class="n">like</span><span class="p">(</span><span class="s">&#39;%:%&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">random</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
 
 <span class="c">#FIXME: make sphinx happy</span></div>
@@ -112,7 +116,7 @@
     <span class="k">if</span> <span class="n">messages</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">markov</span>
     <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">clean_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s">&#39;msg&#39;</span><span class="p">])</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">clean_msg</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">msg</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">markov</span><span class="p">:</span>
                 <span class="n">markov</span><span class="p">[</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -142,7 +146,7 @@
     <span class="sd">&quot;&quot;&quot;Babbles like a user</span>
 <span class="sd">    Syntax: !babble (nick)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
     <span class="n">speaker</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">msg</span> <span class="k">else</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;channel&#39;</span><span class="p">]</span>
     <span class="n">messages</span> <span class="o">=</span> <span class="n">get_messages</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;cmdchar&#39;</span><span class="p">])</span>
     <span class="n">markov</span> <span class="o">=</span> <span class="n">build_markov</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">speaker</span><span class="p">)</span>

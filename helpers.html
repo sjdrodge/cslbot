@@ -314,17 +314,17 @@ the function to be deferred (i.e. it can be killed to cancel defer).</p>
 <span id="helpers-identity-module"></span><h2>helpers.identity module<a class="headerlink" href="#module-helpers.identity" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="helpers.identity.do_kick">
-<tt class="descclassname">helpers.identity.</tt><tt class="descname">do_kick</tt><big>(</big><em>handler</em>, <em>cursor</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/helpers/identity.html#do_kick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.identity.do_kick" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">helpers.identity.</tt><tt class="descname">do_kick</tt><big>(</big><em>handler</em>, <em>session</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/helpers/identity.html#do_kick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.identity.do_kick" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="helpers.identity.get_chain">
-<tt class="descclassname">helpers.identity.</tt><tt class="descname">get_chain</tt><big>(</big><em>cursor</em>, <em>nick</em>, <em>limit=0</em><big>)</big><a class="reference internal" href="_modules/helpers/identity.html#get_chain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.identity.get_chain" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">helpers.identity.</tt><tt class="descname">get_chain</tt><big>(</big><em>session</em>, <em>nick</em>, <em>limit=0</em><big>)</big><a class="reference internal" href="_modules/helpers/identity.html#get_chain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.identity.get_chain" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="helpers.identity.get_mapping">
-<tt class="descclassname">helpers.identity.</tt><tt class="descname">get_mapping</tt><big>(</big><em>cursor</em>, <em>nick</em>, <em>limit</em><big>)</big><a class="reference internal" href="_modules/helpers/identity.html#get_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.identity.get_mapping" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">helpers.identity.</tt><tt class="descname">get_mapping</tt><big>(</big><em>session</em>, <em>nick</em>, <em>limit</em><big>)</big><a class="reference internal" href="_modules/helpers/identity.html#get_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.identity.get_mapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -338,11 +338,6 @@ the function to be deferred (i.e. it can be killed to cancel defer).</p>
 <dl class="function">
 <dt id="helpers.misc.check_exists">
 <tt class="descclassname">helpers.misc.</tt><tt class="descname">check_exists</tt><big>(</big><em>subreddit</em><big>)</big><a class="reference internal" href="_modules/helpers/misc.html#check_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.misc.check_exists" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.misc.check_quote_exists_by_id">
-<tt class="descclassname">helpers.misc.</tt><tt class="descname">check_quote_exists_by_id</tt><big>(</big><em>cursor</em>, <em>qid</em><big>)</big><a class="reference internal" href="_modules/helpers/misc.html#check_quote_exists_by_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.misc.check_quote_exists_by_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -454,6 +449,11 @@ the function to be deferred (i.e. it can be killed to cancel defer).</p>
 <em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Log</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
 <dl class="attribute">
+<dt id="helpers.orm.Log.flags">
+<tt class="descname">flags</tt><a class="headerlink" href="#helpers.orm.Log.flags" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="helpers.orm.Log.id">
 <tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Log.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -461,11 +461,6 @@ the function to be deferred (i.e. it can be killed to cancel defer).</p>
 <dl class="attribute">
 <dt id="helpers.orm.Log.msg">
 <tt class="descname">msg</tt><a class="headerlink" href="#helpers.orm.Log.msg" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="helpers.orm.Log.operator">
-<tt class="descname">operator</tt><a class="headerlink" href="#helpers.orm.Log.operator" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -559,6 +554,11 @@ the function to be deferred (i.e. it can be killed to cancel defer).</p>
 <dl class="attribute">
 <dt id="helpers.orm.Poll_responses.id">
 <tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Poll_responses.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Poll_responses.pid">
+<tt class="descname">pid</tt><a class="headerlink" href="#helpers.orm.Poll_responses.pid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -794,7 +794,7 @@ the function to be deferred (i.e. it can be killed to cancel defer).</p>
 
 <dl class="method">
 <dt id="helpers.sql.Sql.log">
-<tt class="descname">log</tt><big>(</big><em>source</em>, <em>target</em>, <em>flags</em>, <em>msg</em>, <em>msg_type</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.log" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">log</tt><big>(</big><em>source</em>, <em>target</em>, <em>flags</em>, <em>msg</em>, <em>type</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Logs a message to the database</p>
 <div class="line-block">
 <div class="line">source: The source of the message.</div>
