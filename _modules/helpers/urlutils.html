@@ -107,6 +107,9 @@
     <span class="k">except</span> <span class="p">(</span><span class="n">Timeout</span><span class="p">,</span> <span class="n">HTTPError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">CSLException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">URLError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">reason</span><span class="o">.</span><span class="n">strerror</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CSLException</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CSLException</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">reason</span><span class="o">.</span><span class="n">strerror</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">256</span><span class="p">:</span>
         <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="p">[:</span><span class="mi">253</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;...&quot;</span>
