@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>helpers.exception &mdash; IrcBot 0.1 documentation</title>
+    <title>helpers.thread &mdash; IrcBot 0.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -46,7 +46,7 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for helpers.exception</h1><div class="highlight"><pre>
+  <h1>Source code for helpers.thread</h1><div class="highlight"><pre>
 <span class="c"># Copyright (C) 2013-2014 Fox Wilson, Peter Foley, Srijay Kasturi, Samuel Damashek, James Forcier and Reed Koser</span>
 <span class="c">#</span>
 <span class="c"># This program is free software; you can redistribute it and/or</span>
@@ -63,10 +63,25 @@
 <span class="c"># along with this program; if not, write to the Free Software</span>
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Lock</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
 
-<span class="c"># Pretty error messages.</span>
-<div class="viewcode-block" id="CommandFailedException"><a class="viewcode-back" href="../../helpers.html#helpers.exception.CommandFailedException">[docs]</a><span class="k">class</span> <span class="nc">CommandFailedException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">pass</span></div>
+<span class="n">_threadcount</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">_lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+<span class="n">_executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">_threadcount</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="start"><a class="viewcode-back" href="../../helpers.html#helpers.thread.start">[docs]</a><span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">_lock</span><span class="p">:</span>
+        <span class="n">_executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="shutdown"><a class="viewcode-back" href="../../helpers.html#helpers.thread.shutdown">[docs]</a><span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="nb">reload</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">_executor</span>
+    <span class="k">with</span> <span class="n">_lock</span><span class="p">:</span>
+        <span class="n">_executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">reload</span><span class="p">:</span>
+            <span class="n">_executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">_threadcount</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

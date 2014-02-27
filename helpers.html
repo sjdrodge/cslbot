@@ -275,21 +275,11 @@
 <dd></dd></dl>
 
 </div>
-<div class="section" id="module-helpers.defer">
-<span id="helpers-defer-module"></span><h2>helpers.defer module<a class="headerlink" href="#module-helpers.defer" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="helpers.defer.defer">
-<tt class="descclassname">helpers.defer.</tt><tt class="descname">defer</tt><big>(</big><em>t</em>, <em>function</em>, <em>*args</em><big>)</big><a class="reference internal" href="_modules/helpers/defer.html#defer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.defer.defer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defers an function with args for t seconds. Returns a unique identifier representing
-the function to be deferred (i.e. it can be killed to cancel defer).</p>
-</dd></dl>
-
-</div>
 <div class="section" id="module-helpers.exception">
 <span id="helpers-exception-module"></span><h2>helpers.exception module<a class="headerlink" href="#module-helpers.exception" title="Permalink to this headline">¶</a></h2>
 <dl class="exception">
-<dt id="helpers.exception.CSLException">
-<em class="property">exception </em><tt class="descclassname">helpers.exception.</tt><tt class="descname">CSLException</tt><a class="reference internal" href="_modules/helpers/exception.html#CSLException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.exception.CSLException" title="Permalink to this definition">¶</a></dt>
+<dt id="helpers.exception.CommandFailedException">
+<em class="property">exception </em><tt class="descclassname">helpers.exception.</tt><tt class="descname">CommandFailedException</tt><a class="reference internal" href="_modules/helpers/exception.html#CommandFailedException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.exception.CommandFailedException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
 </dd></dl>
 
@@ -891,6 +881,19 @@ the function to be deferred (i.e. it can be killed to cancel defer).</p>
 <dd></dd></dl>
 
 </div>
+<div class="section" id="module-helpers.thread">
+<span id="helpers-thread-module"></span><h2>helpers.thread module<a class="headerlink" href="#module-helpers.thread" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="helpers.thread.shutdown">
+<tt class="descclassname">helpers.thread.</tt><tt class="descname">shutdown</tt><big>(</big><em>reload</em><big>)</big><a class="reference internal" href="_modules/helpers/thread.html#shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.thread.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.thread.start">
+<tt class="descclassname">helpers.thread.</tt><tt class="descname">start</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="_modules/helpers/thread.html#start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.thread.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
 <div class="section" id="module-helpers.traceback">
 <span id="helpers-traceback-module"></span><h2>helpers.traceback module<a class="headerlink" href="#module-helpers.traceback" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -914,30 +917,31 @@ the function to be deferred (i.e. it can be killed to cancel defer).</p>
 </div>
 <div class="section" id="module-helpers.workers">
 <span id="helpers-workers-module"></span><h2>helpers.workers module<a class="headerlink" href="#module-helpers.workers" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="helpers.workers.add_thread">
-<tt class="descclassname">helpers.workers.</tt><tt class="descname">add_thread</tt><big>(</big><em>thread</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#add_thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.add_thread" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="helpers.workers.Workers">
+<em class="property">class </em><tt class="descclassname">helpers.workers.</tt><tt class="descname">Workers</tt><big>(</big><em>handler</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#Workers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="helpers.workers.Workers.cancel">
+<tt class="descname">cancel</tt><big>(</big><em>eventid</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#Workers.cancel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.cancel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="helpers.workers.get_thread">
-<tt class="descclassname">helpers.workers.</tt><tt class="descname">get_thread</tt><big>(</big><em>ident</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#get_thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.get_thread" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="helpers.workers.Workers.defer">
+<tt class="descname">defer</tt><big>(</big><em>t</em>, <em>func</em>, <em>*args</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#Workers.defer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.defer" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="helpers.workers.handle_pending">
-<tt class="descclassname">helpers.workers.</tt><tt class="descname">handle_pending</tt><big>(</big><em>handler</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#handle_pending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.handle_pending" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="helpers.workers.Workers.handle_pending">
+<tt class="descname">handle_pending</tt><big>(</big><em>handler</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#Workers.handle_pending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.handle_pending" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="helpers.workers.start_workers">
-<tt class="descclassname">helpers.workers.</tt><tt class="descname">start_workers</tt><big>(</big><em>handler</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#start_workers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.start_workers" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="helpers.workers.Workers.stop_workers">
+<tt class="descname">stop_workers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#Workers.stop_workers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.stop_workers" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="helpers.workers.stop_workers">
-<tt class="descclassname">helpers.workers.</tt><tt class="descname">stop_workers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#stop_workers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.stop_workers" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+</dd></dl>
 
 </div>
 <div class="section" id="module-helpers">
@@ -959,7 +963,6 @@ the function to be deferred (i.e. it can be killed to cancel defer).</p>
 <li><a class="reference internal" href="#module-helpers.command">helpers.command module</a></li>
 <li><a class="reference internal" href="#module-helpers.config">helpers.config module</a></li>
 <li><a class="reference internal" href="#module-helpers.control">helpers.control module</a></li>
-<li><a class="reference internal" href="#module-helpers.defer">helpers.defer module</a></li>
 <li><a class="reference internal" href="#module-helpers.exception">helpers.exception module</a></li>
 <li><a class="reference internal" href="#module-helpers.hook">helpers.hook module</a></li>
 <li><a class="reference internal" href="#module-helpers.identity">helpers.identity module</a></li>
@@ -969,6 +972,7 @@ the function to be deferred (i.e. it can be killed to cancel defer).</p>
 <li><a class="reference internal" href="#module-helpers.server">helpers.server module</a></li>
 <li><a class="reference internal" href="#module-helpers.sql">helpers.sql module</a></li>
 <li><a class="reference internal" href="#module-helpers.textutils">helpers.textutils module</a></li>
+<li><a class="reference internal" href="#module-helpers.thread">helpers.thread module</a></li>
 <li><a class="reference internal" href="#module-helpers.traceback">helpers.traceback module</a></li>
 <li><a class="reference internal" href="#module-helpers.urlutils">helpers.urlutils module</a></li>
 <li><a class="reference internal" href="#module-helpers.workers">helpers.workers module</a></li>
