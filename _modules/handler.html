@@ -294,14 +294,15 @@
 
 <span class="sd">        | Checks if bot is already joined to channel.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmdargs</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cmdargs</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;Join what?&quot;</span><span class="p">)</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="n">cmdargs</span> <span class="o">==</span> <span class="s">&#39;0&#39;</span><span class="p">:</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;I&#39;m sorry, Dave. I&#39;m afraid I can&#39;t do that.&quot;</span><span class="p">)</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="n">cmdargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
             <span class="n">cmdargs</span> <span class="o">=</span> <span class="s">&#39;#&#39;</span> <span class="o">+</span> <span class="n">cmdargs</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmdargs</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;force&quot;</span><span class="p">):</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> is already a member of </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">],</span>
                  <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
