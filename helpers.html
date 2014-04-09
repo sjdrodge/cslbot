@@ -74,8 +74,23 @@
 <div class="section" id="helpers-command-module">
 <h2>helpers.command module<a class="headerlink" href="#helpers-command-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="helpers-config-module">
-<h2>helpers.config module<a class="headerlink" href="#helpers-config-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-helpers.config">
+<span id="helpers-config-module"></span><h2>helpers.config module<a class="headerlink" href="#module-helpers.config" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="helpers.config.check_admins">
+<tt class="descclassname">helpers.config.</tt><tt class="descname">check_admins</tt><big>(</big><em>admins</em>, <em>nickregex</em><big>)</big><a class="reference internal" href="_modules/helpers/config.html#check_admins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.config.check_admins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.config.do_config">
+<tt class="descclassname">helpers.config.</tt><tt class="descname">do_config</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/helpers/config.html#do_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.config.do_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.config.do_setup">
+<tt class="descclassname">helpers.config.</tt><tt class="descname">do_setup</tt><big>(</big><em>configfile</em><big>)</big><a class="reference internal" href="_modules/helpers/config.html#do_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.config.do_setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="helpers-control-module">
 <h2>helpers.control module<a class="headerlink" href="#helpers-control-module" title="Permalink to this headline">¶</a></h2>
@@ -85,7 +100,7 @@
 <dl class="exception">
 <dt id="helpers.exception.CommandFailedException">
 <em class="property">exception </em><tt class="descclassname">helpers.exception.</tt><tt class="descname">CommandFailedException</tt><a class="reference internal" href="_modules/helpers/exception.html#CommandFailedException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.exception.CommandFailedException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
 </dd></dl>
 
 </div>
@@ -94,7 +109,8 @@
 <dl class="class">
 <dt id="helpers.hook.Hook">
 <em class="property">class </em><tt class="descclassname">helpers.hook.</tt><tt class="descname">Hook</tt><big>(</big><em>types</em>, <em>args=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="_modules/helpers/hook.html#Hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.Hook" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
 <dt id="helpers.hook.Hook.run">
 <tt class="descname">run</tt><big>(</big><em>send</em>, <em>msg</em>, <em>msgtype</em>, <em>handler</em>, <em>target</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/helpers/hook.html#Hook.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.Hook.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -181,14 +197,106 @@
 <div class="section" id="helpers-orm-module">
 <h2>helpers.orm module<a class="headerlink" href="#helpers-orm-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="helpers-server-module">
-<h2>helpers.server module<a class="headerlink" href="#helpers-server-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-helpers.server">
+<span id="helpers-server-module"></span><h2>helpers.server module<a class="headerlink" href="#module-helpers.server" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="helpers.server.BotNetHandler">
+<em class="property">class </em><tt class="descclassname">helpers.server.</tt><tt class="descname">BotNetHandler</tt><big>(</big><em>request</em>, <em>client_address</em>, <em>server</em><big>)</big><a class="reference internal" href="_modules/helpers/server.html#BotNetHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.server.BotNetHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">socketserver.BaseRequestHandler</span></tt></p>
+<dl class="method">
+<dt id="helpers.server.BotNetHandler.get_data">
+<tt class="descname">get_data</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/server.html#BotNetHandler.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.server.BotNetHandler.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="helpers.server.BotNetHandler.handle">
+<tt class="descname">handle</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/server.html#BotNetHandler.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.server.BotNetHandler.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.server.BotNetServer">
+<em class="property">class </em><tt class="descclassname">helpers.server.</tt><tt class="descname">BotNetServer</tt><big>(</big><em>server_address</em>, <em>RequestHandlerClass</em>, <em>bind_and_activate=True</em><big>)</big><a class="reference internal" href="_modules/helpers/server.html#BotNetServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.server.BotNetServer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">socketserver.ThreadingMixIn</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">socketserver.TCPServer</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.server.BotNetServer.allow_reuse_address">
+<tt class="descname">allow_reuse_address</tt><em class="property"> = True</em><a class="headerlink" href="#helpers.server.BotNetServer.allow_reuse_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.server.init_server">
+<tt class="descclassname">helpers.server.</tt><tt class="descname">init_server</tt><big>(</big><em>bot</em><big>)</big><a class="reference internal" href="_modules/helpers/server.html#init_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.server.init_server" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="helpers-sql-module">
 <h2>helpers.sql module<a class="headerlink" href="#helpers-sql-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="helpers-textutils-module">
-<h2>helpers.textutils module<a class="headerlink" href="#helpers-textutils-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-helpers.textutils">
+<span id="helpers-textutils-module"></span><h2>helpers.textutils module<a class="headerlink" href="#module-helpers.textutils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="helpers.textutils.char_to_bin">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">char_to_bin</tt><big>(</big><em>c</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#char_to_bin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.char_to_bin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.do_xkcd_sub">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">do_xkcd_sub</tt><big>(</big><em>msg</em>, <em>hook=False</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#do_xkcd_sub"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.do_xkcd_sub" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.gen_binary">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_binary</tt><big>(</big><em>string</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_binary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.gen_clippy">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_clippy</tt><big>(</big><em>nick</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_clippy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_clippy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.gen_creffett">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_creffett</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_creffett"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_creffett" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.gen_fwilson">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_fwilson</tt><big>(</big><em>x</em>, <em>mode=None</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_fwilson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_fwilson" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.gen_insult">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_insult</tt><big>(</big><em>user</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_insult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_insult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.gen_morse">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_morse</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_morse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_morse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.gen_slogan">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_slogan</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_slogan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_slogan" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.gen_word">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_word</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.random">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">random</tt><big>(</big><big>)</big> &rarr; x in the interval [0, 1).<a class="headerlink" href="#helpers.textutils.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.removevowels">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">removevowels</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#removevowels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.removevowels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-helpers.thread">
 <span id="helpers-thread-module"></span><h2>helpers.thread module<a class="headerlink" href="#module-helpers.thread" title="Permalink to this headline">¶</a></h2>
@@ -211,8 +319,18 @@
 <dd></dd></dl>
 
 </div>
-<div class="section" id="helpers-urlutils-module">
-<h2>helpers.urlutils module<a class="headerlink" href="#helpers-urlutils-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-helpers.urlutils">
+<span id="helpers-urlutils-module"></span><h2>helpers.urlutils module<a class="headerlink" href="#module-helpers.urlutils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="helpers.urlutils.get_short">
+<tt class="descclassname">helpers.urlutils.</tt><tt class="descname">get_short</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/helpers/urlutils.html#get_short"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.urlutils.get_short" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.urlutils.get_title">
+<tt class="descclassname">helpers.urlutils.</tt><tt class="descname">get_title</tt><big>(</big><em>url</em><big>)</big><a class="reference internal" href="_modules/helpers/urlutils.html#get_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.urlutils.get_title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="helpers-workers-module">
 <h2>helpers.workers module<a class="headerlink" href="#helpers-workers-module" title="Permalink to this headline">¶</a></h2>
@@ -234,7 +352,7 @@
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-helpers.admin">helpers.admin module</a></li>
 <li><a class="reference internal" href="#helpers-command-module">helpers.command module</a></li>
-<li><a class="reference internal" href="#helpers-config-module">helpers.config module</a></li>
+<li><a class="reference internal" href="#module-helpers.config">helpers.config module</a></li>
 <li><a class="reference internal" href="#helpers-control-module">helpers.control module</a></li>
 <li><a class="reference internal" href="#module-helpers.exception">helpers.exception module</a></li>
 <li><a class="reference internal" href="#module-helpers.hook">helpers.hook module</a></li>
@@ -242,12 +360,12 @@
 <li><a class="reference internal" href="#module-helpers.misc">helpers.misc module</a></li>
 <li><a class="reference internal" href="#module-helpers.modutils">helpers.modutils module</a></li>
 <li><a class="reference internal" href="#helpers-orm-module">helpers.orm module</a></li>
-<li><a class="reference internal" href="#helpers-server-module">helpers.server module</a></li>
+<li><a class="reference internal" href="#module-helpers.server">helpers.server module</a></li>
 <li><a class="reference internal" href="#helpers-sql-module">helpers.sql module</a></li>
-<li><a class="reference internal" href="#helpers-textutils-module">helpers.textutils module</a></li>
+<li><a class="reference internal" href="#module-helpers.textutils">helpers.textutils module</a></li>
 <li><a class="reference internal" href="#module-helpers.thread">helpers.thread module</a></li>
 <li><a class="reference internal" href="#module-helpers.traceback">helpers.traceback module</a></li>
-<li><a class="reference internal" href="#helpers-urlutils-module">helpers.urlutils module</a></li>
+<li><a class="reference internal" href="#module-helpers.urlutils">helpers.urlutils module</a></li>
 <li><a class="reference internal" href="#helpers-workers-module">helpers.workers module</a></li>
 <li><a class="reference internal" href="#module-helpers">Module contents</a></li>
 </ul>
