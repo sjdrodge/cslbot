@@ -71,8 +71,82 @@
 </dd></dl>
 
 </div>
-<div class="section" id="helpers-command-module">
-<h2>helpers.command module<a class="headerlink" href="#helpers-command-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-helpers.command">
+<span id="helpers-command-module"></span><h2>helpers.command module<a class="headerlink" href="#module-helpers.command" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="helpers.command.Command">
+<em class="property">class </em><tt class="descclassname">helpers.command.</tt><tt class="descname">Command</tt><big>(</big><em>names</em>, <em>args=</em>, <span class="optional">[</span><span class="optional">]</span><em>limit=0</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#Command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="helpers.command.Command.get_doc">
+<tt class="descname">get_doc</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/command.html#Command.get_doc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.Command.get_doc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="helpers.command.Command.is_limited">
+<tt class="descname">is_limited</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/command.html#Command.is_limited"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.Command.is_limited" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="helpers.command.Command.run">
+<tt class="descname">run</tt><big>(</big><em>send</em>, <em>msg</em>, <em>args</em>, <em>command</em>, <em>nick</em>, <em>target</em>, <em>handler</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#Command.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.Command.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.command.check_command">
+<tt class="descclassname">helpers.command.</tt><tt class="descname">check_command</tt><big>(</big><em>cursor</em>, <em>nick</em>, <em>msg</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#check_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.check_command" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.command.disable_command">
+<tt class="descclassname">helpers.command.</tt><tt class="descname">disable_command</tt><big>(</big><em>command</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#disable_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.disable_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>adds a command to the disabled comands list</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.command.enable_command">
+<tt class="descclassname">helpers.command.</tt><tt class="descname">enable_command</tt><big>(</big><em>command</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#enable_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.enable_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>removes a command from the disabled commands list</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.command.get_command">
+<tt class="descclassname">helpers.command.</tt><tt class="descname">get_command</tt><big>(</big><em>command_name</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#get_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.get_command" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.command.get_commands">
+<tt class="descclassname">helpers.command.</tt><tt class="descname">get_commands</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/command.html#get_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.get_commands" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.command.get_disabled_commands">
+<tt class="descclassname">helpers.command.</tt><tt class="descname">get_disabled_commands</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/command.html#get_disabled_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.get_disabled_commands" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.command.get_enabled_commands">
+<tt class="descclassname">helpers.command.</tt><tt class="descname">get_enabled_commands</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/command.html#get_enabled_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.get_enabled_commands" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.command.is_registered">
+<tt class="descclassname">helpers.command.</tt><tt class="descname">is_registered</tt><big>(</big><em>command_name</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#is_registered"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.is_registered" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.command.record_command">
+<tt class="descclassname">helpers.command.</tt><tt class="descname">record_command</tt><big>(</big><em>cursor</em>, <em>nick</em>, <em>command</em>, <em>channel</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#record_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.record_command" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.command.scan_for_commands">
+<tt class="descclassname">helpers.command.</tt><tt class="descname">scan_for_commands</tt><big>(</big><em>folder</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#scan_for_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.scan_for_commands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scans folder for commands</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-helpers.config">
 <span id="helpers-config-module"></span><h2>helpers.config module<a class="headerlink" href="#module-helpers.config" title="Permalink to this headline">¶</a></h2>
@@ -92,8 +166,114 @@
 <dd></dd></dl>
 
 </div>
-<div class="section" id="helpers-control-module">
-<h2>helpers.control module<a class="headerlink" href="#helpers-control-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-helpers.control">
+<span id="helpers-control-module"></span><h2>helpers.control module<a class="headerlink" href="#module-helpers.control" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="helpers.control.accept_issue">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">accept_issue</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#accept_issue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.accept_issue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.accept_poll">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">accept_poll</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#accept_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.accept_poll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.accept_quote">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">accept_quote</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#accept_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.accept_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_accept">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_accept</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_accept"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_accept" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_chanserv">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_chanserv</tt><big>(</big><em>c</em>, <em>cmd</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_chanserv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_chanserv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_ctrlchan">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_ctrlchan</tt><big>(</big><em>handler</em>, <em>msg</em>, <em>c</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_ctrlchan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_ctrlchan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle the control channel.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_disable">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_disable</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_disable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_disable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_enable">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_enable</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_enable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_enable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_get">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_get</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_guard">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_guard</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_guard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_guard" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_quote">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_quote</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_reject">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_reject</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_reject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_reject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_show">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_show</tt><big>(</big><em>handler</em>, <em>cmd</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_show" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.handle_unguard">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">handle_unguard</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#handle_unguard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.handle_unguard" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.reject_issue">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">reject_issue</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#reject_issue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.reject_issue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.reject_poll">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">reject_poll</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#reject_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.reject_poll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.reject_quote">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">reject_quote</tt><big>(</big><em>handler</em>, <em>cmd</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#reject_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.reject_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.show_issues">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">show_issues</tt><big>(</big><em>issues</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#show_issues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.show_issues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.show_pending">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">show_pending</tt><big>(</big><em>db</em>, <em>admins</em>, <em>send</em>, <em>ping=False</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#show_pending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.show_pending" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.show_polls">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">show_polls</tt><big>(</big><em>polls</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#show_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.show_polls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.control.show_quotes">
+<tt class="descclassname">helpers.control.</tt><tt class="descname">show_quotes</tt><big>(</big><em>quotes</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/helpers/control.html#show_quotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.control.show_quotes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-helpers.exception">
 <span id="helpers-exception-module"></span><h2>helpers.exception module<a class="headerlink" href="#module-helpers.exception" title="Permalink to this headline">¶</a></h2>
@@ -129,8 +309,28 @@
 </dd></dl>
 
 </div>
-<div class="section" id="helpers-identity-module">
-<h2>helpers.identity module<a class="headerlink" href="#helpers-identity-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-helpers.identity">
+<span id="helpers-identity-module"></span><h2>helpers.identity module<a class="headerlink" href="#module-helpers.identity" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="helpers.identity.do_kick">
+<tt class="descclassname">helpers.identity.</tt><tt class="descname">do_kick</tt><big>(</big><em>handler</em>, <em>session</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/helpers/identity.html#do_kick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.identity.do_kick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.identity.get_chain">
+<tt class="descclassname">helpers.identity.</tt><tt class="descname">get_chain</tt><big>(</big><em>session</em>, <em>nick</em>, <em>limit=0</em><big>)</big><a class="reference internal" href="_modules/helpers/identity.html#get_chain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.identity.get_chain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.identity.get_mapping">
+<tt class="descclassname">helpers.identity.</tt><tt class="descname">get_mapping</tt><big>(</big><em>session</em>, <em>nick</em>, <em>limit</em><big>)</big><a class="reference internal" href="_modules/helpers/identity.html#get_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.identity.get_mapping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.identity.handle_nick">
+<tt class="descclassname">helpers.identity.</tt><tt class="descname">handle_nick</tt><big>(</big><em>handler</em>, <em>e</em><big>)</big><a class="reference internal" href="_modules/helpers/identity.html#handle_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.identity.handle_nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-helpers.misc">
 <span id="helpers-misc-module"></span><h2>helpers.misc module<a class="headerlink" href="#module-helpers.misc" title="Permalink to this headline">¶</a></h2>
@@ -194,8 +394,361 @@
 </dd></dl>
 
 </div>
-<div class="section" id="helpers-orm-module">
-<h2>helpers.orm module<a class="headerlink" href="#helpers-orm-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-helpers.orm">
+<span id="helpers-orm-module"></span><h2>helpers.orm module<a class="headerlink" href="#module-helpers.orm" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="helpers.orm.Commands">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Commands</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Commands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Commands.channel">
+<tt class="descname">channel</tt><a class="headerlink" href="#helpers.orm.Commands.channel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Commands.command">
+<tt class="descname">command</tt><a class="headerlink" href="#helpers.orm.Commands.command" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Commands.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Commands.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Commands.nick">
+<tt class="descname">nick</tt><a class="headerlink" href="#helpers.orm.Commands.nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Issues">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Issues</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Issues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Issues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Issues.accepted">
+<tt class="descname">accepted</tt><a class="headerlink" href="#helpers.orm.Issues.accepted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Issues.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Issues.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Issues.source">
+<tt class="descname">source</tt><a class="headerlink" href="#helpers.orm.Issues.source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Issues.title">
+<tt class="descname">title</tt><a class="headerlink" href="#helpers.orm.Issues.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Log">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Log</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Log.flags">
+<tt class="descname">flags</tt><a class="headerlink" href="#helpers.orm.Log.flags" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Log.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Log.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Log.msg">
+<tt class="descname">msg</tt><a class="headerlink" href="#helpers.orm.Log.msg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Log.source">
+<tt class="descname">source</tt><a class="headerlink" href="#helpers.orm.Log.source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Log.target">
+<tt class="descname">target</tt><a class="headerlink" href="#helpers.orm.Log.target" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Log.time">
+<tt class="descname">time</tt><a class="headerlink" href="#helpers.orm.Log.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Log.type">
+<tt class="descname">type</tt><a class="headerlink" href="#helpers.orm.Log.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Nicks">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Nicks</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Nicks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Nicks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Nicks.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Nicks.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Nicks.new">
+<tt class="descname">new</tt><a class="headerlink" href="#helpers.orm.Nicks.new" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Nicks.old">
+<tt class="descname">old</tt><a class="headerlink" href="#helpers.orm.Nicks.old" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Nicks.time">
+<tt class="descname">time</tt><a class="headerlink" href="#helpers.orm.Nicks.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Notes">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Notes</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Notes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Notes.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Notes.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Notes.nick">
+<tt class="descname">nick</tt><a class="headerlink" href="#helpers.orm.Notes.nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Notes.note">
+<tt class="descname">note</tt><a class="headerlink" href="#helpers.orm.Notes.note" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Notes.pending">
+<tt class="descname">pending</tt><a class="headerlink" href="#helpers.orm.Notes.pending" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Notes.submitter">
+<tt class="descname">submitter</tt><a class="headerlink" href="#helpers.orm.Notes.submitter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Notes.time">
+<tt class="descname">time</tt><a class="headerlink" href="#helpers.orm.Notes.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Poll_responses">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Poll_responses</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Poll_responses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Poll_responses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Poll_responses.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Poll_responses.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Poll_responses.pid">
+<tt class="descname">pid</tt><a class="headerlink" href="#helpers.orm.Poll_responses.pid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Poll_responses.response">
+<tt class="descname">response</tt><a class="headerlink" href="#helpers.orm.Poll_responses.response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Poll_responses.voter">
+<tt class="descname">voter</tt><a class="headerlink" href="#helpers.orm.Poll_responses.voter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Polls">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Polls</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Polls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Polls.accepted">
+<tt class="descname">accepted</tt><a class="headerlink" href="#helpers.orm.Polls.accepted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Polls.active">
+<tt class="descname">active</tt><a class="headerlink" href="#helpers.orm.Polls.active" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Polls.deleted">
+<tt class="descname">deleted</tt><a class="headerlink" href="#helpers.orm.Polls.deleted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Polls.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Polls.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Polls.question">
+<tt class="descname">question</tt><a class="headerlink" href="#helpers.orm.Polls.question" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Polls.submitter">
+<tt class="descname">submitter</tt><a class="headerlink" href="#helpers.orm.Polls.submitter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Quotes">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Quotes</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Quotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Quotes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Quotes.approved">
+<tt class="descname">approved</tt><a class="headerlink" href="#helpers.orm.Quotes.approved" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Quotes.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Quotes.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Quotes.nick">
+<tt class="descname">nick</tt><a class="headerlink" href="#helpers.orm.Quotes.nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Quotes.quote">
+<tt class="descname">quote</tt><a class="headerlink" href="#helpers.orm.Quotes.quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Quotes.submitter">
+<tt class="descname">submitter</tt><a class="headerlink" href="#helpers.orm.Quotes.submitter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Scores">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Scores</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Scores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Scores.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Scores.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Scores.nick">
+<tt class="descname">nick</tt><a class="headerlink" href="#helpers.orm.Scores.nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Scores.score">
+<tt class="descname">score</tt><a class="headerlink" href="#helpers.orm.Scores.score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Stopwatches">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Stopwatches</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Stopwatches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Stopwatches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Stopwatches.active">
+<tt class="descname">active</tt><a class="headerlink" href="#helpers.orm.Stopwatches.active" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Stopwatches.elapsed">
+<tt class="descname">elapsed</tt><a class="headerlink" href="#helpers.orm.Stopwatches.elapsed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Stopwatches.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Stopwatches.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Stopwatches.time">
+<tt class="descname">time</tt><a class="headerlink" href="#helpers.orm.Stopwatches.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Urls">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Urls</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Urls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Urls.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Urls.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Urls.nick">
+<tt class="descname">nick</tt><a class="headerlink" href="#helpers.orm.Urls.nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Urls.time">
+<tt class="descname">time</tt><a class="headerlink" href="#helpers.orm.Urls.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Urls.title">
+<tt class="descname">title</tt><a class="headerlink" href="#helpers.orm.Urls.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Urls.url">
+<tt class="descname">url</tt><a class="headerlink" href="#helpers.orm.Urls.url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Weather_prefs">
+<em class="property">class </em><tt class="descclassname">helpers.orm.</tt><tt class="descname">Weather_prefs</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#Weather_prefs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Weather_prefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></tt></p>
+<dl class="attribute">
+<dt id="helpers.orm.Weather_prefs.id">
+<tt class="descname">id</tt><a class="headerlink" href="#helpers.orm.Weather_prefs.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Weather_prefs.location">
+<tt class="descname">location</tt><a class="headerlink" href="#helpers.orm.Weather_prefs.location" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Weather_prefs.nick">
+<tt class="descname">nick</tt><a class="headerlink" href="#helpers.orm.Weather_prefs.nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.orm.setup_db">
+<tt class="descclassname">helpers.orm.</tt><tt class="descname">setup_db</tt><big>(</big><em>session</em><big>)</big><a class="reference internal" href="_modules/helpers/orm.html#setup_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.setup_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up the database.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-helpers.server">
 <span id="helpers-server-module"></span><h2>helpers.server module<a class="headerlink" href="#module-helpers.server" title="Permalink to this headline">¶</a></h2>
@@ -232,8 +785,43 @@
 <dd></dd></dl>
 
 </div>
-<div class="section" id="helpers-sql-module">
-<h2>helpers.sql module<a class="headerlink" href="#helpers-sql-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-helpers.sql">
+<span id="helpers-sql-module"></span><h2>helpers.sql module<a class="headerlink" href="#module-helpers.sql" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="helpers.sql.Sql">
+<em class="property">class </em><tt class="descclassname">helpers.sql.</tt><tt class="descname">Sql</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="helpers.sql.Sql.get">
+<tt class="descname">get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="helpers.sql.Sql.log">
+<tt class="descname">log</tt><big>(</big><em>source</em>, <em>target</em>, <em>flags</em>, <em>msg</em>, <em>type</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs a message to the database</p>
+<div class="line-block">
+<div class="line">source: The source of the message.</div>
+<div class="line">target: The target of the message.</div>
+<div class="line">flags: Is the user a operator or voiced?</div>
+<div class="line">msg: The text of the message.</div>
+<div class="line">msg: The type of message.</div>
+<div class="line">time: The current time (Unix Epoch).</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="helpers.sql.Sql.shutdown">
+<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#Sql.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.Sql.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.sql.get_session">
+<tt class="descclassname">helpers.sql.</tt><tt class="descname">get_session</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/helpers/sql.html#get_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql.get_session" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-helpers.textutils">
 <span id="helpers-textutils-module"></span><h2>helpers.textutils module<a class="headerlink" href="#module-helpers.textutils" title="Permalink to this headline">¶</a></h2>
@@ -332,8 +920,34 @@
 <dd></dd></dl>
 
 </div>
-<div class="section" id="helpers-workers-module">
-<h2>helpers.workers module<a class="headerlink" href="#helpers-workers-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-helpers.workers">
+<span id="helpers-workers-module"></span><h2>helpers.workers module<a class="headerlink" href="#module-helpers.workers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="helpers.workers.Workers">
+<em class="property">class </em><tt class="descclassname">helpers.workers.</tt><tt class="descname">Workers</tt><big>(</big><em>handler</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#Workers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="helpers.workers.Workers.cancel">
+<tt class="descname">cancel</tt><big>(</big><em>eventid</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#Workers.cancel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.cancel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="helpers.workers.Workers.defer">
+<tt class="descname">defer</tt><big>(</big><em>t</em>, <em>func</em>, <em>*args</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#Workers.defer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.defer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="helpers.workers.Workers.handle_pending">
+<tt class="descname">handle_pending</tt><big>(</big><em>handler</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#Workers.handle_pending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.handle_pending" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="helpers.workers.Workers.stop_workers">
+<tt class="descname">stop_workers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/workers.html#Workers.stop_workers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.stop_workers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-helpers">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-helpers" title="Permalink to this headline">¶</a></h2>
@@ -351,22 +965,22 @@
 <li><a class="reference internal" href="#">helpers package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-helpers.admin">helpers.admin module</a></li>
-<li><a class="reference internal" href="#helpers-command-module">helpers.command module</a></li>
+<li><a class="reference internal" href="#module-helpers.command">helpers.command module</a></li>
 <li><a class="reference internal" href="#module-helpers.config">helpers.config module</a></li>
-<li><a class="reference internal" href="#helpers-control-module">helpers.control module</a></li>
+<li><a class="reference internal" href="#module-helpers.control">helpers.control module</a></li>
 <li><a class="reference internal" href="#module-helpers.exception">helpers.exception module</a></li>
 <li><a class="reference internal" href="#module-helpers.hook">helpers.hook module</a></li>
-<li><a class="reference internal" href="#helpers-identity-module">helpers.identity module</a></li>
+<li><a class="reference internal" href="#module-helpers.identity">helpers.identity module</a></li>
 <li><a class="reference internal" href="#module-helpers.misc">helpers.misc module</a></li>
 <li><a class="reference internal" href="#module-helpers.modutils">helpers.modutils module</a></li>
-<li><a class="reference internal" href="#helpers-orm-module">helpers.orm module</a></li>
+<li><a class="reference internal" href="#module-helpers.orm">helpers.orm module</a></li>
 <li><a class="reference internal" href="#module-helpers.server">helpers.server module</a></li>
-<li><a class="reference internal" href="#helpers-sql-module">helpers.sql module</a></li>
+<li><a class="reference internal" href="#module-helpers.sql">helpers.sql module</a></li>
 <li><a class="reference internal" href="#module-helpers.textutils">helpers.textutils module</a></li>
 <li><a class="reference internal" href="#module-helpers.thread">helpers.thread module</a></li>
 <li><a class="reference internal" href="#module-helpers.traceback">helpers.traceback module</a></li>
 <li><a class="reference internal" href="#module-helpers.urlutils">helpers.urlutils module</a></li>
-<li><a class="reference internal" href="#helpers-workers-module">helpers.workers module</a></li>
+<li><a class="reference internal" href="#module-helpers.workers">helpers.workers module</a></li>
 <li><a class="reference internal" href="#module-helpers">Module contents</a></li>
 </ul>
 </li>

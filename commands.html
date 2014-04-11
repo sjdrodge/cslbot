@@ -59,299 +59,672 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-8ball-module">
-<h2>commands.8ball module<a class="headerlink" href="#commands-8ball-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.8ball">
+<span id="commands-8ball-module"></span><h2>commands.8ball module<a class="headerlink" href="#module-commands.8ball" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.about">
+<span id="commands-about-module"></span><h2>commands.about module<a class="headerlink" href="#module-commands.about" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.acronym">
+<span id="commands-acronym-module"></span><h2>commands.acronym module<a class="headerlink" href="#module-commands.acronym" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.acronym.get_list">
+<tt class="descclassname">commands.acronym.</tt><tt class="descname">get_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/commands/acronym.html#get_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.acronym.get_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.admins">
+<span id="commands-admins-module"></span><h2>commands.admins module<a class="headerlink" href="#module-commands.admins" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.ahamilto">
+<span id="commands-ahamilto-module"></span><h2>commands.ahamilto module<a class="headerlink" href="#module-commands.ahamilto" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.babble">
+<span id="commands-babble-module"></span><h2>commands.babble module<a class="headerlink" href="#module-commands.babble" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.babble.build_markov">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">build_markov</tt><big>(</big><em>messages</em>, <em>speaker</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#build_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_markov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a markov dictionary of the form</p>
+<dl class="docutils">
+<dt>word <span class="classifier-delimiter">:</span> <span class="classifier">{</span></dt>
+<dd>nextword1 : num_apperences,
+nextword2 : num_apperances,
+....
+nextwordn : num_apperances</dd>
+</dl>
+<p>}</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.babble.build_msg">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">build_msg</tt><big>(</big><em>markov</em>, <em>speaker</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#build_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_msg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.babble.clean_msg">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">clean_msg</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#clean_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.clean_msg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.babble.get_messages">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">get_messages</tt><big>(</big><em>cursor</em>, <em>speaker</em>, <em>cmdchar</em>, <em>ctrlchan</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#get_messages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.get_messages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.babble.or_">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">or_</tt><big>(</big><em>*clauses</em><big>)</big><a class="headerlink" href="#commands.babble.or_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a conjunction of expressions joined by <tt class="docutils literal"><span class="pre">OR</span></tt>.</p>
+<p>E.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">or_</span>
+
+<span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">([</span><span class="n">users_table</span><span class="p">])</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                <span class="n">or_</span><span class="p">(</span>
+                    <span class="n">users_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;wendy&#39;</span><span class="p">,</span>
+                    <span class="n">users_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;jack&#39;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="#commands.babble.or_" title="commands.babble.or_"><tt class="xref py py-func docutils literal"><span class="pre">or_()</span></tt></a> conjunction is also available using the
+Python <tt class="docutils literal"><span class="pre">|</span></tt> operator (though note that compound expressions
+need to be parenthesized in order to function with Python
+operator precedence behavior):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">([</span><span class="n">users_table</span><span class="p">])</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">users_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;wendy&#39;</span><span class="p">)</span> <span class="o">|</span>
+                <span class="p">(</span><span class="n">users_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;jack&#39;</span><span class="p">)</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><tt class="xref py py-func docutils literal"><span class="pre">and_()</span></tt></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.babble.weighted_rand">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">weighted_rand</tt><big>(</big><em>d</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#weighted_rand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.weighted_rand" title="Permalink to this definition">¶</a></dt>
+<dd><p>d should be a dictionary of the form</p>
+<dl class="docutils">
+<dt>{</dt>
+<dd>thing1: freq1,
+thing2: freq2,
+...
+thingn: freqn</dd>
+</dl>
+<p>}</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-commands.bc">
+<span id="commands-bc-module"></span><h2>commands.bc module<a class="headerlink" href="#module-commands.bc" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.bc.get_scores">
+<tt class="descclassname">commands.bc.</tt><tt class="descname">get_scores</tt><big>(</big><em>cursor</em><big>)</big><a class="reference internal" href="_modules/commands/bc.html#get_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.bc.get_scores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="commands-about-module">
-<h2>commands.about module<a class="headerlink" href="#commands-about-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.bike">
+<span id="commands-bike-module"></span><h2>commands.bike module<a class="headerlink" href="#module-commands.bike" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-acronym-module">
-<h2>commands.acronym module<a class="headerlink" href="#commands-acronym-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.blame">
+<span id="commands-blame-module"></span><h2>commands.blame module<a class="headerlink" href="#module-commands.blame" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-admins-module">
-<h2>commands.admins module<a class="headerlink" href="#commands-admins-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.botsnack">
+<span id="commands-botsnack-module"></span><h2>commands.botsnack module<a class="headerlink" href="#module-commands.botsnack" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-ahamilto-module">
-<h2>commands.ahamilto module<a class="headerlink" href="#commands-ahamilto-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.cancel">
+<span id="commands-cancel-module"></span><h2>commands.cancel module<a class="headerlink" href="#module-commands.cancel" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-babble-module">
-<h2>commands.babble module<a class="headerlink" href="#commands-babble-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.channels">
+<span id="commands-channels-module"></span><h2>commands.channels module<a class="headerlink" href="#module-commands.channels" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-bc-module">
-<h2>commands.bc module<a class="headerlink" href="#commands-bc-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.choose">
+<span id="commands-choose-module"></span><h2>commands.choose module<a class="headerlink" href="#module-commands.choose" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-bike-module">
-<h2>commands.bike module<a class="headerlink" href="#commands-bike-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.cidr">
+<span id="commands-cidr-module"></span><h2>commands.cidr module<a class="headerlink" href="#module-commands.cidr" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-blame-module">
-<h2>commands.blame module<a class="headerlink" href="#commands-blame-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.clippy">
+<span id="commands-clippy-module"></span><h2>commands.clippy module<a class="headerlink" href="#module-commands.clippy" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-botsnack-module">
-<h2>commands.botsnack module<a class="headerlink" href="#commands-botsnack-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.coin">
+<span id="commands-coin-module"></span><h2>commands.coin module<a class="headerlink" href="#module-commands.coin" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-cancel-module">
-<h2>commands.cancel module<a class="headerlink" href="#commands-cancel-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.creffett">
+<span id="commands-creffett-module"></span><h2>commands.creffett module<a class="headerlink" href="#module-commands.creffett" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-channels-module">
-<h2>commands.channels module<a class="headerlink" href="#commands-channels-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.cve">
+<span id="commands-cve-module"></span><h2>commands.cve module<a class="headerlink" href="#module-commands.cve" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-choose-module">
-<h2>commands.choose module<a class="headerlink" href="#commands-choose-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.ddate">
+<span id="commands-ddate-module"></span><h2>commands.ddate module<a class="headerlink" href="#module-commands.ddate" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-cidr-module">
-<h2>commands.cidr module<a class="headerlink" href="#commands-cidr-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.defersay">
+<span id="commands-defersay-module"></span><h2>commands.defersay module<a class="headerlink" href="#module-commands.defersay" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.define">
+<span id="commands-define-module"></span><h2>commands.define module<a class="headerlink" href="#module-commands.define" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.demorse">
+<span id="commands-demorse-module"></span><h2>commands.demorse module<a class="headerlink" href="#module-commands.demorse" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.distro">
+<span id="commands-distro-module"></span><h2>commands.distro module<a class="headerlink" href="#module-commands.distro" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.ebay">
+<span id="commands-ebay-module"></span><h2>commands.ebay module<a class="headerlink" href="#module-commands.ebay" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.ebay.get_categories">
+<tt class="descclassname">commands.ebay.</tt><tt class="descname">get_categories</tt><big>(</big><em>apikey</em><big>)</big><a class="reference internal" href="_modules/commands/ebay.html#get_categories"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.ebay.get_categories" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.ebay.get_item">
+<tt class="descclassname">commands.ebay.</tt><tt class="descname">get_item</tt><big>(</big><em>category</em>, <em>apikey</em><big>)</big><a class="reference internal" href="_modules/commands/ebay.html#get_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.ebay.get_item" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.eix">
+<span id="commands-eix-module"></span><h2>commands.eix module<a class="headerlink" href="#module-commands.eix" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-clippy-module">
-<h2>commands.clippy module<a class="headerlink" href="#commands-clippy-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.errno">
+<span id="commands-errno-module"></span><h2>commands.errno module<a class="headerlink" href="#module-commands.errno" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-coin-module">
-<h2>commands.coin module<a class="headerlink" href="#commands-coin-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.filter">
+<span id="commands-filter-module"></span><h2>commands.filter module<a class="headerlink" href="#module-commands.filter" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.fml">
+<span id="commands-fml-module"></span><h2>commands.fml module<a class="headerlink" href="#module-commands.fml" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.fortune">
+<span id="commands-fortune-module"></span><h2>commands.fortune module<a class="headerlink" href="#module-commands.fortune" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.fortune.get_list">
+<tt class="descclassname">commands.fortune.</tt><tt class="descname">get_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/commands/fortune.html#get_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.fortune.get_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.fortune.random">
+<tt class="descclassname">commands.fortune.</tt><tt class="descname">random</tt><big>(</big><big>)</big> &rarr; x in the interval [0, 1).<a class="headerlink" href="#commands.fortune.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.fweather">
+<span id="commands-fweather-module"></span><h2>commands.fweather module<a class="headerlink" href="#module-commands.fweather" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.fwilson">
+<span id="commands-fwilson-module"></span><h2>commands.fwilson module<a class="headerlink" href="#module-commands.fwilson" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-creffett-module">
-<h2>commands.creffett module<a class="headerlink" href="#commands-creffett-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.gcc">
+<span id="commands-gcc-module"></span><h2>commands.gcc module<a class="headerlink" href="#module-commands.gcc" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-cve-module">
-<h2>commands.cve module<a class="headerlink" href="#commands-cve-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.google">
+<span id="commands-google-module"></span><h2>commands.google module<a class="headerlink" href="#module-commands.google" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-ddate-module">
-<h2>commands.ddate module<a class="headerlink" href="#commands-ddate-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.guarded">
+<span id="commands-guarded-module"></span><h2>commands.guarded module<a class="headerlink" href="#module-commands.guarded" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-defersay-module">
-<h2>commands.defersay module<a class="headerlink" href="#commands-defersay-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.help">
+<span id="commands-help-module"></span><h2>commands.help module<a class="headerlink" href="#module-commands.help" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="commands-define-module">
-<h2>commands.define module<a class="headerlink" href="#commands-define-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.highlight">
+<span id="commands-highlight-module"></span><h2>commands.highlight module<a class="headerlink" href="#module-commands.highlight" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.highlight.get_last">
+<tt class="descclassname">commands.highlight.</tt><tt class="descname">get_last</tt><big>(</big><em>cursor</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/highlight.html#get_last"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.highlight.get_last" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="commands-demorse-module">
-<h2>commands.demorse module<a class="headerlink" href="#commands-demorse-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-distro-module">
-<h2>commands.distro module<a class="headerlink" href="#commands-distro-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-ebay-module">
-<h2>commands.ebay module<a class="headerlink" href="#commands-ebay-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-eix-module">
-<h2>commands.eix module<a class="headerlink" href="#commands-eix-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-errno-module">
-<h2>commands.errno module<a class="headerlink" href="#commands-errno-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-filter-module">
-<h2>commands.filter module<a class="headerlink" href="#commands-filter-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-fml-module">
-<h2>commands.fml module<a class="headerlink" href="#commands-fml-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-fortune-module">
-<h2>commands.fortune module<a class="headerlink" href="#commands-fortune-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-fweather-module">
-<h2>commands.fweather module<a class="headerlink" href="#commands-fweather-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-fwilson-module">
-<h2>commands.fwilson module<a class="headerlink" href="#commands-fwilson-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-gcc-module">
-<h2>commands.gcc module<a class="headerlink" href="#commands-gcc-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-google-module">
-<h2>commands.google module<a class="headerlink" href="#commands-google-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-guarded-module">
-<h2>commands.guarded module<a class="headerlink" href="#commands-guarded-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-help-module">
-<h2>commands.help module<a class="headerlink" href="#commands-help-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-highlight-module">
-<h2>commands.highlight module<a class="headerlink" href="#commands-highlight-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-hooks-module">
-<h2>commands.hooks module<a class="headerlink" href="#commands-hooks-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-imdb-module">
-<h2>commands.imdb module<a class="headerlink" href="#commands-imdb-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-inspect-module">
-<h2>commands.inspect module<a class="headerlink" href="#commands-inspect-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-insult-module">
-<h2>commands.insult module<a class="headerlink" href="#commands-insult-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-ipa-module">
-<h2>commands.ipa module<a class="headerlink" href="#commands-ipa-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-issue-module">
-<h2>commands.issue module<a class="headerlink" href="#commands-issue-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-isup-module">
-<h2>commands.isup module<a class="headerlink" href="#commands-isup-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-jargon-module">
-<h2>commands.jargon module<a class="headerlink" href="#commands-jargon-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-kill-module">
-<h2>commands.kill module<a class="headerlink" href="#commands-kill-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-lmgtfy-module">
-<h2>commands.lmgtfy module<a class="headerlink" href="#commands-lmgtfy-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-meme-module">
-<h2>commands.meme module<a class="headerlink" href="#commands-meme-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-microwave-module">
-<h2>commands.microwave module<a class="headerlink" href="#commands-microwave-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-mission-module">
-<h2>commands.mission module<a class="headerlink" href="#commands-mission-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-mode-module">
-<h2>commands.mode module<a class="headerlink" href="#commands-mode-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-morse-module">
-<h2>commands.morse module<a class="headerlink" href="#commands-morse-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-msg-module">
-<h2>commands.msg module<a class="headerlink" href="#commands-msg-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-nicks-module">
-<h2>commands.nicks module<a class="headerlink" href="#commands-nicks-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-note-module">
-<h2>commands.note module<a class="headerlink" href="#commands-note-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-nuke-module">
-<h2>commands.nuke module<a class="headerlink" href="#commands-nuke-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-pester-module">
-<h2>commands.pester module<a class="headerlink" href="#commands-pester-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-pfoley-module">
-<h2>commands.pfoley module<a class="headerlink" href="#commands-pfoley-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-ping-module">
-<h2>commands.ping module<a class="headerlink" href="#commands-ping-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-praise-module">
-<h2>commands.praise module<a class="headerlink" href="#commands-praise-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-pull-module">
-<h2>commands.pull module<a class="headerlink" href="#commands-pull-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-quote-module">
-<h2>commands.quote module<a class="headerlink" href="#commands-quote-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-random-module">
-<h2>commands.random module<a class="headerlink" href="#commands-random-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-reddit-module">
-<h2>commands.reddit module<a class="headerlink" href="#commands-reddit-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-reverse-module">
-<h2>commands.reverse module<a class="headerlink" href="#commands-reverse-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-roman-module">
-<h2>commands.roman module<a class="headerlink" href="#commands-roman-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-s-module">
-<h2>commands.s module<a class="headerlink" href="#commands-s-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-score-module">
-<h2>commands.score module<a class="headerlink" href="#commands-score-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-seen-module">
-<h2>commands.seen module<a class="headerlink" href="#commands-seen-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-sha512-module">
-<h2>commands.sha512 module<a class="headerlink" href="#commands-sha512-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-shibe-module">
-<h2>commands.shibe module<a class="headerlink" href="#commands-shibe-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-signal-module">
-<h2>commands.signal module<a class="headerlink" href="#commands-signal-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-skasturi-module">
-<h2>commands.skasturi module<a class="headerlink" href="#commands-skasturi-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-slap-module">
-<h2>commands.slap module<a class="headerlink" href="#commands-slap-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-slogan-module">
-<h2>commands.slogan module<a class="headerlink" href="#commands-slogan-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-ssearch-module">
-<h2>commands.ssearch module<a class="headerlink" href="#commands-ssearch-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-stats-module">
-<h2>commands.stats module<a class="headerlink" href="#commands-stats-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-steam-module">
-<h2>commands.steam module<a class="headerlink" href="#commands-steam-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-stock-module">
-<h2>commands.stock module<a class="headerlink" href="#commands-stock-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-stopwatch-module">
-<h2>commands.stopwatch module<a class="headerlink" href="#commands-stopwatch-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-summon-module">
-<h2>commands.summon module<a class="headerlink" href="#commands-summon-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-threads-module">
-<h2>commands.threads module<a class="headerlink" href="#commands-threads-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-throw-module">
-<h2>commands.throw module<a class="headerlink" href="#commands-throw-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-time-module">
-<h2>commands.time module<a class="headerlink" href="#commands-time-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-timeout-module">
-<h2>commands.timeout module<a class="headerlink" href="#commands-timeout-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-translate-module">
-<h2>commands.translate module<a class="headerlink" href="#commands-translate-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-uptime-module">
-<h2>commands.uptime module<a class="headerlink" href="#commands-uptime-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-urban-module">
-<h2>commands.urban module<a class="headerlink" href="#commands-urban-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-version-module">
-<h2>commands.version module<a class="headerlink" href="#commands-version-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-vote-module">
-<h2>commands.vote module<a class="headerlink" href="#commands-vote-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-wai-module">
-<h2>commands.wai module<a class="headerlink" href="#commands-wai-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-weather-module">
-<h2>commands.weather module<a class="headerlink" href="#commands-weather-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-wiki-module">
-<h2>commands.wiki module<a class="headerlink" href="#commands-wiki-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-wikipath-module">
-<h2>commands.wikipath module<a class="headerlink" href="#commands-wikipath-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-wolf-module">
-<h2>commands.wolf module<a class="headerlink" href="#commands-wolf-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-word-module">
-<h2>commands.word module<a class="headerlink" href="#commands-word-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-wtf-module">
-<h2>commands.wtf module<a class="headerlink" href="#commands-wtf-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-xkcd-module">
-<h2>commands.xkcd module<a class="headerlink" href="#commands-xkcd-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="commands-yoda-module">
-<h2>commands.yoda module<a class="headerlink" href="#commands-yoda-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-commands.hooks">
+<span id="commands-hooks-module"></span><h2>commands.hooks module<a class="headerlink" href="#module-commands.hooks" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.imdb">
+<span id="commands-imdb-module"></span><h2>commands.imdb module<a class="headerlink" href="#module-commands.imdb" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.inspect">
+<span id="commands-inspect-module"></span><h2>commands.inspect module<a class="headerlink" href="#module-commands.inspect" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.insult">
+<span id="commands-insult-module"></span><h2>commands.insult module<a class="headerlink" href="#module-commands.insult" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.ipa">
+<span id="commands-ipa-module"></span><h2>commands.ipa module<a class="headerlink" href="#module-commands.ipa" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.ipa.gen_nato">
+<tt class="descclassname">commands.ipa.</tt><tt class="descname">gen_nato</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/ipa.html#gen_nato"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.ipa.gen_nato" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.issue">
+<span id="commands-issue-module"></span><h2>commands.issue module<a class="headerlink" href="#module-commands.issue" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.issue.create_issue">
+<tt class="descclassname">commands.issue.</tt><tt class="descname">create_issue</tt><big>(</big><em>msg</em>, <em>nick</em>, <em>repo</em>, <em>apikey</em><big>)</big><a class="reference internal" href="_modules/commands/issue.html#create_issue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.issue.create_issue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.issue.get_issues">
+<tt class="descclassname">commands.issue.</tt><tt class="descname">get_issues</tt><big>(</big><em>repo</em><big>)</big><a class="reference internal" href="_modules/commands/issue.html#get_issues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.issue.get_issues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.isup">
+<span id="commands-isup-module"></span><h2>commands.isup module<a class="headerlink" href="#module-commands.isup" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.jargon">
+<span id="commands-jargon-module"></span><h2>commands.jargon module<a class="headerlink" href="#module-commands.jargon" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.kill">
+<span id="commands-kill-module"></span><h2>commands.kill module<a class="headerlink" href="#module-commands.kill" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.lmgtfy">
+<span id="commands-lmgtfy-module"></span><h2>commands.lmgtfy module<a class="headerlink" href="#module-commands.lmgtfy" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.meme">
+<span id="commands-meme-module"></span><h2>commands.meme module<a class="headerlink" href="#module-commands.meme" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.microwave">
+<span id="commands-microwave-module"></span><h2>commands.microwave module<a class="headerlink" href="#module-commands.microwave" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.mission">
+<span id="commands-mission-module"></span><h2>commands.mission module<a class="headerlink" href="#module-commands.mission" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.mode">
+<span id="commands-mode-module"></span><h2>commands.mode module<a class="headerlink" href="#module-commands.mode" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.mode.set_mode">
+<tt class="descclassname">commands.mode.</tt><tt class="descname">set_mode</tt><big>(</big><em>args</em>, <em>mode</em><big>)</big><a class="reference internal" href="_modules/commands/mode.html#set_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.mode.set_mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.morse">
+<span id="commands-morse-module"></span><h2>commands.morse module<a class="headerlink" href="#module-commands.morse" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.msg">
+<span id="commands-msg-module"></span><h2>commands.msg module<a class="headerlink" href="#module-commands.msg" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.nicks">
+<span id="commands-nicks-module"></span><h2>commands.nicks module<a class="headerlink" href="#module-commands.nicks" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.note">
+<span id="commands-note-module"></span><h2>commands.note module<a class="headerlink" href="#module-commands.note" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.nuke">
+<span id="commands-nuke-module"></span><h2>commands.nuke module<a class="headerlink" href="#module-commands.nuke" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.pester">
+<span id="commands-pester-module"></span><h2>commands.pester module<a class="headerlink" href="#module-commands.pester" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.pfoley">
+<span id="commands-pfoley-module"></span><h2>commands.pfoley module<a class="headerlink" href="#module-commands.pfoley" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.ping">
+<span id="commands-ping-module"></span><h2>commands.ping module<a class="headerlink" href="#module-commands.ping" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.praise">
+<span id="commands-praise-module"></span><h2>commands.praise module<a class="headerlink" href="#module-commands.praise" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.praise.gen_praise">
+<tt class="descclassname">commands.praise.</tt><tt class="descname">gen_praise</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/praise.html#gen_praise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.praise.gen_praise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.pull">
+<span id="commands-pull-module"></span><h2>commands.pull module<a class="headerlink" href="#module-commands.pull" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.quote">
+<span id="commands-quote-module"></span><h2>commands.quote module<a class="headerlink" href="#module-commands.quote" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.quote.do_add_quote">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_add_quote</tt><big>(</big><em>cmd</em>, <em>session</em>, <em>isadmin</em>, <em>send</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_add_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_add_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.quote.do_delete_quote">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_delete_quote</tt><big>(</big><em>session</em>, <em>qid</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_delete_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_delete_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.quote.do_get_quote">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_get_quote</tt><big>(</big><em>session</em>, <em>qid=None</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_get_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_get_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.quote.do_list_quotes">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_list_quotes</tt><big>(</big><em>session</em>, <em>quote_url</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_list_quotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_list_quotes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.quote.do_update_quote">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">do_update_quote</tt><big>(</big><em>session</em>, <em>qid</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#do_update_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.do_update_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.quote.get_quotes_nick">
+<tt class="descclassname">commands.quote.</tt><tt class="descname">get_quotes_nick</tt><big>(</big><em>session</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/quote.html#get_quotes_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.quote.get_quotes_nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.random">
+<span id="commands-random-module"></span><h2>commands.random module<a class="headerlink" href="#module-commands.random" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.random.getrandbits">
+<tt class="descclassname">commands.random.</tt><tt class="descname">getrandbits</tt><big>(</big><em>k</em><big>)</big> &rarr; x.  Generates an int with k random bits.<a class="headerlink" href="#commands.random.getrandbits" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.reddit">
+<span id="commands-reddit-module"></span><h2>commands.reddit module<a class="headerlink" href="#module-commands.reddit" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.reverse">
+<span id="commands-reverse-module"></span><h2>commands.reverse module<a class="headerlink" href="#module-commands.reverse" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.reverse.get_log">
+<tt class="descclassname">commands.reverse.</tt><tt class="descname">get_log</tt><big>(</big><em>conn</em>, <em>user</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/reverse.html#get_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.reverse.get_log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.roman">
+<span id="commands-roman-module"></span><h2>commands.roman module<a class="headerlink" href="#module-commands.roman" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.roman.gen_roman">
+<tt class="descclassname">commands.roman.</tt><tt class="descname">gen_roman</tt><big>(</big><em>num</em><big>)</big><a class="reference internal" href="_modules/commands/roman.html#gen_roman"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.roman.gen_roman" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.s">
+<span id="commands-s-module"></span><h2>commands.s module<a class="headerlink" href="#module-commands.s" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.s.get_log">
+<tt class="descclassname">commands.s.</tt><tt class="descname">get_log</tt><big>(</big><em>conn</em>, <em>target</em>, <em>user</em><big>)</big><a class="reference internal" href="_modules/commands/s.html#get_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.s.get_log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.s.get_modifiers">
+<tt class="descclassname">commands.s.</tt><tt class="descname">get_modifiers</tt><big>(</big><em>msg</em>, <em>nick</em>, <em>nickregex</em><big>)</big><a class="reference internal" href="_modules/commands/s.html#get_modifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.s.get_modifiers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.score">
+<span id="commands-score-module"></span><h2>commands.score module<a class="headerlink" href="#module-commands.score" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.seen">
+<span id="commands-seen-module"></span><h2>commands.seen module<a class="headerlink" href="#module-commands.seen" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.seen.get_last">
+<tt class="descclassname">commands.seen.</tt><tt class="descname">get_last</tt><big>(</big><em>cursor</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/seen.html#get_last"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.seen.get_last" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.sha512">
+<span id="commands-sha512-module"></span><h2>commands.sha512 module<a class="headerlink" href="#module-commands.sha512" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.shibe">
+<span id="commands-shibe-module"></span><h2>commands.shibe module<a class="headerlink" href="#module-commands.shibe" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.signal">
+<span id="commands-signal-module"></span><h2>commands.signal module<a class="headerlink" href="#module-commands.signal" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.skasturi">
+<span id="commands-skasturi-module"></span><h2>commands.skasturi module<a class="headerlink" href="#module-commands.skasturi" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.skasturi.random">
+<tt class="descclassname">commands.skasturi.</tt><tt class="descname">random</tt><big>(</big><big>)</big> &rarr; x in the interval [0, 1).<a class="headerlink" href="#commands.skasturi.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.slap">
+<span id="commands-slap-module"></span><h2>commands.slap module<a class="headerlink" href="#module-commands.slap" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.slogan">
+<span id="commands-slogan-module"></span><h2>commands.slogan module<a class="headerlink" href="#module-commands.slogan" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.ssearch">
+<span id="commands-ssearch-module"></span><h2>commands.ssearch module<a class="headerlink" href="#module-commands.ssearch" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.stats">
+<span id="commands-stats-module"></span><h2>commands.stats module<a class="headerlink" href="#module-commands.stats" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.stats.get_command_totals">
+<tt class="descclassname">commands.stats.</tt><tt class="descname">get_command_totals</tt><big>(</big><em>session</em>, <em>commands</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_command_totals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_command_totals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.stats.get_commands">
+<tt class="descclassname">commands.stats.</tt><tt class="descname">get_commands</tt><big>(</big><em>session</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_commands" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.stats.get_nick_totals">
+<tt class="descclassname">commands.stats.</tt><tt class="descname">get_nick_totals</tt><big>(</big><em>session</em>, <em>commands</em>, <em>name=None</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_nick_totals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_nick_totals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.stats.get_nicks">
+<tt class="descclassname">commands.stats.</tt><tt class="descname">get_nicks</tt><big>(</big><em>session</em>, <em>command</em><big>)</big><a class="reference internal" href="_modules/commands/stats.html#get_nicks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stats.get_nicks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.steam">
+<span id="commands-steam-module"></span><h2>commands.steam module<a class="headerlink" href="#module-commands.steam" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.steam.get_ids">
+<tt class="descclassname">commands.steam.</tt><tt class="descname">get_ids</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/commands/steam.html#get_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.steam.get_ids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.steam.get_status">
+<tt class="descclassname">commands.steam.</tt><tt class="descname">get_status</tt><big>(</big><em>vals</em><big>)</big><a class="reference internal" href="_modules/commands/steam.html#get_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.steam.get_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.stock">
+<span id="commands-stock-module"></span><h2>commands.stock module<a class="headerlink" href="#module-commands.stock" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.stock.gen_stock">
+<tt class="descclassname">commands.stock.</tt><tt class="descname">gen_stock</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/stock.html#gen_stock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stock.gen_stock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.stock.get_quote">
+<tt class="descclassname">commands.stock.</tt><tt class="descname">get_quote</tt><big>(</big><em>symbol</em><big>)</big><a class="reference internal" href="_modules/commands/stock.html#get_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stock.get_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.stock.random_stock">
+<tt class="descclassname">commands.stock.</tt><tt class="descname">random_stock</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/commands/stock.html#random_stock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stock.random_stock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.stopwatch">
+<span id="commands-stopwatch-module"></span><h2>commands.stopwatch module<a class="headerlink" href="#module-commands.stopwatch" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.stopwatch.create_sw">
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">create_sw</tt><big>(</big><em>session</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#create_sw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.create_sw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.stopwatch.get_elapsed">
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">get_elapsed</tt><big>(</big><em>session</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#get_elapsed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.get_elapsed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.stopwatch.get_status">
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">get_status</tt><big>(</big><em>session</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#get_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.get_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.stopwatch.stop_stopwatch">
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">stop_stopwatch</tt><big>(</big><em>session</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#stop_stopwatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.stop_stopwatch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.stopwatch.stopwatch_list">
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">stopwatch_list</tt><big>(</big><em>session</em>, <em>send</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#stopwatch_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.stopwatch_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.stopwatch.stopwatch_resume">
+<tt class="descclassname">commands.stopwatch.</tt><tt class="descname">stopwatch_resume</tt><big>(</big><em>session</em>, <em>sw</em><big>)</big><a class="reference internal" href="_modules/commands/stopwatch.html#stopwatch_resume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.stopwatch.stopwatch_resume" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.summon">
+<span id="commands-summon-module"></span><h2>commands.summon module<a class="headerlink" href="#module-commands.summon" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.threads">
+<span id="commands-threads-module"></span><h2>commands.threads module<a class="headerlink" href="#module-commands.threads" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.throw">
+<span id="commands-throw-module"></span><h2>commands.throw module<a class="headerlink" href="#module-commands.throw" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.time">
+<span id="commands-time-module"></span><h2>commands.time module<a class="headerlink" href="#module-commands.time" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.timeout">
+<span id="commands-timeout-module"></span><h2>commands.timeout module<a class="headerlink" href="#module-commands.timeout" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.translate">
+<span id="commands-translate-module"></span><h2>commands.translate module<a class="headerlink" href="#module-commands.translate" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.translate.get_token">
+<tt class="descclassname">commands.translate.</tt><tt class="descname">get_token</tt><big>(</big><em>client_id</em>, <em>secret</em><big>)</big><a class="reference internal" href="_modules/commands/translate.html#get_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.translate.get_token" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.uptime">
+<span id="commands-uptime-module"></span><h2>commands.uptime module<a class="headerlink" href="#module-commands.uptime" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.urban">
+<span id="commands-urban-module"></span><h2>commands.urban module<a class="headerlink" href="#module-commands.urban" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.version">
+<span id="commands-version-module"></span><h2>commands.version module<a class="headerlink" href="#module-commands.version" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.vote">
+<span id="commands-vote-module"></span><h2>commands.vote module<a class="headerlink" href="#module-commands.vote" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.vote.delete_poll">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">delete_poll</tt><big>(</big><em>session</em>, <em>pid</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#delete_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.delete_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a poll</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.edit_poll">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">edit_poll</tt><big>(</big><em>session</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#edit_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.edit_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Edits a poll</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.end_poll">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">end_poll</tt><big>(</big><em>session</em>, <em>pid</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#end_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.end_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ends a poll</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.list_polls">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">list_polls</tt><big>(</big><em>session</em>, <em>poll_url</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#list_polls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.list_polls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.reopen">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">reopen</tt><big>(</big><em>session</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#reopen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.reopen" title="Permalink to this definition">¶</a></dt>
+<dd><p>reopens a closed poll.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.retract">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">retract</tt><big>(</big><em>session</em>, <em>pid</em>, <em>nick</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#retract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.retract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a vote for a poll</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.start_poll">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">start_poll</tt><big>(</big><em>session</em>, <em>msg</em>, <em>isadmin</em>, <em>send</em>, <em>nick</em>, <em>ctrlchan</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#start_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.start_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a poll</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.tally_poll">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">tally_poll</tt><big>(</big><em>session</em>, <em>pid</em>, <em>send</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#tally_poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.tally_poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows the results of poll</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.vote.vote">
+<tt class="descclassname">commands.vote.</tt><tt class="descname">vote</tt><big>(</big><em>session</em>, <em>nick</em>, <em>pid</em>, <em>vote</em><big>)</big><a class="reference internal" href="_modules/commands/vote.html#vote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.vote.vote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Votes on a poll</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-commands.wai">
+<span id="commands-wai-module"></span><h2>commands.wai module<a class="headerlink" href="#module-commands.wai" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.weather">
+<span id="commands-weather-module"></span><h2>commands.weather module<a class="headerlink" href="#module-commands.weather" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.weather.get_default">
+<tt class="descclassname">commands.weather.</tt><tt class="descname">get_default</tt><big>(</big><em>nick</em>, <em>session</em>, <em>send</em><big>)</big><a class="reference internal" href="_modules/commands/weather.html#get_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.weather.get_default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.weather.get_weather">
+<tt class="descclassname">commands.weather.</tt><tt class="descname">get_weather</tt><big>(</big><em>msg</em>, <em>send</em>, <em>apikey</em><big>)</big><a class="reference internal" href="_modules/commands/weather.html#get_weather"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.weather.get_weather" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.weather.set_default">
+<tt class="descclassname">commands.weather.</tt><tt class="descname">set_default</tt><big>(</big><em>nick</em>, <em>location</em>, <em>session</em>, <em>send</em>, <em>apikey</em><big>)</big><a class="reference internal" href="_modules/commands/weather.html#set_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.weather.set_default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets nick&#8217;s default location to location.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.weather.valid_location">
+<tt class="descclassname">commands.weather.</tt><tt class="descname">valid_location</tt><big>(</big><em>location</em>, <em>apikey</em><big>)</big><a class="reference internal" href="_modules/commands/weather.html#valid_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.weather.valid_location" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.wiki">
+<span id="commands-wiki-module"></span><h2>commands.wiki module<a class="headerlink" href="#module-commands.wiki" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.wikipath">
+<span id="commands-wikipath-module"></span><h2>commands.wikipath module<a class="headerlink" href="#module-commands.wikipath" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.wikipath.gen_path">
+<tt class="descclassname">commands.wikipath.</tt><tt class="descname">gen_path</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/wikipath.html#gen_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.wikipath.gen_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.wikipath.get_articles">
+<tt class="descclassname">commands.wikipath.</tt><tt class="descname">get_articles</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/commands/wikipath.html#get_articles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.wikipath.get_articles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.wolf">
+<span id="commands-wolf-module"></span><h2>commands.wolf module<a class="headerlink" href="#module-commands.wolf" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.word">
+<span id="commands-word-module"></span><h2>commands.word module<a class="headerlink" href="#module-commands.word" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.wtf">
+<span id="commands-wtf-module"></span><h2>commands.wtf module<a class="headerlink" href="#module-commands.wtf" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.xkcd">
+<span id="commands-xkcd-module"></span><h2>commands.xkcd module<a class="headerlink" href="#module-commands.xkcd" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.xkcd.do_search">
+<tt class="descclassname">commands.xkcd.</tt><tt class="descname">do_search</tt><big>(</big><em>msg</em>, <em>key</em>, <em>searchid</em><big>)</big><a class="reference internal" href="_modules/commands/xkcd.html#do_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.xkcd.do_search" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.xkcd.get_latest">
+<tt class="descclassname">commands.xkcd.</tt><tt class="descname">get_latest</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/commands/xkcd.html#get_latest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.xkcd.get_latest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-commands.yoda">
+<span id="commands-yoda-module"></span><h2>commands.yoda module<a class="headerlink" href="#module-commands.yoda" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-commands">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-commands" title="Permalink to this headline">¶</a></h2>
@@ -368,104 +741,104 @@
   <ul>
 <li><a class="reference internal" href="#">commands package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#commands-8ball-module">commands.8ball module</a></li>
-<li><a class="reference internal" href="#commands-about-module">commands.about module</a></li>
-<li><a class="reference internal" href="#commands-acronym-module">commands.acronym module</a></li>
-<li><a class="reference internal" href="#commands-admins-module">commands.admins module</a></li>
-<li><a class="reference internal" href="#commands-ahamilto-module">commands.ahamilto module</a></li>
-<li><a class="reference internal" href="#commands-babble-module">commands.babble module</a></li>
-<li><a class="reference internal" href="#commands-bc-module">commands.bc module</a></li>
-<li><a class="reference internal" href="#commands-bike-module">commands.bike module</a></li>
-<li><a class="reference internal" href="#commands-blame-module">commands.blame module</a></li>
-<li><a class="reference internal" href="#commands-botsnack-module">commands.botsnack module</a></li>
-<li><a class="reference internal" href="#commands-cancel-module">commands.cancel module</a></li>
-<li><a class="reference internal" href="#commands-channels-module">commands.channels module</a></li>
-<li><a class="reference internal" href="#commands-choose-module">commands.choose module</a></li>
-<li><a class="reference internal" href="#commands-cidr-module">commands.cidr module</a></li>
-<li><a class="reference internal" href="#commands-clippy-module">commands.clippy module</a></li>
-<li><a class="reference internal" href="#commands-coin-module">commands.coin module</a></li>
-<li><a class="reference internal" href="#commands-creffett-module">commands.creffett module</a></li>
-<li><a class="reference internal" href="#commands-cve-module">commands.cve module</a></li>
-<li><a class="reference internal" href="#commands-ddate-module">commands.ddate module</a></li>
-<li><a class="reference internal" href="#commands-defersay-module">commands.defersay module</a></li>
-<li><a class="reference internal" href="#commands-define-module">commands.define module</a></li>
-<li><a class="reference internal" href="#commands-demorse-module">commands.demorse module</a></li>
-<li><a class="reference internal" href="#commands-distro-module">commands.distro module</a></li>
-<li><a class="reference internal" href="#commands-ebay-module">commands.ebay module</a></li>
-<li><a class="reference internal" href="#commands-eix-module">commands.eix module</a></li>
-<li><a class="reference internal" href="#commands-errno-module">commands.errno module</a></li>
-<li><a class="reference internal" href="#commands-filter-module">commands.filter module</a></li>
-<li><a class="reference internal" href="#commands-fml-module">commands.fml module</a></li>
-<li><a class="reference internal" href="#commands-fortune-module">commands.fortune module</a></li>
-<li><a class="reference internal" href="#commands-fweather-module">commands.fweather module</a></li>
-<li><a class="reference internal" href="#commands-fwilson-module">commands.fwilson module</a></li>
-<li><a class="reference internal" href="#commands-gcc-module">commands.gcc module</a></li>
-<li><a class="reference internal" href="#commands-google-module">commands.google module</a></li>
-<li><a class="reference internal" href="#commands-guarded-module">commands.guarded module</a></li>
-<li><a class="reference internal" href="#commands-help-module">commands.help module</a></li>
-<li><a class="reference internal" href="#commands-highlight-module">commands.highlight module</a></li>
-<li><a class="reference internal" href="#commands-hooks-module">commands.hooks module</a></li>
-<li><a class="reference internal" href="#commands-imdb-module">commands.imdb module</a></li>
-<li><a class="reference internal" href="#commands-inspect-module">commands.inspect module</a></li>
-<li><a class="reference internal" href="#commands-insult-module">commands.insult module</a></li>
-<li><a class="reference internal" href="#commands-ipa-module">commands.ipa module</a></li>
-<li><a class="reference internal" href="#commands-issue-module">commands.issue module</a></li>
-<li><a class="reference internal" href="#commands-isup-module">commands.isup module</a></li>
-<li><a class="reference internal" href="#commands-jargon-module">commands.jargon module</a></li>
-<li><a class="reference internal" href="#commands-kill-module">commands.kill module</a></li>
-<li><a class="reference internal" href="#commands-lmgtfy-module">commands.lmgtfy module</a></li>
-<li><a class="reference internal" href="#commands-meme-module">commands.meme module</a></li>
-<li><a class="reference internal" href="#commands-microwave-module">commands.microwave module</a></li>
-<li><a class="reference internal" href="#commands-mission-module">commands.mission module</a></li>
-<li><a class="reference internal" href="#commands-mode-module">commands.mode module</a></li>
-<li><a class="reference internal" href="#commands-morse-module">commands.morse module</a></li>
-<li><a class="reference internal" href="#commands-msg-module">commands.msg module</a></li>
-<li><a class="reference internal" href="#commands-nicks-module">commands.nicks module</a></li>
-<li><a class="reference internal" href="#commands-note-module">commands.note module</a></li>
-<li><a class="reference internal" href="#commands-nuke-module">commands.nuke module</a></li>
-<li><a class="reference internal" href="#commands-pester-module">commands.pester module</a></li>
-<li><a class="reference internal" href="#commands-pfoley-module">commands.pfoley module</a></li>
-<li><a class="reference internal" href="#commands-ping-module">commands.ping module</a></li>
-<li><a class="reference internal" href="#commands-praise-module">commands.praise module</a></li>
-<li><a class="reference internal" href="#commands-pull-module">commands.pull module</a></li>
-<li><a class="reference internal" href="#commands-quote-module">commands.quote module</a></li>
-<li><a class="reference internal" href="#commands-random-module">commands.random module</a></li>
-<li><a class="reference internal" href="#commands-reddit-module">commands.reddit module</a></li>
-<li><a class="reference internal" href="#commands-reverse-module">commands.reverse module</a></li>
-<li><a class="reference internal" href="#commands-roman-module">commands.roman module</a></li>
-<li><a class="reference internal" href="#commands-s-module">commands.s module</a></li>
-<li><a class="reference internal" href="#commands-score-module">commands.score module</a></li>
-<li><a class="reference internal" href="#commands-seen-module">commands.seen module</a></li>
-<li><a class="reference internal" href="#commands-sha512-module">commands.sha512 module</a></li>
-<li><a class="reference internal" href="#commands-shibe-module">commands.shibe module</a></li>
-<li><a class="reference internal" href="#commands-signal-module">commands.signal module</a></li>
-<li><a class="reference internal" href="#commands-skasturi-module">commands.skasturi module</a></li>
-<li><a class="reference internal" href="#commands-slap-module">commands.slap module</a></li>
-<li><a class="reference internal" href="#commands-slogan-module">commands.slogan module</a></li>
-<li><a class="reference internal" href="#commands-ssearch-module">commands.ssearch module</a></li>
-<li><a class="reference internal" href="#commands-stats-module">commands.stats module</a></li>
-<li><a class="reference internal" href="#commands-steam-module">commands.steam module</a></li>
-<li><a class="reference internal" href="#commands-stock-module">commands.stock module</a></li>
-<li><a class="reference internal" href="#commands-stopwatch-module">commands.stopwatch module</a></li>
-<li><a class="reference internal" href="#commands-summon-module">commands.summon module</a></li>
-<li><a class="reference internal" href="#commands-threads-module">commands.threads module</a></li>
-<li><a class="reference internal" href="#commands-throw-module">commands.throw module</a></li>
-<li><a class="reference internal" href="#commands-time-module">commands.time module</a></li>
-<li><a class="reference internal" href="#commands-timeout-module">commands.timeout module</a></li>
-<li><a class="reference internal" href="#commands-translate-module">commands.translate module</a></li>
-<li><a class="reference internal" href="#commands-uptime-module">commands.uptime module</a></li>
-<li><a class="reference internal" href="#commands-urban-module">commands.urban module</a></li>
-<li><a class="reference internal" href="#commands-version-module">commands.version module</a></li>
-<li><a class="reference internal" href="#commands-vote-module">commands.vote module</a></li>
-<li><a class="reference internal" href="#commands-wai-module">commands.wai module</a></li>
-<li><a class="reference internal" href="#commands-weather-module">commands.weather module</a></li>
-<li><a class="reference internal" href="#commands-wiki-module">commands.wiki module</a></li>
-<li><a class="reference internal" href="#commands-wikipath-module">commands.wikipath module</a></li>
-<li><a class="reference internal" href="#commands-wolf-module">commands.wolf module</a></li>
-<li><a class="reference internal" href="#commands-word-module">commands.word module</a></li>
-<li><a class="reference internal" href="#commands-wtf-module">commands.wtf module</a></li>
-<li><a class="reference internal" href="#commands-xkcd-module">commands.xkcd module</a></li>
-<li><a class="reference internal" href="#commands-yoda-module">commands.yoda module</a></li>
+<li><a class="reference internal" href="#module-commands.8ball">commands.8ball module</a></li>
+<li><a class="reference internal" href="#module-commands.about">commands.about module</a></li>
+<li><a class="reference internal" href="#module-commands.acronym">commands.acronym module</a></li>
+<li><a class="reference internal" href="#module-commands.admins">commands.admins module</a></li>
+<li><a class="reference internal" href="#module-commands.ahamilto">commands.ahamilto module</a></li>
+<li><a class="reference internal" href="#module-commands.babble">commands.babble module</a></li>
+<li><a class="reference internal" href="#module-commands.bc">commands.bc module</a></li>
+<li><a class="reference internal" href="#module-commands.bike">commands.bike module</a></li>
+<li><a class="reference internal" href="#module-commands.blame">commands.blame module</a></li>
+<li><a class="reference internal" href="#module-commands.botsnack">commands.botsnack module</a></li>
+<li><a class="reference internal" href="#module-commands.cancel">commands.cancel module</a></li>
+<li><a class="reference internal" href="#module-commands.channels">commands.channels module</a></li>
+<li><a class="reference internal" href="#module-commands.choose">commands.choose module</a></li>
+<li><a class="reference internal" href="#module-commands.cidr">commands.cidr module</a></li>
+<li><a class="reference internal" href="#module-commands.clippy">commands.clippy module</a></li>
+<li><a class="reference internal" href="#module-commands.coin">commands.coin module</a></li>
+<li><a class="reference internal" href="#module-commands.creffett">commands.creffett module</a></li>
+<li><a class="reference internal" href="#module-commands.cve">commands.cve module</a></li>
+<li><a class="reference internal" href="#module-commands.ddate">commands.ddate module</a></li>
+<li><a class="reference internal" href="#module-commands.defersay">commands.defersay module</a></li>
+<li><a class="reference internal" href="#module-commands.define">commands.define module</a></li>
+<li><a class="reference internal" href="#module-commands.demorse">commands.demorse module</a></li>
+<li><a class="reference internal" href="#module-commands.distro">commands.distro module</a></li>
+<li><a class="reference internal" href="#module-commands.ebay">commands.ebay module</a></li>
+<li><a class="reference internal" href="#module-commands.eix">commands.eix module</a></li>
+<li><a class="reference internal" href="#module-commands.errno">commands.errno module</a></li>
+<li><a class="reference internal" href="#module-commands.filter">commands.filter module</a></li>
+<li><a class="reference internal" href="#module-commands.fml">commands.fml module</a></li>
+<li><a class="reference internal" href="#module-commands.fortune">commands.fortune module</a></li>
+<li><a class="reference internal" href="#module-commands.fweather">commands.fweather module</a></li>
+<li><a class="reference internal" href="#module-commands.fwilson">commands.fwilson module</a></li>
+<li><a class="reference internal" href="#module-commands.gcc">commands.gcc module</a></li>
+<li><a class="reference internal" href="#module-commands.google">commands.google module</a></li>
+<li><a class="reference internal" href="#module-commands.guarded">commands.guarded module</a></li>
+<li><a class="reference internal" href="#module-commands.help">commands.help module</a></li>
+<li><a class="reference internal" href="#module-commands.highlight">commands.highlight module</a></li>
+<li><a class="reference internal" href="#module-commands.hooks">commands.hooks module</a></li>
+<li><a class="reference internal" href="#module-commands.imdb">commands.imdb module</a></li>
+<li><a class="reference internal" href="#module-commands.inspect">commands.inspect module</a></li>
+<li><a class="reference internal" href="#module-commands.insult">commands.insult module</a></li>
+<li><a class="reference internal" href="#module-commands.ipa">commands.ipa module</a></li>
+<li><a class="reference internal" href="#module-commands.issue">commands.issue module</a></li>
+<li><a class="reference internal" href="#module-commands.isup">commands.isup module</a></li>
+<li><a class="reference internal" href="#module-commands.jargon">commands.jargon module</a></li>
+<li><a class="reference internal" href="#module-commands.kill">commands.kill module</a></li>
+<li><a class="reference internal" href="#module-commands.lmgtfy">commands.lmgtfy module</a></li>
+<li><a class="reference internal" href="#module-commands.meme">commands.meme module</a></li>
+<li><a class="reference internal" href="#module-commands.microwave">commands.microwave module</a></li>
+<li><a class="reference internal" href="#module-commands.mission">commands.mission module</a></li>
+<li><a class="reference internal" href="#module-commands.mode">commands.mode module</a></li>
+<li><a class="reference internal" href="#module-commands.morse">commands.morse module</a></li>
+<li><a class="reference internal" href="#module-commands.msg">commands.msg module</a></li>
+<li><a class="reference internal" href="#module-commands.nicks">commands.nicks module</a></li>
+<li><a class="reference internal" href="#module-commands.note">commands.note module</a></li>
+<li><a class="reference internal" href="#module-commands.nuke">commands.nuke module</a></li>
+<li><a class="reference internal" href="#module-commands.pester">commands.pester module</a></li>
+<li><a class="reference internal" href="#module-commands.pfoley">commands.pfoley module</a></li>
+<li><a class="reference internal" href="#module-commands.ping">commands.ping module</a></li>
+<li><a class="reference internal" href="#module-commands.praise">commands.praise module</a></li>
+<li><a class="reference internal" href="#module-commands.pull">commands.pull module</a></li>
+<li><a class="reference internal" href="#module-commands.quote">commands.quote module</a></li>
+<li><a class="reference internal" href="#module-commands.random">commands.random module</a></li>
+<li><a class="reference internal" href="#module-commands.reddit">commands.reddit module</a></li>
+<li><a class="reference internal" href="#module-commands.reverse">commands.reverse module</a></li>
+<li><a class="reference internal" href="#module-commands.roman">commands.roman module</a></li>
+<li><a class="reference internal" href="#module-commands.s">commands.s module</a></li>
+<li><a class="reference internal" href="#module-commands.score">commands.score module</a></li>
+<li><a class="reference internal" href="#module-commands.seen">commands.seen module</a></li>
+<li><a class="reference internal" href="#module-commands.sha512">commands.sha512 module</a></li>
+<li><a class="reference internal" href="#module-commands.shibe">commands.shibe module</a></li>
+<li><a class="reference internal" href="#module-commands.signal">commands.signal module</a></li>
+<li><a class="reference internal" href="#module-commands.skasturi">commands.skasturi module</a></li>
+<li><a class="reference internal" href="#module-commands.slap">commands.slap module</a></li>
+<li><a class="reference internal" href="#module-commands.slogan">commands.slogan module</a></li>
+<li><a class="reference internal" href="#module-commands.ssearch">commands.ssearch module</a></li>
+<li><a class="reference internal" href="#module-commands.stats">commands.stats module</a></li>
+<li><a class="reference internal" href="#module-commands.steam">commands.steam module</a></li>
+<li><a class="reference internal" href="#module-commands.stock">commands.stock module</a></li>
+<li><a class="reference internal" href="#module-commands.stopwatch">commands.stopwatch module</a></li>
+<li><a class="reference internal" href="#module-commands.summon">commands.summon module</a></li>
+<li><a class="reference internal" href="#module-commands.threads">commands.threads module</a></li>
+<li><a class="reference internal" href="#module-commands.throw">commands.throw module</a></li>
+<li><a class="reference internal" href="#module-commands.time">commands.time module</a></li>
+<li><a class="reference internal" href="#module-commands.timeout">commands.timeout module</a></li>
+<li><a class="reference internal" href="#module-commands.translate">commands.translate module</a></li>
+<li><a class="reference internal" href="#module-commands.uptime">commands.uptime module</a></li>
+<li><a class="reference internal" href="#module-commands.urban">commands.urban module</a></li>
+<li><a class="reference internal" href="#module-commands.version">commands.version module</a></li>
+<li><a class="reference internal" href="#module-commands.vote">commands.vote module</a></li>
+<li><a class="reference internal" href="#module-commands.wai">commands.wai module</a></li>
+<li><a class="reference internal" href="#module-commands.weather">commands.weather module</a></li>
+<li><a class="reference internal" href="#module-commands.wiki">commands.wiki module</a></li>
+<li><a class="reference internal" href="#module-commands.wikipath">commands.wikipath module</a></li>
+<li><a class="reference internal" href="#module-commands.wolf">commands.wolf module</a></li>
+<li><a class="reference internal" href="#module-commands.word">commands.word module</a></li>
+<li><a class="reference internal" href="#module-commands.wtf">commands.wtf module</a></li>
+<li><a class="reference internal" href="#module-commands.xkcd">commands.xkcd module</a></li>
+<li><a class="reference internal" href="#module-commands.yoda">commands.yoda module</a></li>
 <li><a class="reference internal" href="#module-commands">Module contents</a></li>
 </ul>
 </li>
