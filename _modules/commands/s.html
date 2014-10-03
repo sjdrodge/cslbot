@@ -108,7 +108,7 @@
         <span class="k">return</span>
     <span class="n">char</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="c">#fix for people who forget a trailing slash</span>
+    <span class="c"># fix for people who forget a trailing slash</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;feature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">getboolean</span><span class="p">(</span><span class="s">&#39;lazyregex&#39;</span><span class="p">):</span>
         <span class="n">msg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
     <span class="c"># not a valid sed statement.</span>

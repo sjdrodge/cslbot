@@ -171,7 +171,7 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">send</span><span class="p">(</span><span class="s">&quot;Unknown command. Type help for more info.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="c">#FIXME: use helpers.traceback</span>
+            <span class="c"># FIXME: use helpers.traceback</span>
             <span class="n">trace</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">extract_tb</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">trace</span> <span class="o">=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">trace</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">trace</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
             <span class="n">name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span>

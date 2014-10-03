@@ -81,9 +81,28 @@
 </div>
 <div class="section" id="module-commands.babble">
 <span id="commands-babble-module"></span><h2>commands.babble module<a class="headerlink" href="#module-commands.babble" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="commands.babble.MarkovState">
+<em class="property">class </em><tt class="descclassname">commands.babble.</tt><tt class="descname">MarkovState</tt><a class="headerlink" href="#commands.babble.MarkovState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.tuple</span></tt></p>
+<p>MarkovState(time, data)</p>
+<dl class="attribute">
+<dt id="commands.babble.MarkovState.data">
+<tt class="descname">data</tt><a class="headerlink" href="#commands.babble.MarkovState.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="commands.babble.MarkovState.time">
+<tt class="descname">time</tt><a class="headerlink" href="#commands.babble.MarkovState.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="commands.babble.build_markov">
-<tt class="descclassname">commands.babble.</tt><tt class="descname">build_markov</tt><big>(</big><em>messages</em>, <em>speaker</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#build_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_markov" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.babble.</tt><tt class="descname">build_markov</tt><big>(</big><em>cursor</em>, <em>speaker</em>, <em>cmdchar</em>, <em>ctrlchan</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#build_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_markov" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds a markov dictionary of the form</p>
 <dl class="docutils">
 <dt>word <span class="classifier-delimiter">:</span> <span class="classifier">{</span></dt>
@@ -103,6 +122,11 @@ nextwordn : num_apperances</dd>
 <dl class="function">
 <dt id="commands.babble.clean_msg">
 <tt class="descclassname">commands.babble.</tt><tt class="descname">clean_msg</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#clean_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.clean_msg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.babble.get_markov">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">get_markov</tt><big>(</big><em>cursor</em>, <em>speaker</em>, <em>defer</em>, <em>cmdchar</em>, <em>ctrlchan</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#get_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.get_markov" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -140,6 +164,11 @@ operator precedence behavior):</p>
 <p class="last"><tt class="xref py py-func docutils literal"><span class="pre">and_()</span></tt></p>
 </div>
 </dd></dl>
+
+<dl class="function">
+<dt id="commands.babble.update_markov">
+<tt class="descclassname">commands.babble.</tt><tt class="descname">update_markov</tt><big>(</big><em>cursor</em>, <em>speaker</em>, <em>cmdchar</em>, <em>ctrlchan</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#update_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.update_markov" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="commands.babble.weighted_rand">
@@ -211,6 +240,19 @@ thingn: freqn</dd>
 </div>
 <div class="section" id="module-commands.distro">
 <span id="commands-distro-module"></span><h2>commands.distro module<a class="headerlink" href="#module-commands.distro" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-commands.dvorak">
+<span id="commands-dvorak-module"></span><h2>commands.dvorak module<a class="headerlink" href="#module-commands.dvorak" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.dvorak.get_log">
+<tt class="descclassname">commands.dvorak.</tt><tt class="descname">get_log</tt><big>(</big><em>conn</em>, <em>user</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/dvorak.html#get_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.dvorak.get_log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.dvorak.translate">
+<tt class="descclassname">commands.dvorak.</tt><tt class="descname">translate</tt><big>(</big><em>msg</em>, <em>encode=True</em><big>)</big><a class="reference internal" href="_modules/commands/dvorak.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.dvorak.translate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-commands.ebay">
 <span id="commands-ebay-module"></span><h2>commands.ebay module<a class="headerlink" href="#module-commands.ebay" title="Permalink to this headline">¶</a></h2>
@@ -417,14 +459,6 @@ thingn: freqn</dd>
 <div class="section" id="module-commands.reddit">
 <span id="commands-reddit-module"></span><h2>commands.reddit module<a class="headerlink" href="#module-commands.reddit" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-commands.reverse">
-<span id="commands-reverse-module"></span><h2>commands.reverse module<a class="headerlink" href="#module-commands.reverse" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="commands.reverse.get_log">
-<tt class="descclassname">commands.reverse.</tt><tt class="descname">get_log</tt><big>(</big><em>conn</em>, <em>user</em>, <em>target</em><big>)</big><a class="reference internal" href="_modules/commands/reverse.html#get_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.reverse.get_log" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
 <div class="section" id="module-commands.roman">
 <span id="commands-roman-module"></span><h2>commands.roman module<a class="headerlink" href="#module-commands.roman" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -510,7 +544,7 @@ thingn: freqn</dd>
 <span id="commands-steam-module"></span><h2>commands.steam module<a class="headerlink" href="#module-commands.steam" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="commands.steam.get_ids">
-<tt class="descclassname">commands.steam.</tt><tt class="descname">get_ids</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/commands/steam.html#get_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.steam.get_ids" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">commands.steam.</tt><tt class="descname">get_ids</tt><big>(</big><em>handler</em><big>)</big><a class="reference internal" href="_modules/commands/steam.html#get_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.steam.get_ids" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -598,6 +632,16 @@ thingn: freqn</dd>
 </div>
 <div class="section" id="module-commands.urban">
 <span id="commands-urban-module"></span><h2>commands.urban module<a class="headerlink" href="#module-commands.urban" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="commands.urban.get_definition">
+<tt class="descclassname">commands.urban.</tt><tt class="descname">get_definition</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/commands/urban.html#get_definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.urban.get_definition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="commands.urban.get_random">
+<tt class="descclassname">commands.urban.</tt><tt class="descname">get_random</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/commands/urban.html#get_random"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.urban.get_random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-commands.version">
 <span id="commands-version-module"></span><h2>commands.version module<a class="headerlink" href="#module-commands.version" title="Permalink to this headline">¶</a></h2>
@@ -764,6 +808,7 @@ thingn: freqn</dd>
 <li><a class="reference internal" href="#module-commands.define">commands.define module</a></li>
 <li><a class="reference internal" href="#module-commands.demorse">commands.demorse module</a></li>
 <li><a class="reference internal" href="#module-commands.distro">commands.distro module</a></li>
+<li><a class="reference internal" href="#module-commands.dvorak">commands.dvorak module</a></li>
 <li><a class="reference internal" href="#module-commands.ebay">commands.ebay module</a></li>
 <li><a class="reference internal" href="#module-commands.eix">commands.eix module</a></li>
 <li><a class="reference internal" href="#module-commands.errno">commands.errno module</a></li>
@@ -804,7 +849,6 @@ thingn: freqn</dd>
 <li><a class="reference internal" href="#module-commands.quote">commands.quote module</a></li>
 <li><a class="reference internal" href="#module-commands.random">commands.random module</a></li>
 <li><a class="reference internal" href="#module-commands.reddit">commands.reddit module</a></li>
-<li><a class="reference internal" href="#module-commands.reverse">commands.reverse module</a></li>
 <li><a class="reference internal" href="#module-commands.roman">commands.roman module</a></li>
 <li><a class="reference internal" href="#module-commands.s">commands.s module</a></li>
 <li><a class="reference internal" href="#module-commands.score">commands.score module</a></li>
