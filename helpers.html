@@ -75,7 +75,7 @@
 <span id="helpers-command-module"></span><h2>helpers.command module<a class="headerlink" href="#module-helpers.command" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="helpers.command.Command">
-<em class="property">class </em><tt class="descclassname">helpers.command.</tt><tt class="descname">Command</tt><big>(</big><em>names</em>, <em>args=</em>, <span class="optional">[</span><span class="optional">]</span><em>limit=0</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#Command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.Command" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">helpers.command.</tt><tt class="descname">Command</tt><big>(</big><em>names</em>, <em>args=[]</em>, <em>limit=0</em><big>)</big><a class="reference internal" href="_modules/helpers/command.html#Command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.command.Command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <dl class="method">
 <dt id="helpers.command.Command.get_doc">
@@ -288,7 +288,7 @@
 <span id="helpers-hook-module"></span><h2>helpers.hook module<a class="headerlink" href="#module-helpers.hook" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="helpers.hook.Hook">
-<em class="property">class </em><tt class="descclassname">helpers.hook.</tt><tt class="descname">Hook</tt><big>(</big><em>types</em>, <em>args=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="_modules/helpers/hook.html#Hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.Hook" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">helpers.hook.</tt><tt class="descname">Hook</tt><big>(</big><em>types</em>, <em>args=[]</em><big>)</big><a class="reference internal" href="_modules/helpers/hook.html#Hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.Hook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <dl class="method">
 <dt id="helpers.hook.Hook.run">
@@ -384,13 +384,38 @@
 <span id="helpers-modutils-module"></span><h2>helpers.modutils module<a class="headerlink" href="#module-helpers.modutils" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="helpers.modutils.get_enabled">
-<tt class="descclassname">helpers.modutils.</tt><tt class="descname">get_enabled</tt><big>(</big><em>moddir</em><big>)</big><a class="reference internal" href="_modules/helpers/modutils.html#get_enabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.get_enabled" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">helpers.modutils.</tt><tt class="descname">get_enabled</tt><big>(</big><em>moddir</em>, <em>mod_type</em><big>)</big><a class="reference internal" href="_modules/helpers/modutils.html#get_enabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.get_enabled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.modutils.get_modules">
+<tt class="descclassname">helpers.modutils.</tt><tt class="descname">get_modules</tt><big>(</big><em>folder</em>, <em>mod_type</em><big>)</big><a class="reference internal" href="_modules/helpers/modutils.html#get_modules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.get_modules" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.modutils.group_enabled">
+<tt class="descclassname">helpers.modutils.</tt><tt class="descname">group_enabled</tt><big>(</big><em>mod_type</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/helpers/modutils.html#group_enabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.group_enabled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.modutils.init_aux">
+<tt class="descclassname">helpers.modutils.</tt><tt class="descname">init_aux</tt><big>(</big><em>commands</em><big>)</big><a class="reference internal" href="_modules/helpers/modutils.html#init_aux"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.init_aux" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.modutils.init_groups">
+<tt class="descclassname">helpers.modutils.</tt><tt class="descname">init_groups</tt><big>(</big><em>groups</em><big>)</big><a class="reference internal" href="_modules/helpers/modutils.html#init_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.init_groups" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.modutils.parse_group">
+<tt class="descclassname">helpers.modutils.</tt><tt class="descname">parse_group</tt><big>(</big><em>cfg</em><big>)</big><a class="reference internal" href="_modules/helpers/modutils.html#parse_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.parse_group" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="helpers.modutils.scan_and_reimport">
-<tt class="descclassname">helpers.modutils.</tt><tt class="descname">scan_and_reimport</tt><big>(</big><em>folder</em>, <em>mod_pkg</em><big>)</big><a class="reference internal" href="_modules/helpers/modutils.html#scan_and_reimport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.scan_and_reimport" title="Permalink to this definition">¶</a></dt>
-<dd><p>Scans folder for hooks</p>
+<tt class="descclassname">helpers.modutils.</tt><tt class="descname">scan_and_reimport</tt><big>(</big><em>folder</em>, <em>mod_type</em><big>)</big><a class="reference internal" href="_modules/helpers/modutils.html#scan_and_reimport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.scan_and_reimport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scans folder for modules.</p>
 </dd></dl>
 
 </div>
@@ -846,11 +871,6 @@
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="helpers.textutils.gen_clippy">
-<tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_clippy</tt><big>(</big><em>nick</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_clippy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_clippy" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="helpers.textutils.gen_creffett">
 <tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_creffett</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_creffett"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_creffett" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -871,6 +891,11 @@
 <dd></dd></dl>
 
 <dl class="function">
+<dt id="helpers.textutils.gen_praise">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_praise</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_praise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_praise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="helpers.textutils.gen_slogan">
 <tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_slogan</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_slogan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_slogan" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -878,6 +903,11 @@
 <dl class="function">
 <dt id="helpers.textutils.gen_word">
 <tt class="descclassname">helpers.textutils.</tt><tt class="descname">gen_word</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#gen_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.textutils.get_praise">
+<tt class="descclassname">helpers.textutils.</tt><tt class="descname">get_praise</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/helpers/textutils.html#get_praise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.get_praise" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -1040,7 +1070,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013-2014, Peter Foley.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

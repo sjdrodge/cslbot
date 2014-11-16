@@ -69,7 +69,7 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">control</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">hook</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">textutils</span><span class="p">,</span> <span class="n">admin</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">misc</span>
+<span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">control</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">hook</span><span class="p">,</span> <span class="n">modutils</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">textutils</span><span class="p">,</span> <span class="n">admin</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">misc</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span><span class="p">,</span> <span class="n">random</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.exc</span> <span class="kn">import</span> <span class="n">InternalError</span>
@@ -101,6 +101,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">abuselist</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">admins</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s">&#39;auth&#39;</span><span class="p">][</span><span class="s">&#39;admins&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">admins</span> <span class="o">=</span> <span class="p">{</span><span class="n">nick</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">admins</span><span class="p">}</span>
+        <span class="c"># FIXME: add hooks/helpers</span>
+        <span class="n">modutils</span><span class="o">.</span><span class="n">init_aux</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;extracommands&#39;</span><span class="p">])</span>
+        <span class="n">modutils</span><span class="o">.</span><span class="n">init_groups</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loadmodules</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hooks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadhooks</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">srcdir</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
@@ -124,25 +127,23 @@
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
         <span class="k">return</span>
 </div>
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="BotHandler.loadmodules"><a class="viewcode-back" href="../handler.html#handler.BotHandler.loadmodules">[docs]</a>    <span class="k">def</span> <span class="nf">loadmodules</span><span class="p">():</span>
+<div class="viewcode-block" id="BotHandler.loadmodules"><a class="viewcode-back" href="../handler.html#handler.BotHandler.loadmodules">[docs]</a>    <span class="k">def</span> <span class="nf">loadmodules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Load all the commands.</span>
 
 <span class="sd">        | Globs over all the .py files in the commands dir.</span>
 <span class="sd">        | Skips file without the executable bit set</span>
 <span class="sd">        | Imports the modules into a dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">command</span><span class="o">.</span><span class="n">scan_for_commands</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;/commands&#39;</span><span class="p">)</span>
+        <span class="n">command</span><span class="o">.</span><span class="n">scan_for_commands</span><span class="p">(</span><span class="s">&#39;commands&#39;</span><span class="p">)</span>
 </div>
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="BotHandler.loadhooks"><a class="viewcode-back" href="../handler.html#handler.BotHandler.loadhooks">[docs]</a>    <span class="k">def</span> <span class="nf">loadhooks</span><span class="p">():</span>
+<div class="viewcode-block" id="BotHandler.loadhooks"><a class="viewcode-back" href="../handler.html#handler.BotHandler.loadhooks">[docs]</a>    <span class="k">def</span> <span class="nf">loadhooks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Load all the hooks.</span>
 
 <span class="sd">        | Globs over all the .py files in the hooks dir.</span>
 <span class="sd">        | Skips file without the executable bit set</span>
 <span class="sd">        | Imports the hooks into a dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">hook</span><span class="o">.</span><span class="n">scan_for_hooks</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;/hooks&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">hook</span><span class="o">.</span><span class="n">scan_for_hooks</span><span class="p">(</span><span class="s">&#39;hooks&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="BotHandler.ignore"><a class="viewcode-back" href="../handler.html#handler.BotHandler.ignore">[docs]</a>    <span class="k">def</span> <span class="nf">ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Ignores a nick.&quot;&quot;&quot;</span>
@@ -214,7 +215,7 @@
 
 <span class="sd">        Records the message in the log.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Trying to send a </span><span class="si">%s</span><span class="s"> to irc, only strings allowed.&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
         <span class="n">msgs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputfilter</span><span class="p">:</span>
@@ -251,11 +252,11 @@
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;IRC doesn&#39;t like it when you send it a </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">if</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;#&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">opers</span><span class="p">():</span>
-                    <span class="n">flags</span> <span class="o">|=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">voiced</span><span class="p">():</span>
-                    <span class="n">flags</span> <span class="o">|=</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">opers</span><span class="p">():</span>
+                <span class="n">flags</span> <span class="o">|=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">voiced</span><span class="p">():</span>
+                <span class="n">flags</span> <span class="o">|=</span> <span class="mi">2</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="s">&#39;private&#39;</span>
         <span class="c"># strip ctrl chars from !creffett</span>
@@ -314,7 +315,7 @@
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmdargs</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;force&quot;</span><span class="p">):</span>
             <span class="n">send</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> is already a member of </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">],</span>
-                 <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                                                   <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
             <span class="k">return</span>
         <span class="n">c</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nick</span><span class="p">,</span> <span class="s">&quot;Joined at the request of &quot;</span> <span class="o">+</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
@@ -433,6 +434,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">loadmodules</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loadhooks</span><span class="p">()</span>
 </div>
+<div class="viewcode-block" id="BotHandler.is_ignored"><a class="viewcode-back" href="../handler.html#handler.BotHandler.is_ignored">[docs]</a>    <span class="k">def</span> <span class="nf">is_ignored</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+        <span class="c"># FIXME: do something sane here, which would probably require parsing channel modes on startup,</span>
+        <span class="c"># and then updating them on /mode</span>
+        <span class="c"># if target in self.channels:</span>
+            <span class="c"># If the channel is /mode +z and the bot is opped, commands from quieted,</span>
+            <span class="c"># but non-ignored nicks can show up in the channel and confuse the hell out of everybody.</span>
+            <span class="c"># The irc library treats +q as &quot;owner&quot;, so abuse that.</span>
+            <span class="c"># FIXME: the irc library is stupid and only records +q&#39;s if it&#39;s already connected to channel.</span>
+            <span class="c"># ch = self.channels[target]</span>
+            <span class="c"># quieted = [re.match(&#39;(.*)\*?!.*&#39;, x).group(1) for x in ch.owners()]</span>
+            <span class="c"># if nick in quieted:</span>
+            <span class="c">#    return True</span>
+        <span class="k">return</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span>
+</div>
 <div class="viewcode-block" id="BotHandler.handle_msg"><a class="viewcode-back" href="../handler.html#handler.BotHandler.handle_msg">[docs]</a>    <span class="k">def</span> <span class="nf">handle_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The Heart and Soul of IrcBot.&quot;&quot;&quot;</span>
 
@@ -465,13 +480,13 @@
         <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;pubnotice&#39;</span><span class="p">:</span>
             <span class="k">return</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;feature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">getboolean</span><span class="p">(</span><span class="s">&#39;hooks&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hooks</span><span class="p">:</span>
-                    <span class="n">realargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_args</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="n">h</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">realargs</span><span class="p">)</span>
-                    <span class="k">except</span> <span class="n">InternalError</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;feature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">getboolean</span><span class="p">(</span><span class="s">&#39;hooks&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_ignored</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hooks</span><span class="p">:</span>
+                <span class="n">realargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_args</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">h</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">realargs</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">InternalError</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;nick&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">admins</span><span class="p">:</span>
@@ -500,7 +515,7 @@
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]:</span>
             <span class="n">control</span><span class="o">.</span><span class="n">handle_ctrlchan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_ignored</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
             <span class="k">return</span>
 
         <span class="n">msg</span> <span class="o">=</span> <span class="n">misc</span><span class="o">.</span><span class="n">get_cmdchar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
@@ -526,8 +541,9 @@
                     <span class="k">return</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="c"># Duplicate command</span>
-                    <span class="k">if</span> <span class="n">command</span><span class="o">.</span><span class="n">check_command</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-                        <span class="k">return</span>
+                    <span class="c"># Causes more problems than it solves</span>
+                    <span class="c"># if command.check_command(self.db.get(), nick, msg, target):</span>
+                    <span class="c">#    return</span>
                     <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_args</span><span class="p">(</span><span class="n">cmd_obj</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">cmd_name</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span>
                     <span class="n">cmd_obj</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">cmdargs</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">cmd_name</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
                 <span class="k">except</span> <span class="n">InternalError</span><span class="p">:</span>
@@ -581,7 +597,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013-2014, Peter Foley.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

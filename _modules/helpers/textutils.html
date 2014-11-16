@@ -68,6 +68,7 @@
 
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
+<span class="kn">from</span> <span class="nn">lxml.html</span> <span class="kn">import</span> <span class="n">fromstring</span>
 <span class="kn">from</span> <span class="nn">html.parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">choice</span><span class="p">,</span> <span class="n">randrange</span>
 
@@ -80,6 +81,18 @@
     <span class="n">html</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s">&#39;http://randomword.setgetgo.com/get.php&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
     <span class="c"># Strip BOM</span>
     <span class="k">return</span> <span class="n">html</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="gen_praise"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_praise">[docs]</a><span class="k">def</span> <span class="nf">gen_praise</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="n">praise</span> <span class="o">=</span> <span class="n">get_praise</span><span class="p">()</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">praise</span><span class="p">:</span>
+        <span class="n">praise</span> <span class="o">=</span> <span class="n">get_praise</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">praise</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="get_praise"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.get_praise">[docs]</a><span class="k">def</span> <span class="nf">get_praise</span><span class="p">():</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">fromstring</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;http://www.madsci.org/cgi-bin/cgiwrap/~lynn/jardin/SCG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;body/center/h2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
 </div>
 <div class="viewcode-block" id="gen_fwilson"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_fwilson">[docs]</a><span class="k">def</span> <span class="nf">gen_fwilson</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -106,7 +119,7 @@
     <span class="n">parser</span> <span class="o">=</span> <span class="n">HTMLParser</span><span class="p">()</span>
     <span class="n">slogan</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">unescape</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">unescape</span><span class="p">(</span><span class="n">slogan</span><span class="p">))</span>
     <span class="n">slogan</span> <span class="o">=</span> <span class="n">slogan</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\\</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">slogan</span> <span class="k">if</span> <span class="n">slogan</span> <span class="k">else</span> <span class="n">gen_slogan</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">slogan</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">slogan</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="k">else</span> <span class="n">gen_slogan</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="gen_morse"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_morse">[docs]</a><span class="k">def</span> <span class="nf">gen_morse</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
@@ -195,10 +208,6 @@
     <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">char_to_bin</span><span class="p">,</span> <span class="n">string</span><span class="p">))</span>
 
 </div>
-<div class="viewcode-block" id="gen_clippy"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_clippy">[docs]</a><span class="k">def</span> <span class="nf">gen_clippy</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: I see you are trying to </span><span class="si">%s</span><span class="s">, would you like some help with that?&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-
-</div>
 <div class="viewcode-block" id="do_xkcd_sub"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.do_xkcd_sub">[docs]</a><span class="k">def</span> <span class="nf">do_xkcd_sub</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">hook</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="c"># http://xkcd.com/1288/</span>
     <span class="n">substitutions</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;witnesses&#39;</span><span class="p">:</span> <span class="s">&#39;these dudes I know&#39;</span><span class="p">,</span>
@@ -215,7 +224,7 @@
     <span class="c"># http://xkcd.com/1418/</span>
     <span class="n">substitutions</span><span class="p">[</span><span class="s">&#39;force&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;horse&#39;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">msg</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">hook</span> <span class="ow">or</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.25</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hook</span> <span class="ow">or</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.001</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">replacement</span> <span class="ow">in</span> <span class="n">substitutions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&quot;\b</span><span class="si">%s</span><span class="s">\b&quot;</span> <span class="o">%</span> <span class="n">text</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
@@ -264,7 +273,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013-2014, Peter Foley.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

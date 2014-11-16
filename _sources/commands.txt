@@ -36,14 +36,6 @@ commands.admins module
     :undoc-members:
     :show-inheritance:
 
-commands.ahamilto module
-------------------------
-
-.. automodule:: commands.ahamilto
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 commands.babble module
 ----------------------
 
@@ -116,26 +108,10 @@ commands.cidr module
     :undoc-members:
     :show-inheritance:
 
-commands.clippy module
-----------------------
-
-.. automodule:: commands.clippy
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 commands.coin module
 --------------------
 
 .. automodule:: commands.coin
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-commands.creffett module
-------------------------
-
-.. automodule:: commands.creffett
     :members:
     :undoc-members:
     :show-inheritance:
@@ -248,14 +224,6 @@ commands.fweather module
 ------------------------
 
 .. automodule:: commands.fweather
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-commands.fwilson module
------------------------
-
-.. automodule:: commands.fwilson
     :members:
     :undoc-members:
     :show-inheritance:
@@ -380,14 +348,6 @@ commands.lmgtfy module
     :undoc-members:
     :show-inheritance:
 
-commands.meme module
---------------------
-
-.. automodule:: commands.meme
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 commands.microwave module
 -------------------------
 
@@ -456,14 +416,6 @@ commands.pester module
 ----------------------
 
 .. automodule:: commands.pester
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-commands.pfoley module
-----------------------
-
-.. automodule:: commands.pfoley
     :members:
     :undoc-members:
     :show-inheritance:
@@ -568,14 +520,6 @@ commands.signal module
 ----------------------
 
 .. automodule:: commands.signal
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-commands.skasturi module
-------------------------
-
-.. automodule:: commands.skasturi
     :members:
     :undoc-members:
     :show-inheritance:
@@ -712,14 +656,6 @@ commands.vote module
 --------------------
 
 .. automodule:: commands.vote
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-commands.wai module
--------------------
-
-.. automodule:: commands.wai
     :members:
     :undoc-members:
     :show-inheritance:

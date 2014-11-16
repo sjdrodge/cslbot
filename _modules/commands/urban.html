@@ -63,13 +63,15 @@
 <span class="c"># along with this program; if not, write to the Free Software</span>
 <span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span>
 
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">unquote</span>
 <span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
 
 
 <div class="viewcode-block" id="get_random"><a class="viewcode-back" href="../../commands.html#commands.urban.get_random">[docs]</a><span class="k">def</span> <span class="nf">get_random</span><span class="p">():</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s">&#39;http://www.urbandictionary.com/random.php&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">url</span>
-    <span class="k">return</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">unquote</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="get_definition"><a class="viewcode-back" href="../../commands.html#commands.urban.get_definition">[docs]</a><span class="k">def</span> <span class="nf">get_definition</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
@@ -82,12 +84,12 @@
         <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;UrbanDictionary doesn&#39;t have an answer for you.&quot;</span>
     <span class="k">elif</span> <span class="n">index</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;definition&#39;</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="ow">not</span> <span class="n">index</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">index</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;Invalid Index&quot;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)][</span><span class="s">&#39;definition&#39;</span><span class="p">]</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">output</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;definition&#39;</span><span class="p">]</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
 
 </div>
 <span class="nd">@Command</span><span class="p">(</span><span class="s">&#39;urban&#39;</span><span class="p">)</span>
@@ -142,7 +144,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013-2014, Peter Foley.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

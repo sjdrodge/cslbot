@@ -75,7 +75,7 @@
     <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Log</span><span class="o">.</span><span class="n">source</span> <span class="o">==</span> <span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Log</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="n">user</span><span class="p">))</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
 </div>
 <div class="viewcode-block" id="get_modifiers"><a class="viewcode-back" href="../../commands.html#commands.s.get_modifiers">[docs]</a><span class="k">def</span> <span class="nf">get_modifiers</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">nickregex</span><span class="p">):</span>
@@ -185,7 +185,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013-2014, Peter Foley.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>
