@@ -69,7 +69,15 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">control</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">hook</span><span class="p">,</span> <span class="n">modutils</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">textutils</span><span class="p">,</span> <span class="n">admin</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">misc</span>
+<span class="kn">import</span> <span class="nn">helpers.control</span> <span class="kn">as</span> <span class="nn">control</span>
+<span class="kn">import</span> <span class="nn">helpers.sql</span> <span class="kn">as</span> <span class="nn">sql</span>
+<span class="kn">import</span> <span class="nn">helpers.hook</span> <span class="kn">as</span> <span class="nn">hook</span>
+<span class="kn">import</span> <span class="nn">helpers.modutils</span> <span class="kn">as</span> <span class="nn">modutils</span>
+<span class="kn">import</span> <span class="nn">helpers.command</span> <span class="kn">as</span> <span class="nn">command</span>
+<span class="kn">import</span> <span class="nn">helpers.textutils</span> <span class="kn">as</span> <span class="nn">textutils</span>
+<span class="kn">import</span> <span class="nn">helpers.admin</span> <span class="kn">as</span> <span class="nn">admin</span>
+<span class="kn">import</span> <span class="nn">helpers.identity</span> <span class="kn">as</span> <span class="nn">identity</span>
+<span class="kn">import</span> <span class="nn">helpers.misc</span> <span class="kn">as</span> <span class="nn">misc</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span><span class="p">,</span> <span class="n">random</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.exc</span> <span class="kn">import</span> <span class="n">InternalError</span>
