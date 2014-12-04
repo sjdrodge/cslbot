@@ -443,17 +443,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">loadhooks</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="BotHandler.is_ignored"><a class="viewcode-back" href="../handler.html#handler.BotHandler.is_ignored">[docs]</a>    <span class="k">def</span> <span class="nf">is_ignored</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
-        <span class="c"># FIXME: do something sane here, which would probably require parsing channel modes on startup,</span>
-        <span class="c"># and then updating them on /mode</span>
-        <span class="c"># if target in self.channels:</span>
-            <span class="c"># If the channel is /mode +z and the bot is opped, commands from quieted,</span>
-            <span class="c"># but non-ignored nicks can show up in the channel and confuse the hell out of everybody.</span>
-            <span class="c"># The irc library treats +q as &quot;owner&quot;, so abuse that.</span>
-            <span class="c"># FIXME: the irc library is stupid and only records +q&#39;s if it&#39;s already connected to channel.</span>
-            <span class="c"># ch = self.channels[target]</span>
-            <span class="c"># quieted = [re.match(&#39;(.*)\*?!.*&#39;, x).group(1) for x in ch.owners()]</span>
-            <span class="c"># if nick in quieted:</span>
-            <span class="c">#    return True</span>
         <span class="k">return</span> <span class="n">nick</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored</span>
 </div>
 <div class="viewcode-block" id="BotHandler.handle_msg"><a class="viewcode-back" href="../handler.html#handler.BotHandler.handle_msg">[docs]</a>    <span class="k">def</span> <span class="nf">handle_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
@@ -477,7 +466,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span>
 
-        <span class="n">send</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">,</span> <span class="n">mtype</span><span class="o">=</span><span class="s">&#39;privmsg&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">msg</span><span class="p">,</span> <span class="n">mtype</span><span class="p">)</span>
+        <span class="n">send</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">,</span> <span class="n">mtype</span><span class="o">=</span><span class="s">&#39;privmsg&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">real_nickname</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">mtype</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="s">&#39;privnotice&#39;</span><span class="p">:</span>
             <span class="c"># FIXME: come up with a better way to prevent admin abuse.</span>
