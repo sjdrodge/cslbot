@@ -167,8 +167,7 @@
         <span class="k">return</span> <span class="s">&quot;No longer guarding </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
 </div>
-<div class="viewcode-block" id="handle_show"><a class="viewcode-back" href="../../helpers.html#helpers.control.handle_show">[docs]</a><span class="k">def</span> <span class="nf">handle_show</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<div class="viewcode-block" id="handle_show"><a class="viewcode-back" href="../../helpers.html#helpers.control.handle_show">[docs]</a><span class="k">def</span> <span class="nf">handle_show</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;Missing argument.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
@@ -247,23 +246,22 @@
         <span class="n">show_polls</span><span class="p">(</span><span class="n">polls</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="handle_accept"><a class="viewcode-back" href="../../helpers.html#helpers.control.handle_accept">[docs]</a><span class="k">def</span> <span class="nf">handle_accept</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+<div class="viewcode-block" id="handle_accept"><a class="viewcode-back" href="../../helpers.html#helpers.control.handle_accept">[docs]</a><span class="k">def</span> <span class="nf">handle_accept</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Missing argument.&quot;</span>
     <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;issue&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">accept_issue</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="n">accept_issue</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;quote&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">accept_quote</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="n">accept_quote</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;poll&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">accept_poll</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="n">accept_poll</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Valid arguments are issue and quote&quot;</span>
 
 </div>
-<div class="viewcode-block" id="accept_issue"><a class="viewcode-back" href="../../helpers.html#helpers.control.accept_issue">[docs]</a><span class="k">def</span> <span class="nf">accept_issue</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+<div class="viewcode-block" id="accept_issue"><a class="viewcode-back" href="../../helpers.html#helpers.control.accept_issue">[docs]</a><span class="k">def</span> <span class="nf">accept_issue</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer&quot;</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">issue</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Issues</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">issue</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -282,10 +280,9 @@
     <span class="k">return</span> <span class="s">&quot;&quot;</span>
 
 </div>
-<div class="viewcode-block" id="accept_quote"><a class="viewcode-back" href="../../helpers.html#helpers.control.accept_quote">[docs]</a><span class="k">def</span> <span class="nf">accept_quote</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+<div class="viewcode-block" id="accept_quote"><a class="viewcode-back" href="../../helpers.html#helpers.control.accept_quote">[docs]</a><span class="k">def</span> <span class="nf">accept_quote</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer&quot;</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">qid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Quotes</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">quote</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -301,10 +298,9 @@
     <span class="k">return</span> <span class="s">&quot;&quot;</span>
 
 </div>
-<div class="viewcode-block" id="accept_poll"><a class="viewcode-back" href="../../helpers.html#helpers.control.accept_poll">[docs]</a><span class="k">def</span> <span class="nf">accept_poll</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+<div class="viewcode-block" id="accept_poll"><a class="viewcode-back" href="../../helpers.html#helpers.control.accept_poll">[docs]</a><span class="k">def</span> <span class="nf">accept_poll</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer&quot;</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">poll</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Polls</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">poll</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -320,23 +316,22 @@
     <span class="k">return</span> <span class="s">&quot;&quot;</span>
 
 </div>
-<div class="viewcode-block" id="handle_reject"><a class="viewcode-back" href="../../helpers.html#helpers.control.handle_reject">[docs]</a><span class="k">def</span> <span class="nf">handle_reject</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+<div class="viewcode-block" id="handle_reject"><a class="viewcode-back" href="../../helpers.html#helpers.control.handle_reject">[docs]</a><span class="k">def</span> <span class="nf">handle_reject</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Missing argument.&quot;</span>
     <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;issue&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">reject_issue</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="n">reject_issue</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;quote&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">reject_quote</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="n">reject_quote</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;poll&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">reject_poll</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="n">reject_poll</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;Valid arguments are issue and quote&quot;</span>
 
 </div>
-<div class="viewcode-block" id="reject_issue"><a class="viewcode-back" href="../../helpers.html#helpers.control.reject_issue">[docs]</a><span class="k">def</span> <span class="nf">reject_issue</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+<div class="viewcode-block" id="reject_issue"><a class="viewcode-back" href="../../helpers.html#helpers.control.reject_issue">[docs]</a><span class="k">def</span> <span class="nf">reject_issue</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer&quot;</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">issue</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Issues</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">issue</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -352,10 +347,9 @@
     <span class="k">return</span> <span class="s">&quot;&quot;</span>
 
 </div>
-<div class="viewcode-block" id="reject_quote"><a class="viewcode-back" href="../../helpers.html#helpers.control.reject_quote">[docs]</a><span class="k">def</span> <span class="nf">reject_quote</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+<div class="viewcode-block" id="reject_quote"><a class="viewcode-back" href="../../helpers.html#helpers.control.reject_quote">[docs]</a><span class="k">def</span> <span class="nf">reject_quote</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer&quot;</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">qid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Quotes</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">quote</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -373,10 +367,9 @@
     <span class="k">return</span> <span class="s">&quot;&quot;</span>
 
 </div>
-<div class="viewcode-block" id="reject_poll"><a class="viewcode-back" href="../../helpers.html#helpers.control.reject_poll">[docs]</a><span class="k">def</span> <span class="nf">reject_poll</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+<div class="viewcode-block" id="reject_poll"><a class="viewcode-back" href="../../helpers.html#helpers.control.reject_poll">[docs]</a><span class="k">def</span> <span class="nf">reject_poll</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="k">return</span> <span class="s">&quot;Not A Valid Positive Integer&quot;</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">poll</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Polls</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">poll</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -403,32 +396,33 @@
 </div>
 <div class="viewcode-block" id="handle_ctrlchan"><a class="viewcode-back" href="../../helpers.html#helpers.control.handle_ctrlchan">[docs]</a><span class="k">def</span> <span class="nf">handle_ctrlchan</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">send</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Handle the control channel.&quot;&quot;&quot;</span>
-    <span class="n">cmd</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;quote&quot;</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">handle_quote</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;cs&quot;</span> <span class="ow">or</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;chanserv&quot;</span><span class="p">:</span>
-        <span class="n">handle_chanserv</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;disable&quot;</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">handle_disable</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;enable&quot;</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">handle_enable</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;help&quot;</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;quote &lt;raw command&gt;&quot;</span><span class="p">)</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;cs|chanserv &lt;chanserv command&gt;&quot;</span><span class="p">)</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;disable|enable &lt;kick|module &lt;module&gt;|all modules|logging|chanlog&gt;&quot;</span><span class="p">)</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;show &lt;guarded|issues|quotes|polls|pending&gt; &lt;disabled|enabled&gt; modules&quot;</span><span class="p">)</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;accept|reject &lt;issue|quote|poll&gt; &lt;num&gt;&quot;</span><span class="p">)</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;guard|unguard &lt;nick&gt;&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;guard&quot;</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">handle_guard</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;unguard&quot;</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">handle_unguard</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;show&quot;</span><span class="p">:</span>
-        <span class="n">handle_show</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;accept&quot;</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">handle_accept</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;reject&quot;</span><span class="p">:</span>
-        <span class="n">send</span><span class="p">(</span><span class="n">handle_reject</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span></div>
+    <span class="k">with</span> <span class="n">handler</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;quote&quot;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">handle_quote</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;cs&quot;</span> <span class="ow">or</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;chanserv&quot;</span><span class="p">:</span>
+            <span class="n">handle_chanserv</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;disable&quot;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">handle_disable</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;enable&quot;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">handle_enable</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;help&quot;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;quote &lt;raw command&gt;&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;cs|chanserv &lt;chanserv command&gt;&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;disable|enable &lt;kick|module &lt;module&gt;|all modules|logging|chanlog&gt;&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;show &lt;guarded|issues|quotes|polls|pending&gt; &lt;disabled|enabled&gt; modules&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;accept|reject &lt;issue|quote|poll&gt; &lt;num&gt;&quot;</span><span class="p">)</span>
+            <span class="n">send</span><span class="p">(</span><span class="s">&quot;guard|unguard &lt;nick&gt;&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;guard&quot;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">handle_guard</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;unguard&quot;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">handle_unguard</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;show&quot;</span><span class="p">:</span>
+            <span class="n">handle_show</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;accept&quot;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">handle_accept</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;reject&quot;</span><span class="p">:</span>
+            <span class="n">send</span><span class="p">(</span><span class="n">handle_reject</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span></div>
 </pre></div>
 
           </div>

@@ -91,14 +91,15 @@
 
 </div>
 <div class="viewcode-block" id="weighted_rand"><a class="viewcode-back" href="../../commands.html#commands.babble.weighted_rand">[docs]</a><span class="k">def</span> <span class="nf">weighted_rand</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; d should be a dictionary of the form</span>
+    <span class="sd">&quot;&quot;&quot; Gets a random key from d taking weights into account.</span>
 
-<span class="sd">    {</span>
-<span class="sd">        thing1: freq1,</span>
-<span class="sd">        thing2: freq2,</span>
-<span class="sd">        ...</span>
-<span class="sd">        thingn: freqn</span>
-<span class="sd">    }</span>
+<span class="sd">        d should be a dictionary of the form:</span>
+<span class="sd">            {</span>
+<span class="sd">                thing1: freq1,</span>
+<span class="sd">                thing2: freq2,</span>
+<span class="sd">                ...</span>
+<span class="sd">                thingn: freqn</span>
+<span class="sd">                }</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
@@ -112,17 +113,17 @@
     <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Log</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">or_</span><span class="p">(</span><span class="n">Log</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&#39;pubmsg&#39;</span><span class="p">,</span> <span class="n">Log</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&#39;privmsg&#39;</span><span class="p">),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Log</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="n">speaker</span><span class="p">,</span> <span class="n">escape</span><span class="o">=</span><span class="s">&#39;$&#39;</span><span class="p">),</span>
                                         <span class="o">~</span><span class="n">Log</span><span class="o">.</span><span class="n">msg</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">cmdchar</span><span class="p">),</span> <span class="o">~</span><span class="n">Log</span><span class="o">.</span><span class="n">msg</span><span class="o">.</span><span class="n">like</span><span class="p">(</span><span class="s">&#39;%:%&#39;</span><span class="p">),</span> <span class="n">Log</span><span class="o">.</span><span class="n">target</span> <span class="o">!=</span> <span class="n">ctrlchan</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">random</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-
-<span class="c"># FIXME: make sphinx happy</span></div>
+</div>
 <div class="viewcode-block" id="build_markov"><a class="viewcode-back" href="../../commands.html#commands.babble.build_markov">[docs]</a><span class="k">def</span> <span class="nf">build_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Builds a markov dictionary of the form</span>
-
-<span class="sd">        word : {</span>
-<span class="sd">           nextword1 : num_apperences,</span>
-<span class="sd">           nextword2 : num_apperances,</span>
-<span class="sd">           ....</span>
-<span class="sd">           nextwordn : num_apperances</span>
-<span class="sd">        }</span>
+    <span class="sd">&quot;&quot;&quot; Builds a markov dictionary.</span>
+<span class="sd">    </span>
+<span class="sd">        Dictionary should be in the form:</span>
+<span class="sd">            word : {</span>
+<span class="sd">               nextword1 : num_apperences,</span>
+<span class="sd">               nextword2 : num_apperances,</span>
+<span class="sd">               ....</span>
+<span class="sd">               nextwordn : num_apperances</span>
+<span class="sd">               }</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">markov</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">messages</span> <span class="o">=</span> <span class="n">get_messages</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">)</span>

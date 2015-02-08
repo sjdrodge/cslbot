@@ -100,15 +100,19 @@
 <dl class="function">
 <dt id="commands.babble.build_markov">
 <tt class="descclassname">commands.babble.</tt><tt class="descname">build_markov</tt><big>(</big><em>cursor</em>, <em>speaker</em>, <em>cmdchar</em>, <em>ctrlchan</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#build_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_markov" title="Permalink to this definition">¶</a></dt>
-<dd><p>Builds a markov dictionary of the form</p>
+<dd><p>Builds a markov dictionary.</p>
 <dl class="docutils">
+<dt>Dictionary should be in the form:</dt>
+<dd><dl class="first last docutils">
 <dt>word <span class="classifier-delimiter">:</span> <span class="classifier">{</span></dt>
 <dd>nextword1 : num_apperences,
 nextword2 : num_apperances,
 ....
-nextwordn : num_apperances</dd>
+nextwordn : num_apperances
+}</dd>
 </dl>
-<p>}</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -170,15 +174,19 @@ operator precedence behavior):</p>
 <dl class="function">
 <dt id="commands.babble.weighted_rand">
 <tt class="descclassname">commands.babble.</tt><tt class="descname">weighted_rand</tt><big>(</big><em>d</em><big>)</big><a class="reference internal" href="_modules/commands/babble.html#weighted_rand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.weighted_rand" title="Permalink to this definition">¶</a></dt>
-<dd><p>d should be a dictionary of the form</p>
+<dd><p>Gets a random key from d taking weights into account.</p>
 <dl class="docutils">
+<dt>d should be a dictionary of the form:</dt>
+<dd><dl class="first last docutils">
 <dt>{</dt>
 <dd>thing1: freq1,
 thing2: freq2,
 ...
-thingn: freqn</dd>
+thingn: freqn
+}</dd>
 </dl>
-<p>}</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
