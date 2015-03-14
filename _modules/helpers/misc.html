@@ -68,9 +68,12 @@
 
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
-<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span><span class="p">,</span> <span class="n">random</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">simplejson</span> <span class="kn">import</span> <span class="n">JSONDecodeError</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">unquote</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="n">ReadTimeout</span>
 
 <span class="n">_pinglist</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -187,7 +190,77 @@
     <span class="k">elif</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">valtodef</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&#39;#define </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">valtodef</span><span class="p">[</span><span class="n">msg</span><span class="p">],</span> <span class="n">msg</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> not found in </span><span class="si">%s</span><span class="s">.h&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> not found in </span><span class="si">%s</span><span class="s">.h&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="list_fortunes"><a class="viewcode-back" href="../../helpers.html#helpers.misc.list_fortunes">[docs]</a><span class="k">def</span> <span class="nf">list_fortunes</span><span class="p">(</span><span class="n">offensive</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;fortune&#39;</span><span class="p">,</span> <span class="s">&#39;-f&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">offensive</span><span class="p">:</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;-o&#39;</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;[0-9]{1,2}\.[0-9]{2}%&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="n">fortunes</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]]</span>
+    <span class="k">if</span> <span class="n">offensive</span><span class="p">:</span>
+        <span class="n">fortunes</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s">&#39;off/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span> <span class="n">fortunes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fortunes</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="get_fortune"><a class="viewcode-back" href="../../helpers.html#helpers.misc.get_fortune">[docs]</a><span class="k">def</span> <span class="nf">get_fortune</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;fortune&#39;</span><span class="p">):</span>
+        <span class="n">fortunes</span> <span class="o">=</span> <span class="n">list_fortunes</span><span class="p">()</span> <span class="o">+</span> <span class="n">list_fortunes</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;fortune&#39;</span><span class="p">,</span> <span class="s">&#39;-s&#39;</span><span class="p">]</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;(-[ao])( .+|$)&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s">&#39;bofh&#39;</span> <span class="ow">in</span> <span class="n">name</span> <span class="ow">or</span> <span class="s">&#39;excuse&#39;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&quot;BOFH Excuse #1337:</span><span class="se">\n</span><span class="s">You don&#39;t exist, go away!&quot;</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;bofh-excuses&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">fortunes</span><span class="p">:</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> is not a valid fortune module&quot;</span> <span class="o">%</span> <span class="n">msg</span>
+        <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="get_rand_word"><a class="viewcode-back" href="../../helpers.html#helpers.misc.get_rand_word">[docs]</a><span class="k">def</span> <span class="nf">get_rand_word</span><span class="p">():</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s">&#39;http://www.urbandictionary.com/random.php&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">url</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">unquote</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="get_urban"><a class="viewcode-back" href="../../helpers.html#helpers.misc.get_urban">[docs]</a><span class="k">def</span> <span class="nf">get_urban</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">get_urban_definition</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">get_rand_word</span><span class="p">()</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">get_urban_definition</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">256</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="p">[:</span><span class="mi">253</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;...&quot;</span>
+    <span class="k">return</span> <span class="n">output</span>
+
+</div>
+<div class="viewcode-block" id="get_urban_definition"><a class="viewcode-back" href="../../helpers.html#helpers.misc.get_urban_definition">[docs]</a><span class="k">def</span> <span class="nf">get_urban_definition</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="bp">None</span>
+    <span class="n">term</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s">&#39;http://api.urbandictionary.com/v0/define&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;term&#39;</span><span class="p">:</span> <span class="n">term</span><span class="p">},</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s">&#39;list&#39;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="n">JSONDecodeError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;UrbanDictionary is having problems.&quot;</span>
+    <span class="k">except</span> <span class="n">ReadTimeout</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;UrbanDictionary timed out.&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;UrbanDictionary doesn&#39;t have an answer for you.&quot;</span>
+    <span class="k">elif</span> <span class="n">index</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;definition&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">index</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;Invalid Index&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;definition&#39;</span><span class="p">]</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
