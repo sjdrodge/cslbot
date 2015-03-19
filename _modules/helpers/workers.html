@@ -8,7 +8,7 @@
     
     <title>helpers.workers &mdash; IrcBot 0.7 documentation</title>
     
-    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,10 +24,14 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="top" title="IrcBot 0.7 documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" /> 
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,18 +40,18 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">IrcBot 0.7 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">IrcBot 0.7 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for helpers.workers</h1><div class="highlight"><pre>
-<span class="c"># Copyright (C) 2013-2014 Fox Wilson, Peter Foley, Srijay Kasturi, Samuel Damashek, James Forcier and Reed Koser</span>
+<span class="c"># Copyright (C) 2013-2015 Fox Wilson, Peter Foley, Srijay Kasturi, Samuel Damashek, James Forcier and Reed Koser</span>
 <span class="c">#</span>
 <span class="c"># This program is free software; you can redistribute it and/or</span>
 <span class="c"># modify it under the terms of the GNU General Public License</span>
@@ -77,7 +81,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c"># Set-up notifications for pending admin approval.</span>
 
-        <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">handler</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]):</span> <span class="n">handler</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">handler</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">msg</span><span class="p">,</span> <span class="s">&#39;privmsg&#39;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">handler</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">]):</span>
+            <span class="n">handler</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">handler</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;nick&#39;</span><span class="p">],</span> <span class="n">msg</span><span class="p">,</span> <span class="s">&#39;privmsg&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">defer</span><span class="p">(</span><span class="mi">3600</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_pending</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="n">send</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Workers.defer"><a class="viewcode-back" href="../../helpers.html#helpers.workers.Workers.defer">[docs]</a>    <span class="k">def</span> <span class="nf">defer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">run_on_cancel</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
@@ -111,9 +116,9 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
       <input type="text" name="q" />
@@ -130,22 +135,17 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../index.html">IrcBot 0.7 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2013-2015, Peter Foley.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      &copy;2013-2015, Peter Foley.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.2</a>
+      
     </div>
+
+    
+
+    
   </body>
 </html>

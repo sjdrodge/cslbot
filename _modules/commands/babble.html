@@ -8,7 +8,7 @@
     
     <title>commands.babble &mdash; IrcBot 0.7 documentation</title>
     
-    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,10 +24,14 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="top" title="IrcBot 0.7 documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" /> 
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,18 +40,18 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">IrcBot 0.7 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">IrcBot 0.7 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for commands.babble</h1><div class="highlight"><pre>
-<span class="c"># Copyright (C) 2013-2014 Fox Wilson, Peter Foley, Srijay Kasturi, Samuel Damashek, Reed Koser, and James Forcier</span>
+<span class="c"># Copyright (C) 2013-2015 Fox Wilson, Peter Foley, Srijay Kasturi, Samuel Damashek, Reed Koser, and James Forcier</span>
 <span class="c">#</span>
 <span class="c"># This program is free software; you can redistribute it and/or</span>
 <span class="c"># modify it under the terms of the GNU General Public License</span>
@@ -65,22 +69,14 @@
 
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Lock</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">or_</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.sql.expression</span> <span class="kn">import</span> <span class="n">func</span>
 <span class="kn">from</span> <span class="nn">helpers.command</span> <span class="kn">import</span> <span class="n">Command</span>
-<span class="kn">from</span> <span class="nn">helpers.orm</span> <span class="kn">import</span> <span class="n">Log</span>
+<span class="kn">from</span> <span class="nn">helpers.orm</span> <span class="kn">import</span> <span class="n">Log</span><span class="p">,</span> <span class="n">Babble</span>
 
-<span class="n">MarkovState</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">&#39;MarkovState&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="s">&#39;data&#39;</span><span class="p">])</span>
-
-<span class="c"># Keep cached results for five minutes</span>
-<span class="n">CACHE_LIFE</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">5</span>
-
-<span class="c"># FIXME: have a better caching mechanism.</span>
-<span class="n">markov_map</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">markov_lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+<span class="c"># Keep cached results for thirty minutes</span>
+<span class="n">CACHE_LIFE</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">30</span>
 
 
 <span class="c"># Make the generated messages look better.</span>
@@ -141,22 +137,25 @@
     <span class="k">return</span> <span class="n">markov</span>
 
 </div>
-<div class="viewcode-block" id="get_markov"><a class="viewcode-back" href="../../commands.html#commands.babble.get_markov">[docs]</a><span class="k">def</span> <span class="nf">get_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">defer</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">speaker</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">markov_map</span><span class="p">:</span>
-        <span class="n">update_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">with</span> <span class="n">markov_lock</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">markov_map</span><span class="p">[</span><span class="n">speaker</span><span class="p">]</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;</span> <span class="n">CACHE_LIFE</span><span class="p">:</span>
-                <span class="n">defer</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="n">update_markov</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">markov_lock</span><span class="p">:</span>
-        <span class="n">markov</span> <span class="o">=</span> <span class="n">markov_map</span><span class="p">[</span><span class="n">speaker</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
-    <span class="k">return</span> <span class="n">markov</span>
+<div class="viewcode-block" id="get_markov"><a class="viewcode-back" href="../../commands.html#commands.babble.get_markov">[docs]</a><span class="k">def</span> <span class="nf">get_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">):</span>
+    <span class="n">markov</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Babble</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Babble</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">speaker</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">markov</span><span class="p">:</span>
+        <span class="n">update_markov</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">)</span>
+        <span class="n">markov</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Babble</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Babble</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">speaker</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">markov</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;</span> <span class="n">CACHE_LIFE</span><span class="p">:</span>
+        <span class="n">handler</span><span class="o">.</span><span class="n">workers</span><span class="o">.</span><span class="n">defer</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="n">update_markov</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">markov</span><span class="o">.</span><span class="n">data</span>
 
 </div>
-<div class="viewcode-block" id="update_markov"><a class="viewcode-back" href="../../commands.html#commands.babble.update_markov">[docs]</a><span class="k">def</span> <span class="nf">update_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">):</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">build_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">markov_lock</span><span class="p">:</span>
-        <span class="n">markov_map</span><span class="p">[</span><span class="n">speaker</span><span class="p">]</span> <span class="o">=</span> <span class="n">MarkovState</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span> <span class="n">data</span><span class="p">)</span>
+<div class="viewcode-block" id="update_markov"><a class="viewcode-back" href="../../commands.html#commands.babble.update_markov">[docs]</a><span class="k">def</span> <span class="nf">update_markov</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">handler</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">build_markov</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">cmdchar</span><span class="p">,</span> <span class="n">ctrlchan</span><span class="p">)</span>
+        <span class="n">markov</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Babble</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Babble</span><span class="o">.</span><span class="n">nick</span> <span class="o">==</span> <span class="n">speaker</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">markov</span><span class="p">:</span>
+            <span class="n">markov</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">markov</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Babble</span><span class="p">(</span><span class="n">nick</span><span class="o">=</span><span class="n">speaker</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">))</span>
 
 </div>
 <div class="viewcode-block" id="build_msg"><a class="viewcode-back" href="../../commands.html#commands.babble.build_msg">[docs]</a><span class="k">def</span> <span class="nf">build_msg</span><span class="p">(</span><span class="n">markov</span><span class="p">,</span> <span class="n">speaker</span><span class="p">):</span>
@@ -180,16 +179,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">corecfg</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">]</span>
     <span class="n">speaker</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">msg</span> <span class="k">else</span> <span class="n">corecfg</span><span class="p">[</span><span class="s">&#39;channel&#39;</span><span class="p">]</span>
-    <span class="n">markov</span> <span class="o">=</span> <span class="n">get_markov</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">],</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;handler&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">workers</span><span class="o">.</span><span class="n">defer</span><span class="p">,</span> <span class="n">corecfg</span><span class="p">[</span><span class="s">&#39;cmdchar&#39;</span><span class="p">],</span> <span class="n">corecfg</span><span class="p">[</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">])</span>
+    <span class="n">markov</span> <span class="o">=</span> <span class="n">get_markov</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">],</span> <span class="n">speaker</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;handler&#39;</span><span class="p">],</span> <span class="n">corecfg</span><span class="p">[</span><span class="s">&#39;cmdchar&#39;</span><span class="p">],</span> <span class="n">corecfg</span><span class="p">[</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">])</span>
     <span class="n">send</span><span class="p">(</span><span class="n">build_msg</span><span class="p">(</span><span class="n">markov</span><span class="p">,</span> <span class="n">speaker</span><span class="p">))</span>
 </pre></div>
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
       <input type="text" name="q" />
@@ -206,22 +205,17 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../index.html">IrcBot 0.7 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2013-2015, Peter Foley.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      &copy;2013-2015, Peter Foley.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.2</a>
+      
     </div>
+
+    
+
+    
   </body>
 </html>
