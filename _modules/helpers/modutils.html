@@ -77,6 +77,7 @@
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 
 <span class="n">GROUPS</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;commands&#39;</span><span class="p">:</span> <span class="nb">set</span><span class="p">(),</span> <span class="s">&#39;hooks&#39;</span><span class="p">:</span> <span class="nb">set</span><span class="p">()}</span>
+<span class="n">DISABLED</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;commands&#39;</span><span class="p">:</span> <span class="nb">set</span><span class="p">(),</span> <span class="s">&#39;hooks&#39;</span><span class="p">:</span> <span class="nb">set</span><span class="p">()}</span>
 <span class="n">AUX</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;commands&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;hooks&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;helpers&#39;</span><span class="p">:</span> <span class="p">[]}</span>
 
 
@@ -85,23 +86,27 @@
 
 </div>
 <div class="viewcode-block" id="init_groups"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.init_groups">[docs]</a><span class="k">def</span> <span class="nf">init_groups</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
-    <span class="c"># FIXME: validate that all commands/hooks are in groups.cfg exactly once.</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigParser</span><span class="p">()</span>
     <span class="n">config</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;/groups.cfg&#39;</span><span class="p">))</span>
-    <span class="n">enabled_command_groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">[</span><span class="s">&#39;commands&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
-    <span class="n">command_group</span> <span class="o">=</span> <span class="n">parse_group</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;commands&#39;</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">command_group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">enabled_command_groups</span><span class="p">:</span>
-            <span class="k">continue</span>
+    <span class="n">add_to_groups</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="s">&#39;commands&#39;</span><span class="p">)</span>
+    <span class="n">add_to_groups</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="s">&#39;hooks&#39;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="add_to_groups"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.add_to_groups">[docs]</a><span class="k">def</span> <span class="nf">add_to_groups</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">):</span>
+    <span class="n">enabled_groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">[</span><span class="n">mod_type</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
+    <span class="n">mod_group</span> <span class="o">=</span> <span class="n">parse_group</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="n">mod_type</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">mod_group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
-            <span class="n">GROUPS</span><span class="p">[</span><span class="s">&#39;commands&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">enabled_hook_groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">[</span><span class="s">&#39;hooks&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
-    <span class="n">hook_group</span> <span class="o">=</span> <span class="n">parse_group</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;hooks&#39;</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">hook_group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">enabled_hook_groups</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
-            <span class="n">GROUPS</span><span class="p">[</span><span class="s">&#39;hooks&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">loaded</span><span class="p">(</span><span class="n">mod_type</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Module </span><span class="si">%s</span><span class="s"> cannot occur multiple times in groups.cfg&#39;</span> <span class="o">%</span> <span class="n">x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">enabled_groups</span><span class="p">:</span>
+                <span class="n">GROUPS</span><span class="p">[</span><span class="n">mod_type</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">DISABLED</span><span class="p">[</span><span class="n">mod_type</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="loaded"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.loaded">[docs]</a><span class="k">def</span> <span class="nf">loaded</span><span class="p">(</span><span class="n">mod_type</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">GROUPS</span><span class="p">[</span><span class="n">mod_type</span><span class="p">]</span> <span class="ow">or</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">DISABLED</span><span class="p">[</span><span class="n">mod_type</span><span class="p">]</span>
 
 </div>
 <div class="viewcode-block" id="parse_group"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.parse_group">[docs]</a><span class="k">def</span> <span class="nf">parse_group</span><span class="p">(</span><span class="n">cfg</span><span class="p">):</span>
@@ -117,28 +122,44 @@
     <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">GROUPS</span><span class="p">[</span><span class="n">mod_type</span><span class="p">]</span>
 
 </div>
+<div class="viewcode-block" id="group_disabled"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.group_disabled">[docs]</a><span class="k">def</span> <span class="nf">group_disabled</span><span class="p">(</span><span class="n">mod_type</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">DISABLED</span><span class="p">[</span><span class="n">mod_type</span><span class="p">]</span>
+
+</div>
+<div class="viewcode-block" id="get_disabled"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.get_disabled">[docs]</a><span class="k">def</span> <span class="nf">get_disabled</span><span class="p">(</span><span class="n">mod_type</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">DISABLED</span><span class="p">[</span><span class="n">mod_type</span><span class="p">]</span>
+
+</div>
 <div class="viewcode-block" id="get_enabled"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.get_enabled">[docs]</a><span class="k">def</span> <span class="nf">get_enabled</span><span class="p">(</span><span class="n">moddir</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">):</span>
-    <span class="n">mods</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">enabled</span><span class="p">,</span> <span class="n">disabled</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
     <span class="n">full_path</span> <span class="o">=</span> <span class="n">abspath</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s">&#39;..&#39;</span><span class="p">))</span>
     <span class="n">full_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="n">moddir</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">full_dir</span><span class="p">,</span> <span class="s">&#39;*.py&#39;</span><span class="p">)):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mod_pkg</span> <span class="o">=</span> <span class="n">moddir</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">mod_name</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">mod_pkg</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">group_enabled</span><span class="p">(</span><span class="n">mod_type</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-            <span class="n">mod_pkg</span> <span class="o">=</span> <span class="n">moddir</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
-            <span class="n">mods</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">mod_pkg</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">mods</span>
+            <span class="n">enabled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mod_name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">group_disabled</span><span class="p">(</span><span class="n">mod_type</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="n">disabled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mod_name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="o">!=</span> <span class="s">&#39;__init__&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> must be either enabled or disabled in groups.cfg&quot;</span> <span class="o">%</span> <span class="n">mod_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">enabled</span><span class="p">,</span> <span class="n">disabled</span>
 
 </div>
 <div class="viewcode-block" id="get_modules"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.get_modules">[docs]</a><span class="k">def</span> <span class="nf">get_modules</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">):</span>
-    <span class="n">core_modules</span> <span class="o">=</span> <span class="n">get_enabled</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">)</span>
+    <span class="n">core_enabled</span><span class="p">,</span> <span class="n">core_disabled</span> <span class="o">=</span> <span class="n">get_enabled</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">aux</span> <span class="ow">in</span> <span class="n">AUX</span><span class="p">[</span><span class="n">mod_type</span><span class="p">]:</span>
-        <span class="n">core_modules</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">get_enabled</span><span class="p">(</span><span class="n">aux</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">core_modules</span>
+        <span class="n">aux_enabled</span><span class="p">,</span> <span class="n">aux_disabled</span> <span class="o">=</span> <span class="n">get_enabled</span><span class="p">(</span><span class="n">aux</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">)</span>
+        <span class="n">core_enabled</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">aux_enabled</span><span class="p">)</span>
+        <span class="n">core_disabled</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">aux_disabled</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">core_enabled</span><span class="p">,</span> <span class="n">core_disabled</span>
 
 </div>
 <div class="viewcode-block" id="scan_and_reimport"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.scan_and_reimport">[docs]</a><span class="k">def</span> <span class="nf">scan_and_reimport</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Scans folder for modules.&quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">mod</span> <span class="ow">in</span> <span class="n">get_modules</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">):</span>
+    <span class="n">mod_enabled</span><span class="p">,</span> <span class="n">mod_disabled</span> <span class="o">=</span> <span class="n">get_modules</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">mod</span> <span class="ow">in</span> <span class="p">(</span><span class="n">mod_enabled</span> <span class="o">+</span> <span class="n">mod_disabled</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mod</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
             <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">mod</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>

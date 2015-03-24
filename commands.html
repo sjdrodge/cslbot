@@ -102,7 +102,7 @@ nextwordn : num_apperances
 
 <dl class="function">
 <dt id="commands.babble.build_msg">
-<code class="descclassname">commands.babble.</code><code class="descname">build_msg</code><span class="sig-paren">(</span><em>markov</em>, <em>speaker</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#build_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_msg" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">commands.babble.</code><code class="descname">build_msg</code><span class="sig-paren">(</span><em>markov</em>, <em>speaker</em>, <em>start</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#build_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_msg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -119,37 +119,6 @@ nextwordn : num_apperances
 <dt id="commands.babble.get_messages">
 <code class="descclassname">commands.babble.</code><code class="descname">get_messages</code><span class="sig-paren">(</span><em>cursor</em>, <em>speaker</em>, <em>cmdchar</em>, <em>ctrlchan</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#get_messages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.get_messages" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="function">
-<dt id="commands.babble.or_">
-<code class="descclassname">commands.babble.</code><code class="descname">or_</code><span class="sig-paren">(</span><em>*clauses</em><span class="sig-paren">)</span><a class="headerlink" href="#commands.babble.or_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Produce a conjunction of expressions joined by <code class="docutils literal"><span class="pre">OR</span></code>.</p>
-<p>E.g.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">or_</span>
-
-<span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">([</span><span class="n">users_table</span><span class="p">])</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-                <span class="n">or_</span><span class="p">(</span>
-                    <span class="n">users_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;wendy&#39;</span><span class="p">,</span>
-                    <span class="n">users_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;jack&#39;</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
-</pre></div>
-</div>
-<p>The <a class="reference internal" href="#commands.babble.or_" title="commands.babble.or_"><code class="xref py py-func docutils literal"><span class="pre">or_()</span></code></a> conjunction is also available using the
-Python <code class="docutils literal"><span class="pre">|</span></code> operator (though note that compound expressions
-need to be parenthesized in order to function with Python
-operator precedence behavior):</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">([</span><span class="n">users_table</span><span class="p">])</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">users_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;wendy&#39;</span><span class="p">)</span> <span class="o">|</span>
-                <span class="p">(</span><span class="n">users_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;jack&#39;</span><span class="p">)</span>
-            <span class="p">)</span>
-</pre></div>
-</div>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><code class="xref py py-func docutils literal"><span class="pre">and_()</span></code></p>
-</div>
-</dd></dl>
 
 <dl class="function">
 <dt id="commands.babble.update_markov">

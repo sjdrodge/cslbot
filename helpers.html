@@ -287,7 +287,7 @@
 <span id="helpers-hook-module"></span><h2>helpers.hook module<a class="headerlink" href="#module-helpers.hook" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="helpers.hook.Hook">
-<em class="property">class </em><code class="descclassname">helpers.hook.</code><code class="descname">Hook</code><span class="sig-paren">(</span><em>types</em>, <em>args=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/hook.html#Hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.Hook" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">helpers.hook.</code><code class="descname">Hook</code><span class="sig-paren">(</span><em>name</em>, <em>types</em>, <em>args=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/hook.html#Hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.Hook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="helpers.hook.Hook.run">
@@ -295,6 +295,28 @@
 <dd></dd></dl>
 
 </dd></dl>
+
+<dl class="function">
+<dt id="helpers.hook.disable_hook">
+<code class="descclassname">helpers.hook.</code><code class="descname">disable_hook</code><span class="sig-paren">(</span><em>hook</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/hook.html#disable_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.disable_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a hook to the disabled hooks list.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.hook.enable_hook">
+<code class="descclassname">helpers.hook.</code><code class="descname">enable_hook</code><span class="sig-paren">(</span><em>hook</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/hook.html#enable_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.enable_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a command from the disabled hooks list.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.hook.get_disabled_hooks">
+<code class="descclassname">helpers.hook.</code><code class="descname">get_disabled_hooks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/hook.html#get_disabled_hooks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.get_disabled_hooks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.hook.get_enabled_hooks">
+<code class="descclassname">helpers.hook.</code><code class="descname">get_enabled_hooks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/hook.html#get_enabled_hooks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.hook.get_enabled_hooks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="helpers.hook.get_known_hooks">
@@ -412,6 +434,16 @@
 <div class="section" id="module-helpers.modutils">
 <span id="helpers-modutils-module"></span><h2>helpers.modutils module<a class="headerlink" href="#module-helpers.modutils" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="helpers.modutils.add_to_groups">
+<code class="descclassname">helpers.modutils.</code><code class="descname">add_to_groups</code><span class="sig-paren">(</span><em>config</em>, <em>groups</em>, <em>mod_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/modutils.html#add_to_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.add_to_groups" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.modutils.get_disabled">
+<code class="descclassname">helpers.modutils.</code><code class="descname">get_disabled</code><span class="sig-paren">(</span><em>mod_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/modutils.html#get_disabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.get_disabled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="helpers.modutils.get_enabled">
 <code class="descclassname">helpers.modutils.</code><code class="descname">get_enabled</code><span class="sig-paren">(</span><em>moddir</em>, <em>mod_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/modutils.html#get_enabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.get_enabled" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -419,6 +451,11 @@
 <dl class="function">
 <dt id="helpers.modutils.get_modules">
 <code class="descclassname">helpers.modutils.</code><code class="descname">get_modules</code><span class="sig-paren">(</span><em>folder</em>, <em>mod_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/modutils.html#get_modules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.get_modules" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.modutils.group_disabled">
+<code class="descclassname">helpers.modutils.</code><code class="descname">group_disabled</code><span class="sig-paren">(</span><em>mod_type</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/modutils.html#group_disabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.group_disabled" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -434,6 +471,11 @@
 <dl class="function">
 <dt id="helpers.modutils.init_groups">
 <code class="descclassname">helpers.modutils.</code><code class="descname">init_groups</code><span class="sig-paren">(</span><em>groups</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/modutils.html#init_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.init_groups" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.modutils.loaded">
+<code class="descclassname">helpers.modutils.</code><code class="descname">loaded</code><span class="sig-paren">(</span><em>mod_type</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/modutils.html#loaded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.modutils.loaded" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -498,6 +540,28 @@
 <dl class="attribute">
 <dt id="helpers.orm.Commands.nick">
 <code class="descname">nick</code><a class="headerlink" href="#helpers.orm.Commands.nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.CompressedPickleType">
+<em class="property">class </em><code class="descclassname">helpers.orm.</code><code class="descname">CompressedPickleType</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/orm.html#CompressedPickleType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.CompressedPickleType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.sql.type_api.TypeDecorator</span></code></p>
+<dl class="attribute">
+<dt id="helpers.orm.CompressedPickleType.impl">
+<code class="descname">impl</code><a class="headerlink" href="#helpers.orm.CompressedPickleType.impl" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">LargeBinary</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="helpers.orm.CompressedPickleType.process_bind_param">
+<code class="descname">process_bind_param</code><span class="sig-paren">(</span><em>data</em>, <em>_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/orm.html#CompressedPickleType.process_bind_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.CompressedPickleType.process_bind_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="helpers.orm.CompressedPickleType.process_result_value">
+<code class="descname">process_result_value</code><span class="sig-paren">(</span><em>data</em>, <em>_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/orm.html#CompressedPickleType.process_result_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.CompressedPickleType.process_result_value" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -962,6 +1026,11 @@
 <dd></dd></dl>
 
 <dl class="function">
+<dt id="helpers.textutils.gen_yoda">
+<code class="descclassname">helpers.textutils.</code><code class="descname">gen_yoda</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/textutils.html#gen_yoda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.gen_yoda" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="helpers.textutils.get_praise">
 <code class="descclassname">helpers.textutils.</code><code class="descname">get_praise</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/textutils.html#get_praise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.textutils.get_praise" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -997,6 +1066,11 @@
 </div>
 <div class="section" id="module-helpers.traceback">
 <span id="helpers-traceback-module"></span><h2>helpers.traceback module<a class="headerlink" href="#module-helpers.traceback" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="helpers.traceback.get_traceback">
+<code class="descclassname">helpers.traceback.</code><code class="descname">get_traceback</code><span class="sig-paren">(</span><em>ex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/traceback.html#get_traceback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.traceback.get_traceback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="helpers.traceback.handle_traceback">
 <code class="descclassname">helpers.traceback.</code><code class="descname">handle_traceback</code><span class="sig-paren">(</span><em>ex</em>, <em>c</em>, <em>target</em>, <em>config</em>, <em>source='the bot'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/traceback.html#handle_traceback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.traceback.handle_traceback" title="Permalink to this definition">¶</a></dt>

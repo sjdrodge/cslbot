@@ -72,7 +72,7 @@
 
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">string</span>
-<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">post</span>
 <span class="kn">from</span> <span class="nn">lxml.html</span> <span class="kn">import</span> <span class="n">fromstring</span>
 <span class="kn">from</span> <span class="nn">html.parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">choice</span><span class="p">,</span> <span class="n">randrange</span>
@@ -91,6 +91,11 @@
 <div class="viewcode-block" id="gen_hashtag"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_hashtag">[docs]</a><span class="k">def</span> <span class="nf">gen_hashtag</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
     <span class="k">return</span> <span class="s">&#39;#&#39;</span> <span class="o">+</span> <span class="n">msg</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">)))</span>
+
+</div>
+<div class="viewcode-block" id="gen_yoda"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_yoda">[docs]</a><span class="k">def</span> <span class="nf">gen_yoda</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">post</span><span class="p">(</span><span class="s">&quot;http://www.yodaspeak.co.uk/index.php&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;YodaMe&#39;</span><span class="p">:</span> <span class="n">msg</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">fromstring</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s">&#39;.//textarea[@readonly]&#39;</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="gen_praise"><a class="viewcode-back" href="../../helpers.html#helpers.textutils.gen_praise">[docs]</a><span class="k">def</span> <span class="nf">gen_praise</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>

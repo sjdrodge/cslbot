@@ -95,8 +95,6 @@
   <dt><a href="helpers.html#helpers.control.accept_quote">accept_quote() (in module helpers.control)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="helpers.html#helpers.orm.Issues.accepted">accepted (helpers.orm.Issues attribute)</a>
   </dt>
@@ -107,6 +105,8 @@
   </dt>
 
       </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="helpers.html#helpers.orm.Polls.active">active (helpers.orm.Polls attribute)</a>
   </dt>
@@ -117,6 +117,10 @@
   </dt>
 
       </dl></dd>
+      
+  <dt><a href="helpers.html#helpers.modutils.add_to_groups">add_to_groups() (in module helpers.modutils)</a>
+  </dt>
+
       
   <dt><a href="helpers.html#helpers.server.BotNetServer.allow_reuse_address">allow_reuse_address (helpers.server.BotNetServer attribute)</a>
   </dt>
@@ -383,12 +387,12 @@
   <dt><a href="commands.html#module-commands.isup">commands.isup (module)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="commands.html#module-commands.jargon">commands.jargon (module)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="commands.html#module-commands.kill">commands.kill (module)</a>
   </dt>
@@ -594,6 +598,10 @@
   </dt>
 
       
+  <dt><a href="helpers.html#helpers.orm.CompressedPickleType">CompressedPickleType (class in helpers.orm)</a>
+  </dt>
+
+      
   <dt><a href="commands.html#commands.issue.create_issue">create_issue() (in module commands.issue)</a>
   </dt>
 
@@ -625,6 +633,10 @@
 
       
   <dt><a href="helpers.html#helpers.command.disable_command">disable_command() (in module helpers.command)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.hook.disable_hook">disable_hook() (in module helpers.hook)</a>
   </dt>
 
       
@@ -743,6 +755,10 @@
   <dt><a href="helpers.html#helpers.command.enable_command">enable_command() (in module helpers.command)</a>
   </dt>
 
+      
+  <dt><a href="helpers.html#helpers.hook.enable_hook">enable_hook() (in module helpers.hook)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
@@ -834,6 +850,10 @@
   </dt>
 
       
+  <dt><a href="helpers.html#helpers.textutils.gen_yoda">gen_yoda() (in module helpers.textutils)</a>
+  </dt>
+
+      
   <dt><a href="handler.html#handler.BotHandler.get_admins">get_admins() (handler.BotHandler method)</a>
   </dt>
 
@@ -890,7 +910,15 @@
   </dt>
 
       
+  <dt><a href="helpers.html#helpers.modutils.get_disabled">get_disabled() (in module helpers.modutils)</a>
+  </dt>
+
+      
   <dt><a href="helpers.html#helpers.command.get_disabled_commands">get_disabled_commands() (in module helpers.command)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.hook.get_disabled_hooks">get_disabled_hooks() (in module helpers.hook)</a>
   </dt>
 
       
@@ -910,11 +938,15 @@
   </dt>
 
       
-  <dt><a href="helpers.html#helpers.misc.get_fortune">get_fortune() (in module helpers.misc)</a>
+  <dt><a href="helpers.html#helpers.hook.get_enabled_hooks">get_enabled_hooks() (in module helpers.hook)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="helpers.html#helpers.misc.get_fortune">get_fortune() (in module helpers.misc)</a>
+  </dt>
+
       
   <dt><a href="commands.html#commands.steam.get_ids">get_ids() (in module commands.steam)</a>
   </dt>
@@ -1038,6 +1070,10 @@
   </dt>
 
       
+  <dt><a href="helpers.html#helpers.traceback.get_traceback">get_traceback() (in module helpers.traceback)</a>
+  </dt>
+
+      
   <dt><a href="helpers.html#helpers.misc.get_urban">get_urban() (in module helpers.misc)</a>
   </dt>
 
@@ -1063,6 +1099,10 @@
   </dt>
 
       </dl></dd>
+      
+  <dt><a href="helpers.html#helpers.modutils.group_disabled">group_disabled() (in module helpers.modutils)</a>
+  </dt>
+
       
   <dt><a href="helpers.html#helpers.modutils.group_enabled">group_enabled() (in module helpers.modutils)</a>
   </dt>
@@ -1350,6 +1390,10 @@
   </dt>
 
       
+  <dt><a href="helpers.html#helpers.orm.CompressedPickleType.impl">impl (helpers.orm.CompressedPickleType attribute)</a>
+  </dt>
+
+      
   <dt><a href="helpers.html#helpers.modutils.init_aux">init_aux() (in module helpers.modutils)</a>
   </dt>
 
@@ -1361,12 +1405,12 @@
   <dt><a href="helpers.html#helpers.server.init_server">init_server() (in module helpers.server)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="bot.html#bot.IrcBot">IrcBot (class in bot)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="handler.html#handler.BotHandler.is_admin">is_admin() (handler.BotHandler method)</a>
   </dt>
@@ -1402,15 +1446,19 @@
   </dt>
 
       
-  <dt><a href="handler.html#handler.BotHandler.loadhooks">loadhooks() (handler.BotHandler method)</a>
+  <dt><a href="helpers.html#helpers.modutils.loaded">loaded() (in module helpers.modutils)</a>
   </dt>
 
       
-  <dt><a href="handler.html#handler.BotHandler.loadmodules">loadmodules() (handler.BotHandler method)</a>
+  <dt><a href="handler.html#handler.BotHandler.loadhooks">loadhooks() (handler.BotHandler method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="handler.html#handler.BotHandler.loadmodules">loadmodules() (handler.BotHandler method)</a>
+  </dt>
+
       
   <dt><a href="helpers.html#helpers.orm.Weather_prefs.location">location (helpers.orm.Weather_prefs attribute)</a>
   </dt>
@@ -1569,10 +1617,6 @@
   <dt><a href="bot.html#bot.IrcBot.on_welcome">on_welcome() (bot.IrcBot method)</a>
   </dt>
 
-      
-  <dt><a href="commands.html#commands.babble.or_">or_() (in module commands.babble)</a>
-  </dt>
-
   </dl></td>
 </tr></table>
 
@@ -1595,12 +1639,12 @@
   <dt><a href="helpers.html#helpers.orm.Notes.pending">pending (helpers.orm.Notes attribute)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="helpers.html#helpers.orm.Poll_responses.pid">pid (helpers.orm.Poll_responses attribute)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="helpers.html#helpers.misc.ping">ping() (in module helpers.misc)</a>
   </dt>
@@ -1611,6 +1655,14 @@
 
       
   <dt><a href="helpers.html#helpers.orm.Polls">Polls (class in helpers.orm)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.CompressedPickleType.process_bind_param">process_bind_param() (helpers.orm.CompressedPickleType method)</a>
+  </dt>
+
+      
+  <dt><a href="helpers.html#helpers.orm.CompressedPickleType.process_result_value">process_result_value() (helpers.orm.CompressedPickleType method)</a>
   </dt>
 
   </dl></td>
