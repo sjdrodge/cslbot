@@ -83,7 +83,7 @@
 
 </div>
 <span class="nd">@Command</span><span class="p">([</span><span class="s">&#39;issue&#39;</span><span class="p">,</span> <span class="s">&#39;bug&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;source&#39;</span><span class="p">,</span> <span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="s">&#39;is_admin&#39;</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="cmd"><a class="viewcode-back" href="../../commands.html#commands.issue.cmd">[docs]</a><span class="k">def</span> <span class="nf">cmd</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Files a github issue or gets a open one.</span>
 <span class="sd">    Syntax: !issue (description)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -120,7 +120,7 @@
         <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
         <span class="n">args</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">send</span><span class="p">(</span><span class="s">&quot;New Issue: #</span><span class="si">%d</span><span class="s"> -- </span><span class="si">%s</span><span class="s">, Submitted by </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">]),</span> <span class="n">target</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">][</span><span class="s">&#39;core&#39;</span><span class="p">][</span><span class="s">&#39;ctrlchan&#39;</span><span class="p">])</span>
-        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Issue submitted for approval.&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">])</span>
+        <span class="n">send</span><span class="p">(</span><span class="s">&quot;Issue submitted for approval.&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;nick&#39;</span><span class="p">])</span></div>
 </pre></div>
 
           </div>

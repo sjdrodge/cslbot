@@ -71,6 +71,7 @@
 <span class="c"># USA.</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">modutils</span>
 <span class="kn">from</span> <span class="nn">.traceback</span> <span class="kn">import</span> <span class="n">handle_traceback</span>
 <span class="kn">from</span> <span class="nn">.thread</span> <span class="kn">import</span> <span class="n">start</span>
@@ -137,6 +138,7 @@
         <span class="n">_known_hooks</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="nd">@functools.wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">msgtype</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">types</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
