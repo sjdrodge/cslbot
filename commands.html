@@ -127,31 +127,8 @@ Syntax: !admins</p>
 <div class="section" id="module-commands.babble">
 <span id="commands-babble-module"></span><h2>commands.babble module<a class="headerlink" href="#module-commands.babble" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="commands.babble.build_markov">
-<code class="descclassname">commands.babble.</code><code class="descname">build_markov</code><span class="sig-paren">(</span><em>cursor</em>, <em>speaker</em>, <em>cmdchar</em>, <em>ctrlchan</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#build_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_markov" title="Permalink to this definition">¶</a></dt>
-<dd><p>Builds a markov dictionary.</p>
-<dl class="docutils">
-<dt>Dictionary should be in the form:</dt>
-<dd><dl class="first last docutils">
-<dt>word <span class="classifier-delimiter">:</span> <span class="classifier">{</span></dt>
-<dd>nextword1 : num_apperences,
-nextword2 : num_apperances,
-....
-nextwordn : num_apperances
-}</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="commands.babble.build_msg">
-<code class="descclassname">commands.babble.</code><code class="descname">build_msg</code><span class="sig-paren">(</span><em>markov</em>, <em>speaker</em>, <em>start</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#build_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_msg" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="commands.babble.clean_msg">
-<code class="descclassname">commands.babble.</code><code class="descname">clean_msg</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#clean_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.clean_msg" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">commands.babble.</code><code class="descname">build_msg</code><span class="sig-paren">(</span><em>cursor</em>, <em>speaker</em>, <em>start</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#build_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.build_msg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -162,37 +139,9 @@ Syntax: !babble (&#8211;start &lt;word&gt;) (nick)</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="commands.babble.get_markov">
-<code class="descclassname">commands.babble.</code><code class="descname">get_markov</code><span class="sig-paren">(</span><em>cursor</em>, <em>speaker</em>, <em>handler</em>, <em>cmdchar</em>, <em>ctrlchan</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#get_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.get_markov" title="Permalink to this definition">¶</a></dt>
+<dt id="commands.babble.weighted_next">
+<code class="descclassname">commands.babble.</code><code class="descname">weighted_next</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#weighted_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.weighted_next" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="function">
-<dt id="commands.babble.get_messages">
-<code class="descclassname">commands.babble.</code><code class="descname">get_messages</code><span class="sig-paren">(</span><em>cursor</em>, <em>speaker</em>, <em>cmdchar</em>, <em>ctrlchan</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#get_messages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.get_messages" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="commands.babble.update_markov">
-<code class="descclassname">commands.babble.</code><code class="descname">update_markov</code><span class="sig-paren">(</span><em>handler</em>, <em>speaker</em>, <em>cmdchar</em>, <em>ctrlchan</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#update_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.update_markov" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="commands.babble.weighted_rand">
-<code class="descclassname">commands.babble.</code><code class="descname">weighted_rand</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/babble.html#weighted_rand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.babble.weighted_rand" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets a random key from d taking weights into account.</p>
-<dl class="docutils">
-<dt>d should be a dictionary of the form:</dt>
-<dd><dl class="first last docutils">
-<dt>{</dt>
-<dd>thing1: freq1,
-thing2: freq2,
-...
-thingn: freqn
-}</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
 
 </div>
 <div class="section" id="module-commands.bc">

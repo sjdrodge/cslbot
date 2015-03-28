@@ -150,6 +150,8 @@
 <div class="viewcode-block" id="get_modules"><a class="viewcode-back" href="../../helpers.html#helpers.modutils.get_modules">[docs]</a><span class="k">def</span> <span class="nf">get_modules</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">):</span>
     <span class="n">core_enabled</span><span class="p">,</span> <span class="n">core_disabled</span> <span class="o">=</span> <span class="n">get_enabled</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">aux</span> <span class="ow">in</span> <span class="n">AUX</span><span class="p">[</span><span class="n">mod_type</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">aux</span><span class="p">:</span>
+            <span class="k">continue</span>
         <span class="n">aux_enabled</span><span class="p">,</span> <span class="n">aux_disabled</span> <span class="o">=</span> <span class="n">get_enabled</span><span class="p">(</span><span class="n">aux</span><span class="p">,</span> <span class="n">mod_type</span><span class="p">)</span>
         <span class="n">core_enabled</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">aux_enabled</span><span class="p">)</span>
         <span class="n">core_disabled</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">aux_disabled</span><span class="p">)</span>

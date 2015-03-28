@@ -25,6 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="IrcBot 0.7 documentation" href="index.html" />
     <link rel="up" title="IrcBot" href="modules.html" />
+    <link rel="next" title="scripts package" href="scripts.html" />
     <link rel="prev" title="helpers package" href="helpers.html" />
    
   
@@ -41,6 +42,9 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="scripts.html" title="scripts package"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="helpers.html" title="helpers package"
              accesskey="P">previous</a> |</li>
@@ -64,6 +68,64 @@
 <dl class="function">
 <dt id="hooks.autodeop.handle">
 <code class="descclassname">hooks.autodeop.</code><code class="descname">handle</code><span class="sig-paren">(</span><em>send</em>, <em>msg</em>, <em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hooks/autodeop.html#handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hooks.autodeop.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-hooks.babble">
+<span id="hooks-babble-module"></span><h2>hooks.babble module<a class="headerlink" href="#module-hooks.babble" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hooks.babble.Node">
+<em class="property">class </em><code class="descclassname">hooks.babble.</code><code class="descname">Node</code><span class="sig-paren">(</span><em>freq</em>, <em>source</em>, <em>target</em><span class="sig-paren">)</span><a class="headerlink" href="#hooks.babble.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<dl class="attribute">
+<dt id="hooks.babble.Node.freq">
+<code class="descname">freq</code><a class="headerlink" href="#hooks.babble.Node.freq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hooks.babble.Node.source">
+<code class="descname">source</code><a class="headerlink" href="#hooks.babble.Node.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hooks.babble.Node.target">
+<code class="descname">target</code><a class="headerlink" href="#hooks.babble.Node.target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="hooks.babble.build_markov">
+<code class="descclassname">hooks.babble.</code><code class="descname">build_markov</code><span class="sig-paren">(</span><em>cursor</em>, <em>cmdchar</em>, <em>ctrlchan</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hooks/babble.html#build_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hooks.babble.build_markov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a markov dictionary.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hooks.babble.get_markov">
+<code class="descclassname">hooks.babble.</code><code class="descname">get_markov</code><span class="sig-paren">(</span><em>cursor</em>, <em>prev</em>, <em>row</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hooks/babble.html#get_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hooks.babble.get_markov" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hooks.babble.get_messages">
+<code class="descclassname">hooks.babble.</code><code class="descname">get_messages</code><span class="sig-paren">(</span><em>cursor</em>, <em>cmdchar</em>, <em>ctrlchan</em>, <em>last</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hooks/babble.html#get_messages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hooks.babble.get_messages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hooks.babble.hook">
+<code class="descclassname">hooks.babble.</code><code class="descname">hook</code><span class="sig-paren">(</span><em>send</em>, <em>msg</em>, <em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hooks/babble.html#hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hooks.babble.hook" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hooks.babble.update_count">
+<code class="descclassname">hooks.babble.</code><code class="descname">update_count</code><span class="sig-paren">(</span><em>cursor</em>, <em>source</em>, <em>target</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hooks/babble.html#update_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hooks.babble.update_count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hooks.babble.update_markov">
+<code class="descclassname">hooks.babble.</code><code class="descname">update_markov</code><span class="sig-paren">(</span><em>handler</em>, <em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hooks/babble.html#update_markov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hooks.babble.update_markov" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -212,6 +274,7 @@
 <li><a class="reference internal" href="#">hooks package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-hooks.autodeop">hooks.autodeop module</a></li>
+<li><a class="reference internal" href="#module-hooks.babble">hooks.babble module</a></li>
 <li><a class="reference internal" href="#module-hooks.band">hooks.band module</a></li>
 <li><a class="reference internal" href="#module-hooks.bob">hooks.bob module</a></li>
 <li><a class="reference internal" href="#module-hooks.butt">hooks.butt module</a></li>
@@ -232,6 +295,9 @@
   <h4>Previous topic</h4>
   <p class="topless"><a href="helpers.html"
                         title="previous chapter">helpers package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="scripts.html"
+                        title="next chapter">scripts package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">

@@ -497,8 +497,8 @@
 <em class="property">class </em><code class="descclassname">helpers.orm.</code><code class="descname">Babble</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/orm.html#Babble"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Babble" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></code></p>
 <dl class="attribute">
-<dt id="helpers.orm.Babble.data">
-<code class="descname">data</code><a class="headerlink" href="#helpers.orm.Babble.data" title="Permalink to this definition">¶</a></dt>
+<dt id="helpers.orm.Babble.freq">
+<code class="descname">freq</code><a class="headerlink" href="#helpers.orm.Babble.freq" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -507,13 +507,65 @@
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="helpers.orm.Babble.nick">
-<code class="descname">nick</code><a class="headerlink" href="#helpers.orm.Babble.nick" title="Permalink to this definition">¶</a></dt>
+<dt id="helpers.orm.Babble.key">
+<code class="descname">key</code><a class="headerlink" href="#helpers.orm.Babble.key" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="helpers.orm.Babble.time">
-<code class="descname">time</code><a class="headerlink" href="#helpers.orm.Babble.time" title="Permalink to this definition">¶</a></dt>
+<dt id="helpers.orm.Babble.source">
+<code class="descname">source</code><a class="headerlink" href="#helpers.orm.Babble.source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Babble.target">
+<code class="descname">target</code><a class="headerlink" href="#helpers.orm.Babble.target" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Babble.word">
+<code class="descname">word</code><a class="headerlink" href="#helpers.orm.Babble.word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Babble_count">
+<em class="property">class </em><code class="descclassname">helpers.orm.</code><code class="descname">Babble_count</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/orm.html#Babble_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Babble_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></code></p>
+<dl class="attribute">
+<dt id="helpers.orm.Babble_count.count">
+<code class="descname">count</code><a class="headerlink" href="#helpers.orm.Babble_count.count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Babble_count.id">
+<code class="descname">id</code><a class="headerlink" href="#helpers.orm.Babble_count.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Babble_count.key">
+<code class="descname">key</code><a class="headerlink" href="#helpers.orm.Babble_count.key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Babble_count.type">
+<code class="descname">type</code><a class="headerlink" href="#helpers.orm.Babble_count.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.orm.Babble_last">
+<em class="property">class </em><code class="descclassname">helpers.orm.</code><code class="descname">Babble_last</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/orm.html#Babble_last"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.Babble_last" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></code></p>
+<dl class="attribute">
+<dt id="helpers.orm.Babble_last.id">
+<code class="descname">id</code><a class="headerlink" href="#helpers.orm.Babble_last.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="helpers.orm.Babble_last.last">
+<code class="descname">last</code><a class="headerlink" href="#helpers.orm.Babble_last.last" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -540,28 +592,6 @@
 <dl class="attribute">
 <dt id="helpers.orm.Commands.nick">
 <code class="descname">nick</code><a class="headerlink" href="#helpers.orm.Commands.nick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="helpers.orm.CompressedPickleType">
-<em class="property">class </em><code class="descclassname">helpers.orm.</code><code class="descname">CompressedPickleType</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/orm.html#CompressedPickleType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.CompressedPickleType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.sql.type_api.TypeDecorator</span></code></p>
-<dl class="attribute">
-<dt id="helpers.orm.CompressedPickleType.impl">
-<code class="descname">impl</code><a class="headerlink" href="#helpers.orm.CompressedPickleType.impl" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">LargeBinary</span></code></p>
-</dd></dl>
-
-<dl class="method">
-<dt id="helpers.orm.CompressedPickleType.process_bind_param">
-<code class="descname">process_bind_param</code><span class="sig-paren">(</span><em>data</em>, <em>_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/orm.html#CompressedPickleType.process_bind_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.CompressedPickleType.process_bind_param" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="helpers.orm.CompressedPickleType.process_result_value">
-<code class="descname">process_result_value</code><span class="sig-paren">(</span><em>data</em>, <em>_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/orm.html#CompressedPickleType.process_result_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.orm.CompressedPickleType.process_result_value" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1120,6 +1150,11 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="helpers.workers.Workers.check_babble">
+<code class="descname">check_babble</code><span class="sig-paren">(</span><em>handler</em>, <em>send</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/workers.html#Workers.check_babble"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.check_babble" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="helpers.workers.Workers.defer">
 <code class="descname">defer</code><span class="sig-paren">(</span><em>t</em>, <em>run_on_cancel</em>, <em>func</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/workers.html#Workers.defer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.defer" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1127,6 +1162,11 @@
 <dl class="method">
 <dt id="helpers.workers.Workers.handle_pending">
 <code class="descname">handle_pending</code><span class="sig-paren">(</span><em>handler</em>, <em>send</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/workers.html#Workers.handle_pending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.handle_pending" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="helpers.workers.Workers.run_action">
+<code class="descname">run_action</code><span class="sig-paren">(</span><em>func</em>, <em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/workers.html#Workers.run_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.workers.Workers.run_action" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
